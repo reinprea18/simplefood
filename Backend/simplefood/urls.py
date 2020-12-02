@@ -19,7 +19,11 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token
 
+from .simplefoodapp import views
+
 router = routers.DefaultRouter()
+router.register(r'employees', views.EmployeeViewSet)
+router.register(r'restaurants', views.RestaurantViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
