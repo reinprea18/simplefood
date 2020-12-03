@@ -19,7 +19,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Employee
-        fields = [ 'title', 'genre', 'release_date', 'plot', 'duration', 'black_and_white', 'country', 'position', 'join_date', 'actors', 'producer', 'restaurant' ]
+        fields = [ 'user_name', 'email', 'first_name', 'last_name', 'date_of_birth', 'gender', 'street_address', 'postcode', 'town', 'country', 'position', 'join_date', 'status' ]
 
 class MenuSerializer(serializers.ModelSerializer):
 
