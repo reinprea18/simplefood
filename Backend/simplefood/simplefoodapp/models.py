@@ -22,7 +22,7 @@ class Restaurant(models.Model):
         return self.name
 
 
-class CustomUser(AbstractUser) :
+class CustomUser(models.Model):
 
     CHOICES = (
         ('m' , 'male'),
@@ -50,7 +50,7 @@ class CustomUser(AbstractUser) :
     country = models.TextField(null = True)
     status = models.BooleanField()
     role = models.CharField(max_length=1, choices=CHOICES_ROLES)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "%s%s" % ( self.first_name , self.last_name)
@@ -58,9 +58,9 @@ class CustomUser(AbstractUser) :
 class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField()
-    table_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    total_price = models.DecimalField(max_digits=6, decimal_places=2)
-    paid = models.BooleanField()
+    table_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    paid = models.BooleanField(default=False)
 
 class CustomerData(models.Model):
 
@@ -81,7 +81,7 @@ class CustomerData(models.Model):
     postcode = models.PositiveIntegerField()
     town = models.TextField()
     country = models.TextField()
-    restaurant = models.ForeignKey(Order, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "%s%s" % ( self.first_name , self.last_name)
@@ -97,9 +97,9 @@ class MenuItem(models.Model):
     name = models.TextField()
     description = models.TextField(max_length=500)
     category = models.CharField(max_length=1,choices=CHOICES)
-    price = models.PositiveIntegerField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     status = models.BooleanField()
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
@@ -107,9 +107,9 @@ class MenuItem(models.Model):
 
 class OrderDetail(models.Model):
     amount = models.PositiveIntegerField()
-    total_price = models.PositiveIntegerField(max_digits=6, decimal_places=2)
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 
 
 class Payment(models.Model):
@@ -122,7 +122,7 @@ class Payment(models.Model):
 
     payment_date = models.DateTimeField()
     paymentMethod = models.CharField(max_length=2,choices=CHOICES)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 
 
 

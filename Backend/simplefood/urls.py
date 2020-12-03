@@ -22,8 +22,10 @@ from rest_framework_jwt.views import obtain_jwt_token
 from .simplefoodapp import views
 
 router = routers.DefaultRouter()
-router.register(r'employees', views.EmployeeViewSet)
 router.register(r'restaurants', views.RestaurantViewSet)
+router.register(r'menuitems', views.MenuItemViewSet)
+router.register(r'users', views.CustomUserViewSet)
+router.register(r'customers', views.CustomerDataViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

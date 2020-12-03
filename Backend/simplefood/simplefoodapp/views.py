@@ -9,23 +9,23 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
     serializer_class = serializers.RestaurantSerializer
 
-class CustomerViewSet(viewsets.ModelViewSet):
+class CustomerDataViewSet(viewsets.ModelViewSet):
 
-    queryset = models.Customer.objects.all()
+    queryset = models.CustomerData.objects.all()
 
-    serializer_class = serializers.CustomerSerializer
+    serializer_class = serializers.CustomerDataSerializer
 
-class EmployeeViewSet(viewsets.ModelViewSet):
+class CustomUserViewSet(viewsets.ModelViewSet):
 
-    queryset = models.Employee.objects.all()
+    queryset = models.CustomUser.objects.all()
 
-    serializer_class = serializers.EmployeeSerializer
+    serializer_class = serializers.CustomUserSerializer
 
-class MenuViewSet(viewsets.ModelViewSet):
+class MenuItemViewSet(viewsets.ModelViewSet):
 
-    queryset = models.Menu.objects.all()
+    queryset = models.MenuItem.objects.all()
 
-    serializer_class = serializers.MenuSerializer
+    serializer_class = serializers.MenuItemSerializer
 
 class OrderViewSet(viewsets.ModelViewSet):
 
@@ -45,11 +45,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
     serializer_class = serializers.PaymentSerializer
 
-class FeedbackViewSet(viewsets.ModelViewSet):
-
-    queryset = models.Feedback.objects.all()
-
-    serializer_class = serializers.FeedbackSerializer
 
 #class MovieViewSet(viewsets.ModelViewSet):
 #

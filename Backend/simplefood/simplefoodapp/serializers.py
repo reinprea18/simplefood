@@ -5,51 +5,45 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Restaurant
-        fields = [ 'name', 'category' ]
+        fields = [ 'name', 'category', 'description', 'street_address', 'postcode', 'town', 'country' ]
 
-class CustomerSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Customer
-        fields = [ 'user_name', 'email', 'first_name', 'last_name', 'date_of_birth', 'gender', 'street_address', 'postcode', 'town', 'country', 'status' ]
-
-
-
-class EmployeeSerializer(serializers.ModelSerializer):
+class CustomerDataSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Employee
-        fields = [ 'user_name', 'email', 'first_name', 'last_name', 'date_of_birth', 'gender', 'street_address', 'postcode', 'town', 'country', 'position', 'join_date', 'status' ]
+        model = models.CustomerData
+        fields = ['email', 'first_name', 'last_name', 'date_of_birth', 'gender', 'street_address', 'postcode', 'town', 'country', 'restaurant']
 
-class MenuSerializer(serializers.ModelSerializer):
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Menu
+        model = models.CustomUser
+        fields = [ 'user_name', 'email', 'first_name', 'last_name', 'date_of_birth', 'gender', 'street_address', 'postcode', 'town', 'country', 'status', 'role', 'restaurant' ]
+
+class MenuItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.MenuItem
         fields = [ 'name', 'description', 'category', 'price', 'status', 'restaurant' ]
 
 class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Order
-        fields = [ 'orderDate', 'status', 'customer', 'employee', 'restaurant' ]
+        fields = [ 'order_date', 'status', 'customer', 'employee', 'restaurant' ]
 
 class OrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.OrderDetail
-        fields = [ 'amount', 'total_price', 'menu', 'order' ]
+        fields = [ 'amount', 'total_price', 'menu_item', 'order' ]
 
 class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Payment
         fields = [ 'paymentDate', 'paymentMethod', 'total_price', 'customer', 'order' ]
-
-class FeedbackSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Feedback
-        fields = [ 'rating', 'rating_message', 'restaurant', 'customer' ]
 
 #def validate_year_of_birth(self,value):
 #       if value <= 1900:
