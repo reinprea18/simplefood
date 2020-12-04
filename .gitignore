@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+*.iml
+Backend/simplefood/__pycache__/
+Backend/simplefood/simplefoodapp/__pycache__/
+Backend/simplefood/simplefoodapp/migrations/0001_initial.py
+Backend/simplefood/simplefoodapp/migrations/__pycache__/

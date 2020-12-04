@@ -19,4 +19,8 @@ class RestaurantAdmin(admin.ModelAdmin):
     search_fields = ( 'name', )
     list_filter = ('category',)
 
-admin.site.register(models.Restaurant,RestaurantAdmin)
+class MenuItemAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+admin.site.register(models.Restaurant, RestaurantAdmin)
+admin.site.register(models.MenuItem, MenuItemAdmin)
