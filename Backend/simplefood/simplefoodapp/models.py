@@ -1,129 +1,159 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django_countries.fields import CountryField
 
 
 class Restaurant(models.Model):
 
     CHOICES = (
-        ('im' , 'Imbiss'),
-        ('bu' , 'Buffet'),
-        ('ba' , 'bar')
+        (None, 'Select a Category'),
+        ('im', 'Imbiss'),
+        ('bu', 'Buffet'),
+        ('ba', 'Bar'),
+        ('ca', 'Cafe')
     )
 
-    name = models.TextField(max_length=50)
-    category = models.CharField(max_length=2,choices=CHOICES)
-    description = models.TextField(max_length=500, null=True)
-    street_address = models.TextField()
-    postcode = models.PositiveIntegerField()
-    town = models.TextField()
-    country = models.TextField()
+    name = models.CharField(max_length=64, blank=False, unique=True, null=False)
+    category = models.CharField(max_length=2, choices=CHOICES)
+    description = models.TextField(max_length=512, blank=True)
+    street_address = models.CharField(max_length=64)
+    postcode = models.CharField(max_length=4)
+    town = models.CharField(max_length=64)
+    country = CountryField()
 
     def __str__(self):
-        return self.name
+        return "%s%s" % (self.name, self.category)
 
 
-class CustomUser(models.Model):
-
-    CHOICES = (
-        ('m' , 'male'),
-        ('f' , 'female'),
-        ('*' , 'unknown')
-    )
-
-    CHOICES_ROLES = (
-        ('m' , 'masteradmin'),
-        ('r' , 'restaurantadmin'),
-        ('e' , 'employee'),
-        ('t' , 'table')
-    )
-
-    user_name = models.TextField()
-    password = models.TextField()
-    email = models.TextField(null = True)
-    first_name = models.TextField(null = True)
-    last_name = models.TextField(null = True)
-    date_of_birth = models.DateField(null = True)
-    gender = models.CharField(max_length=1,choices=CHOICES, null = True)
-    street_address = models.TextField(null = True)
-    postcode = models.PositiveIntegerField(null = True)
-    town = models.TextField(null = True)
-    country = models.TextField(null = True)
-    status = models.BooleanField()
-    role = models.CharField(max_length=1, choices=CHOICES_ROLES)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return "%s%s" % ( self.first_name , self.last_name)
-
-class Order(models.Model):
-    order_date = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField()
-    table_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    paid = models.BooleanField(default=False)
-
-class CustomerData(models.Model):
-
-    CHOICES = (
-        ('m' , 'male'),
-        ('f' , 'female'),
-        ('*' , 'unknown')
-    )
-
-    ##user_name = models.TextField()
-    email = models.TextField()
-    ##password = models.TextField()
-    first_name = models.TextField()
-    last_name = models.TextField()
-    date_of_birth = models.DateField()
-    gender = models.CharField(max_length=1,choices=CHOICES)
-    street_address = models.TextField()
-    postcode = models.PositiveIntegerField()
-    town = models.TextField()
-    country = models.TextField()
-    restaurant = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return "%s%s" % ( self.first_name , self.last_name)
+# class CustomUser(models.Model):
+#
+#    CHOICES = (
+#        ('m', 'male'),
+#        ('f', 'female'),
+#        ('*', 'unknown')
+#    )
+#
+#    CHOICES_ROLES = (
+#        ('m', 'masteradmin'),
+#        ('r', 'restaurantadmin'),
+#        ('e', 'employee'),
+#        ('t', 'table')
+#    )
+#
+#    user_name = models.TextField()
+#    password = models.TextField()
+#    email = models.TextField(null = True)
+#    first_name = models.TextField(null = True)
+#    last_name = models.TextField(null = True)
+#    date_of_birth = models.DateField(null = True, blank=True, default=False)
+#    gender = models.CharField(max_length=1,choices=CHOICES, null = True)
+#    street_address = models.TextField(null = True)
+#    postcode = models.CharField(max_length=4, null = True)
+#    town = models.TextField(null = True)
+#    country = models.TextField(null = True)
+#    status = models.BooleanField(default=True)
+#    role = models.CharField(max_length=1, choices=CHOICES_ROLES)
+#    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
+#
+#    def __str__(self):
+#        return "%s%s" % (self.first_name, self.last_name)
 
 
 class MenuItem(models.Model):
 
-    CHOICES = (
-        ('f' , 'Food'),
-        ('d' , 'Drink')
-    )
+    CHOICES = [
+        ('Food', (
+            ('a', 'Appetizers'),
+            ('m', 'Main Courses'),
+            ('d', 'Desserts')
+        )
+         ),
+        ('Drinks', (
+            ('b', 'Beer'),
+            ('w', 'Wine'),
+            ('s', 'Soft Drinks'),
+            ('c', 'Cocktails'),
+        )
+         ),
+    ]
 
-    name = models.TextField()
-    description = models.TextField(max_length=500)
-    category = models.CharField(max_length=1,choices=CHOICES)
+    name = models.CharField(max_length=128)
+    description = models.TextField()
+    category = models.CharField(max_length=1, choices=CHOICES)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    status = models.BooleanField()
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
+    status_available = models.BooleanField(default=True)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menu_items', null=True)
+    alcoholic = models.BooleanField(default=False)
+    # menu_item_image = models.ImageField(upload_to='menu_images_/' + str(restaurant.name), blank=True, null=True)
 
     def __str__(self):
-        return self.name
-
-
-class OrderDetail(models.Model):
-    amount = models.PositiveIntegerField()
-    total_price = models.DecimalField(max_digits=6, decimal_places=2)
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, null=True)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+        return "%s%s%s" % (self.name, self.category, self.price)
 
 
 class Payment(models.Model):
 
     CHOICES = (
-        ('m' , 'cash'),
-        ('c' , 'card'),
-        ('k' , 'klarna')
+        ('m', 'Cash'),
+        ('c', 'Card'),
+        ('k', 'Klarna'),
+        ('o', 'Online Credit Card')
     )
 
     payment_date = models.DateTimeField()
-    paymentMethod = models.CharField(max_length=2,choices=CHOICES)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    paymentMethod = models.CharField(max_length=2, choices=CHOICES)
+
+    def __str__(self):
+        return "%s%s" % (self.order, self.paymentMethod)
 
 
+class Order(models.Model):
+
+    CHOICES = (
+        ('o', 'ordered'),
+        ('p', 'processing'),
+        ('s', 'served'),
+        ('c', 'completed')
+
+    )
+
+    order_date = models.DateTimeField(auto_now_add=True)
+    # table_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    status = models.CharField(max_length=1, choices=CHOICES)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders', null=True)
+    payment = models.OneToOneField(Payment, blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s%s" % (self.restaurant, self.order_date)
 
 
+class OrderDetail(models.Model):
+    amount = models.PositiveSmallIntegerField()
+    menu_item = models.OneToOneField(MenuItem, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, related_name='order_details')
+    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True) 
+
+    def __str__(self):
+        return "%s%s" % (self.menu_item, self.amount)
+
+
+class CustomerData(models.Model):
+
+    CHOICES = (
+        ('m', 'male'),
+        ('f', 'female'),
+        ('*', 'unknown')
+    )
+
+    email = models.EmailField()
+    first_name = models.CharField(max_length=64)
+    last_name = models.CharField(max_length=64)
+    date_of_birth = models.DateField()
+    gender = models.CharField(max_length=1, choices=CHOICES)
+    street_address = models.CharField(max_length=64)
+    postcode = models.CharField(max_length=4)
+    town = models.CharField(max_length=64)
+    country = CountryField()
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='customer_datas', null=True)
+
+    def __str__(self):
+        return "%s%s" % (self.first_name, self.last_name)

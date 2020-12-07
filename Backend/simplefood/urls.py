@@ -17,6 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
+
+
+from django.conf import settings
+from django.views.static import serve
+
 from rest_framework_jwt.views import obtain_jwt_token
 
 from .simplefoodapp import views
@@ -24,10 +30,15 @@ from .simplefoodapp import views
 router = routers.DefaultRouter()
 router.register(r'restaurants', views.RestaurantViewSet)
 router.register(r'menuitems', views.MenuItemViewSet)
-router.register(r'users', views.CustomUserViewSet)
-router.register(r'customers', views.CustomerDataViewSet)
+# router.register(r'users', views.CustomUserViewSet)
+router.register(r'orders', views.OrderViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('auth/', obtain_auth_token)
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]

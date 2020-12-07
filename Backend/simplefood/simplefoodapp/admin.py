@@ -13,14 +13,29 @@ Use list_display, search_fields and filters to accomplish following things:
     methods and return something human readable there. 
 '''
 
+
 class RestaurantAdmin(admin.ModelAdmin):
 
-    list_display = ( 'name' , 'category')
-    search_fields = ( 'name', )
+    list_display = ('name', 'category')
+    search_fields = ('name', )
     list_filter = ('category',)
 
+
 class MenuItemAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'category')
+    search_fields = ('name',)
+    list_filter = ('category',)
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('restaurant', 'order_date')
+    search_fields = ('restaurant',)
+    list_filter = ('order_date',)
+
+
+class CustomerDataAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name')
+    search_fields = ('last_name',)
+
 
 admin.site.register(models.Restaurant, RestaurantAdmin)
 admin.site.register(models.MenuItem, MenuItemAdmin)
