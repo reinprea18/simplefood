@@ -73,6 +73,8 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'simplefoodapp.CustomUser'
+
 WSGI_APPLICATION = 'simplefood.wsgi.application'
 
 
