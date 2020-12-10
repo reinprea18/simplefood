@@ -16,9 +16,8 @@ Use list_display, search_fields and filters to accomplish following things:
 
 class RestaurantAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'category')
+    list_display = ('name', )
     search_fields = ('name', )
-    list_filter = ('category',)
 
 
 class MenuItemAdmin(admin.ModelAdmin):

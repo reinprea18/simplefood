@@ -5,24 +5,15 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Abstra
 
 class Restaurant(models.Model):
 
-    CHOICES = (
-        (None, 'Select a Category'),
-        ('im', 'Imbiss'),
-        ('bu', 'Buffet'),
-        ('ba', 'Bar'),
-        ('ca', 'Cafe')
-    )
-
     name = models.CharField(max_length=64, blank=False, unique=True, null=False)
-    category = models.CharField(max_length=2, choices=CHOICES)
     description = models.TextField(max_length=512, blank=True)
-    street_address = models.CharField(max_length=64)
-    postcode = models.CharField(max_length=4)
-    town = models.CharField(max_length=64)
-    country = CountryField()
+    street_address = models.CharField(max_length=64, null=True, blank=True)
+    postcode = models.CharField(max_length=4, null=True, blank=True)
+    town = models.CharField(max_length=64, null=True, blank=True)
+    country = CountryField(null=True, blank=True)
 
     def __str__(self):
-        return "%s%s" % (self.name, self.category)
+        return "%s" % self.name
 
 
 
@@ -52,6 +43,17 @@ class CustomUser(AbstractUser):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
 
 
+class UserPermissions(models.Model):
+
+    CHOICES_ROLES = (
+        ('r', 'restaurantadmin'),
+        ('e', 'employee'),
+        ('t', 'table')
+    )
+
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    permission = models.CharField(max_length=1, choices=CHOICES_ROLES)
 
 
 class MenuItem(models.Model):

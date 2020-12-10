@@ -44,8 +44,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Restaurant
-        fields = ['name', 'category', 'description', 'street_address', 'postcode', 'town', 'country',
-                  'menu_items', 'orders']
+        fields = ['name', 'description', 'street_address', 'postcode', 'town', 'country']
 
 
 class PaymentSerializer(serializers.ModelSerializer):

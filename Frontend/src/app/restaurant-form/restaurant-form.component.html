@@ -1,0 +1,50 @@
+<form [formGroup]="restaurantFormGroup" (ngSubmit)="createOrUpdateRestaurant()" class="restaurant-form__form">
+
+  <!-- Restaurant Name Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Restaurant Name" formControlName="name">
+    <mat-error *ngIf="restaurantFormGroup.controls.name.hasError('required')">Name is required</mat-error>
+  </mat-form-field>
+
+  <!-- Restaurant Description Field -->
+  <mat-form-field>
+    <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    <mat-error *ngIf="restaurantFormGroup.controls.description.hasError('maxLength')">Description is too long</mat-error>
+  </mat-form-field>
+
+  <!-- Street Address Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Street Address" formControlName="street_address">
+  </mat-form-field>
+
+  <!-- Postcode Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Postcode" formControlName="postcode">
+  </mat-form-field>
+
+  <!-- Town Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Town" formControlName="town">
+  </mat-form-field>
+
+  <!-- Country Field -->
+  <!--
+  <mat-form-field>
+    <input matInput type="text" placeholder="Country" formControlName="country">
+  </mat-form-field>
+  -->
+  <mat-select-country label="Country"
+                      formControlName="country"
+                      [countries]="countryService.predefinedCountries">
+  </mat-select-country>
+
+
+  <br/>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!restaurantFormGroup.valid">
+      <span *ngIf="!restaurantFormGroup.controls.pk.value">Create</span>
+      <span *ngIf="restaurantFormGroup.controls.pk.value">Update</span>
+    </button>
+  </mat-card-actions>
+
+</form>

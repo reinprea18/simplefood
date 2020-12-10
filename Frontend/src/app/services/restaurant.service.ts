@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Country} from '@angular-material-extensions/select-country';
 
 export interface Restaurant {
-  pk?: number,
-  name: string,
-  category: string,
-  street_address: string,
-  postcode: number,
-  town: string,
-  country: string;
+  pk?: number;
+  name: string;
+  street_address: string;
+  postcode: number;
+  town: string;
+  // country: Country;
 }
 
 @Injectable({
@@ -28,11 +28,11 @@ export class RestaurantService {
   }
 
   createRestaurant(restaurant: Restaurant): Observable<Restaurant> {
-    return this.http.post<Restaurant>('/api/restaurants', restaurant);
+    return this.http.post<Restaurant>('/api/restaurants/', restaurant);
   }
 
   updateRestaurant(restaurant: Restaurant): Observable<any> {
-    return this.http.patch('/api/restaurants' + restaurant.pk + '/', restaurant);
+    return this.http.patch('/api/restaurants/' + restaurant.pk + '/', restaurant);
   }
 
   deleteRestaurant(restaurant: Restaurant): Observable<any> {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Restaurant, RestaurantService} from "../services/restaurant.service";
+import {Restaurant, RestaurantService} from '../services/restaurant.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -9,7 +9,7 @@ import {Restaurant, RestaurantService} from "../services/restaurant.service";
 export class RestaurantListComponent implements OnInit {
 
   restaurants: Restaurant[];
-  displayedColumns: ['name'];
+  displayedColumns = ['name'];
 
   constructor(private restaurantService: RestaurantService) { }
 
