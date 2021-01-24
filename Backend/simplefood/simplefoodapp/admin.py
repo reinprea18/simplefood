@@ -14,6 +14,11 @@ Use list_display, search_fields and filters to accomplish following things:
 '''
 
 
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username',)
+    search_fields = ('username',)
+
+
 class RestaurantAdmin(admin.ModelAdmin):
 
     list_display = ('name', )
@@ -25,10 +30,13 @@ class MenuItemAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('category', 'restaurant')
 
+
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('restaurant', 'order_date')
+    list_display = ('id', 'order_date', 'updated', 'customer', 'employee', 'total_price', 'status', 'restaurant', 'payment')
+    fields = ('id', 'order_date', 'updated', 'customer', 'employee', 'total_price', 'status', 'restaurant', 'payment')
     search_fields = ('restaurant',)
-    list_filter = ('order_date',)
+    list_filter = ('status', 'customer', 'employee', 'restaurant', 'status',)
+    readonly_fields = ('id', 'order_date', 'updated')
 
 
 class CustomerDataAdmin(admin.ModelAdmin):
@@ -38,3 +46,6 @@ class CustomerDataAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Restaurant, RestaurantAdmin)
 admin.site.register(models.MenuItem, MenuItemAdmin)
+admin.site.register(models.CustomUser, CustomUserAdmin)
+admin.site.register(models.CustomerData, CustomerDataAdmin)
+admin.site.register(models.Order, OrderAdmin)

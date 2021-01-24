@@ -13,8 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from django.conf import settings # new
+from django.conf.urls.static import static # new
 from django.conf.urls import url
 from django.contrib import admin
+from pathlib import Path
+from django.contrib.auth.views import LoginView
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
@@ -24,21 +29,27 @@ from django.conf import settings
 from django.views.static import serve
 
 from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from .simplefoodapp import views
+from .simplefoodapp.views import SignUpView
+
+from rest_framework_simplejwt.views import TokenRefreshView # new
+
+from simplefood.simplefoodapp.views import SignUpView, LogInView # changed
 
 router = routers.DefaultRouter()
 router.register(r'restaurants', views.RestaurantViewSet)
 router.register(r'menuitems', views.MenuItemViewSet)
 # router.register(r'users', views.CustomUserViewSet)
-router.register(r'orders', views.OrderViewSet)
+# router.register(r'orders', views.OrderViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('auth/', obtain_auth_token)
-]
-
-if settings.DEBUG:
-    urlpatterns += [
-        url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
+    path('auth/', obtain_auth_token),
+    path('api/sign_up/', SignUpView.as_view(), name='sign_up'),
+    path('api/log_in/', LogInView.as_view(), name='log_in'),
+    path('api/order/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+] + static(settings.MEDIA_URL, document_root= Path.joinpath(settings.MEDIA_ROOT, 'qr_codes'))

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {RestaurantListComponent} from './restaurant-list/restaurant-list.component';
 import {RestaurantFormComponent} from './restaurant-form/restaurant-form.component';
+import {LandingComponent} from './landing/landing.component';
+import {LogInComponent} from './log-in/log-in.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
 import {MenuListComponent} from './menu-list/menu-list.component';
 
 const routes: Routes = [
@@ -13,7 +16,11 @@ const routes: Routes = [
   {path: 'restaurant-form/:name', component: RestaurantFormComponent},
   {path: 'menu-list', component: MenuListComponent},
   {path: 'menu-list/:restaurant', component: MenuListComponent},
-  {path: 'restaurantfood/:name', component: MenuListComponent}
+  {path: 'restaurantfood/:name', component: MenuListComponent},
+  {path: 'log-in', component: LogInComponent},
+  {path: 'sign-up', component: SignUpComponent},
+  {path: 'landing', component: LandingComponent},
+  {path: 'restaurant-form/:pk', component: RestaurantFormComponent}
 ];
 
 @NgModule({
