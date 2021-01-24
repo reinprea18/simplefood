@@ -1,0 +1,38 @@
+<form [formGroup]="menuFormGroup" (ngSubmit)="createOrUpdateMenu()" class="menu-form__form">
+
+  <!-- MenuItem Name Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Item Name" formControlName="name">
+    <mat-error *ngIf="menuFormGroup.controls.name.hasError('required')">Name is required</mat-error>
+  </mat-form-field>
+
+  <!-- Restaurant Description Field -->
+  <mat-form-field>
+    <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    <mat-error *ngIf="menuFormGroup.controls.description.hasError('maxLength')">Description is too long</mat-error>
+  </mat-form-field>
+
+  <!-- Street Address Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Category" formControlName="category">
+  </mat-form-field>
+
+  <!-- Postcode Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Price" formControlName="price">
+  </mat-form-field>
+
+  <!-- Town Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Available" formControlName="status_available">
+  </mat-form-field>
+
+  <br/>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!menuFormGroup.valid">
+      <span *ngIf="!menuFormGroup.controls.pk.value">Create</span>
+      <span *ngIf="menuFormGroup.controls.pk.value">Update</span>
+    </button>
+  </mat-card-actions>
+
+</form>

@@ -42,4 +42,8 @@ export class MenuService {
   deleteMenuItem(menuItem: MenuItem): Observable<any> {
     return this.http.delete('/api/menuitems/' + menuItem.pk + '/');
   }
+
+  getMenuItemByName(name: string): Observable<MenuItem> {
+    return this.http.get<MenuItem>('/api/menuitems/?name=' + name);
+  }
 }
