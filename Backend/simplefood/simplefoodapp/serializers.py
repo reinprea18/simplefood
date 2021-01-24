@@ -48,7 +48,6 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['__all__']
         read_only_fields = ('id', 'order_date', 'updated')
 
-class RestaurantSerializer(serializers.ModelSerializer):
 
 class NestedOrderSerializer(serializers.ModelSerializer):
     class Meta:
