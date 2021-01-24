@@ -1,0 +1,51 @@
+<form [formGroup]="menuFormGroup" (ngSubmit)="createOrUpdateMenu()" class="menu-form__form">
+
+  <!-- MenuItem Name Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Item Name" formControlName="name">
+    <mat-error *ngIf="menuFormGroup.controls.name.hasError('required')">Name is required</mat-error>
+  </mat-form-field>
+
+  <!-- MenuItem Description Field -->
+  <mat-form-field>
+    <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    <mat-error *ngIf="menuFormGroup.controls.description.hasError('maxLength')">Description is too long</mat-error>
+  </mat-form-field>
+
+  <!-- Category Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Category" formControlName="category">
+  </mat-form-field>
+
+  <!-- Price Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Price" formControlName="price">
+  </mat-form-field>
+
+  <!-- Status Field -->
+  <mat-checkbox class="example-margin"  formControlName="available">Available</mat-checkbox>
+  <!-- Restaurant Field -->
+  <!--
+  <mat-form-field>
+    <input matInput type="text" placeholder="Restaurant" formControlName="restaurant">
+  </mat-form-field>
+  -->
+
+  <!-- Alcoholic Field -->
+    <mat-checkbox class="example-margin" formControlName="alcoholic">Alcoholic</mat-checkbox>
+
+  <label for="singleSelect"> Select Restaurant: </label><br>
+  <select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
+    <option value="">---Please select---</option> <!-- not selected / blank option -->
+    <option value="{{restaurantService.getRestaurants()}}">Option 1</option>>
+  </select><br>
+
+  <br/>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!menuFormGroup.valid">
+      <span *ngIf="!menuFormGroup.controls.pk.value">Create</span>
+      <span *ngIf="menuFormGroup.controls.pk.value">Update</span>
+    </button>
+  </mat-card-actions>
+
+</form>

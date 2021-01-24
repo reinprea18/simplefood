@@ -7,6 +7,7 @@ import {LandingComponent} from './landing/landing.component';
 import {LogInComponent} from './log-in/log-in.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
 import {MenuListComponent} from './menu-list/menu-list.component';
+import {MenuFormComponent} from "./menu-form/menu-form.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'restaurant-list', pathMatch: 'full'},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent},
   {path: 'restaurant-form/:name', component: RestaurantFormComponent},
   {path: 'menu-list', component: MenuListComponent},
+  {path: 'menu-form', component: MenuFormComponent},
   {path: 'menu-list/:restaurant', component: MenuListComponent},
   {path: 'restaurantfood/:name', component: MenuListComponent},
   {path: 'log-in', component: LogInComponent},
