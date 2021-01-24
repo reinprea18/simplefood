@@ -48,8 +48,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('auth/', obtain_auth_token),
-    path('api/sign_up/', SignUpView.as_view(), name='sign_up'),
-    path('api/log_in/', LogInView.as_view(), name='log_in'),
-    path('api/order/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('sign_up/', SignUpView.as_view(), name='sign_up'),
+    path('log_in/', LogInView.as_view(), name='log_in'),
+    path('order/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + static(settings.MEDIA_URL, document_root= Path.joinpath(settings.MEDIA_ROOT, 'qr_codes'))

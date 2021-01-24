@@ -2,16 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import {tap} from "rxjs/operators";
+import {tap} from 'rxjs/operators';
 
 export interface User {
   username: string;
   first_name: string;
   last_name: string;
-  role: string;
   restaurant: string;
+  role: string;
   group: string;
-  photo: string;
 }
 
 export interface Token {
@@ -24,10 +23,9 @@ export const createUser = (data: any): User => {
     username: data.username,
     first_name: data.first_name,
     last_name: data.last_name,
-    role: data.role,
     restaurant: data.restaurant,
+    role: data.role,
     group: data.group,
-    photo: data.photo,
   };
 };
 
@@ -68,7 +66,6 @@ export class AuthService {
     group: string,
     restaurant: string,
     role: string,
-    photo: any
   ): Observable<User> {
     const url = '/api/sign_up/';
     const formData = new FormData();
@@ -76,11 +73,10 @@ export class AuthService {
     formData.append('first_name', firstName);
     formData.append('last_name', lastName);
     formData.append('password1', password);
-    formData.append('password2', restaurant);
-    formData.append('restaurant', role);
-    formData.append('role', password);
+    formData.append('password2', password);
+    formData.append('restaurant', restaurant);
+    formData.append('role', role);
     formData.append('group', group);
-    formData.append('photo', photo);
     return this.http.request<User>('POST', url, { body: formData });
   }
 

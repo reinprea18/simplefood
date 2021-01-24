@@ -14,6 +14,7 @@ import {MaterialModule} from './material/material.module';
 import {MatTableModule} from '@angular/material/table';
 import { LandingComponent } from './landing/landing.component';
 import { AuthService } from './services/auth.service';
+import {MenuListComponent} from './menu-list/menu-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AuthService } from './services/auth.service';
     RestaurantFormComponent,
     SignUpComponent,
     LogInComponent,
-    LandingComponent
+    LandingComponent,
+    MenuListComponent
   ],
   imports: [
     BrowserModule,

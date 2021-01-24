@@ -41,10 +41,8 @@ class CustomUser(AbstractUser):
     postcode = models.CharField(max_length=4, null=True, blank=True)
     town = models.TextField(null=True, blank=True)
     country = models.TextField(null=True, blank=True)
-    role = models.CharField(max_length=1, choices=CHOICES_ROLES)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
-    qr_code = models.ImageField(upload_to='qr_codes', blank=True)
-    photo = models.ImageField(upload_to='photos', null=True, blank=True)
+    role = models.CharField(max_length=1, choices=CHOICES_ROLES)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

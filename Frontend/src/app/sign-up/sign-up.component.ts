@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
+import {Restaurant, RestaurantService} from '../services/restaurant.service';
 
 class UserData{
   constructor(
@@ -9,7 +10,6 @@ class UserData{
     public lastName?: string,
     public password?: string,
     public group?: string,
-    public photo?: any,
     public restaurant?: string,
     public role?: string,
   ) {
@@ -23,15 +23,17 @@ class UserData{
 })
 export class SignUpComponent implements OnInit {
   user: UserData = new UserData();
+  restaurants: Restaurant[];
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private restaurantService: RestaurantService,
   ) {}
 
   onChange(event): void {
     if (event.target.files && event.target.files.length > 0) {
-      this.user.photo = event.target.files[0];
+
     }
   }
 
@@ -42,9 +44,8 @@ export class SignUpComponent implements OnInit {
       this.user.lastName,
       this.user.password,
       this.user.group,
-      this.user.photo,
+      this.user.restaurant,
       this.user.role,
-      this.user.restaurant
     ).subscribe(() => {
       this.router.navigateByUrl('/log-in');
     }, (error) => {
@@ -53,6 +54,13 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.retrieveRestaurants();
   }
 
+  private retrieveRestaurants(): void {
+    this.restaurantService.getRestaurants()
+      .subscribe((restaurants) => {
+        this.restaurants = restaurants;
+      });
+  }
 }
