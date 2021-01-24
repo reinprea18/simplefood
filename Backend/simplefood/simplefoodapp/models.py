@@ -79,7 +79,7 @@ class MenuItem(models.Model):
     category = models.CharField(max_length=1, choices=CHOICES)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     status_available = models.BooleanField(default=True)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menu_items', null=True)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant', null=True)
     alcoholic = models.BooleanField(default=False)
     # menu_item_image = models.ImageField(upload_to='menu_images_/' + str(restaurant.name), blank=True, null=True)
 

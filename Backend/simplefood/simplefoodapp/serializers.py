@@ -8,7 +8,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.MenuItem
-        fields = ['name', 'description', 'category', 'price', 'status_available', 'restaurant', 'alcoholic']
+        fields = ['pk', 'name', 'description', 'category', 'price', 'status_available', 'restaurant', 'alcoholic']
 
 
 class CustomerDataSerializer(serializers.ModelSerializer):
@@ -44,7 +44,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Restaurant
-        fields = ['name', 'description', 'street_address', 'postcode', 'town', 'country']
+        fields = ['pk', 'name', 'description', 'street_address', 'postcode', 'town', 'country']
 
 
 class PaymentSerializer(serializers.ModelSerializer):

@@ -4,6 +4,11 @@
     <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
     <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
   </mat-menu>
+  <button mat-button [matMenuTriggerFor]="foodMenu">Food</button>
+  <mat-menu #foodMenu="matMenu">
+    <button mat-menu-item routerLink="menu-list">List food</button>
+    <button mat-menu-item routerLink="menu-form">Create food</button>
+  </mat-menu>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

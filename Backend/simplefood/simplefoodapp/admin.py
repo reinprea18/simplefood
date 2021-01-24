@@ -23,7 +23,7 @@ class RestaurantAdmin(admin.ModelAdmin):
 class MenuItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'category')
     search_fields = ('name',)
-    list_filter = ('category',)
+    list_filter = ('category', 'restaurant')
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('restaurant', 'order_date')

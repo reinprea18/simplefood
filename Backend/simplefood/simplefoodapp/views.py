@@ -13,6 +13,18 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     # authentication_classes = (TokenAuthentication,)
     # permission_classes = (IsAuthenticated,)
 
+    def list(self, request):
+        name = request.GET.get("name")
+        queryset = self.filter_queryset(self.get_queryset())
+        if name is None:
+            serializer = self.serializer_class(queryset, many=True)
+        else:
+            try:
+                serializer = self.serializer_class(queryset.get(name=name), many=False)
+            except models.Restaurant.DoesNotExist:
+                serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
 
 class CustomerDataViewSet(viewsets.ModelViewSet):
 
@@ -35,6 +47,15 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.MenuItemSerializer
     # authentication_classes = (TokenAuthentication,)
     # permission_classes = (IsAuthenticated,)
+
+    def list(self, request):
+        restaurant = request.GET.get("restaurant")
+        queryset = self.filter_queryset(self.get_queryset())
+        if restaurant is None:
+            serializer = self.serializer_class(queryset, many=True)
+        else:
+            serializer = self.serializer_class(queryset.filter(restaurant__name=restaurant), many=True)
+        return Response(serializer.data)
 
 
 class OrderViewSet(viewsets.ModelViewSet):

@@ -29,6 +29,19 @@ export class RestaurantFormComponent implements OnInit {
       town: new FormControl(''),
       country: new FormControl(null)
     });
+
+    const pkFromUrl = this.route.snapshot.paramMap.get('pk');
+    if (pkFromUrl) {
+      this.restaurantService.getRestaurantByName(pkFromUrl)
+        .subscribe((restaurant) => {
+          this.restaurantFormGroup.patchValue(restaurant);
+        });
+
+      // this.restaurantService.getRestaurant(parseInt(pkFromUrl, 10))
+      //  .subscribe((restaurant) => {
+      //    this.restaurantFormGroup.patchValue(restaurant);
+      //  });
+    }
   }
 
   createOrUpdateRestaurant(): void {

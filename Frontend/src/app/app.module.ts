@@ -22,12 +22,14 @@ import {MatSortModule} from '@angular/material/sort';
 import { RestaurantFormComponent } from './restaurant-form/restaurant-form.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectCountryModule} from '@angular-material-extensions/select-country';
+import { MenuListComponent } from './menu-list/menu-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RestaurantListComponent,
-    RestaurantFormComponent
+    RestaurantFormComponent,
+    MenuListComponent
   ],
   imports: [
     BrowserModule,
