@@ -1,6 +1,14 @@
 from django.db import models
 from django_countries.fields import CountryField
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, AbstractUser
+from rest_framework.authtoken.models import Token
+from PIL import Image, ImageDraw, ImageFont
+import qrcode
+from io import BytesIO
+from django.core.files import File
+import uuid
+from django.shortcuts import reverse
+from django.conf import settings
 
 
 class Restaurant(models.Model):
@@ -10,11 +18,10 @@ class Restaurant(models.Model):
     street_address = models.CharField(max_length=64, null=True, blank=True)
     postcode = models.CharField(max_length=4, null=True, blank=True)
     town = models.CharField(max_length=64, null=True, blank=True)
-    country = CountryField(null=True, blank=True)
+    country = models.CharField(null=False, blank=False, max_length=64, default="Austria")
 
     def __str__(self):
         return "%s" % self.name
-
 
 
 class CustomUser(AbstractUser):
@@ -31,16 +38,32 @@ class CustomUser(AbstractUser):
         ('e', 'employee'),
         ('t', 'table')
     )
-
-    date_of_birth = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=1,choices=CHOICES_GENDER, null=True)
-    street_address = models.TextField(null = True)
-    postcode = models.CharField(max_length=4, null = True)
-    town = models.TextField(null = True)
-    country = models.TextField(null = True)
-    status = models.BooleanField(default=True)
+    postcode = models.CharField(max_length=4, null=True, blank=True)
+    town = models.TextField(null=True, blank=True)
+    country = models.TextField(null=True, blank=True)
     role = models.CharField(max_length=1, choices=CHOICES_ROLES)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
+    qr_code = models.ImageField(upload_to='qr_codes', blank=True)
+    photo = models.ImageField(upload_to='photos', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        token = Token.objects.get_or_create(user=self)
+        if self.role == 't':
+            qrcode_img = qrcode.make('http://127.0.0.1:8000/auth_user/user_auth/?token=' + token[0].key)
+            canvas = Image.new('RGB', (500, 500), 'white')
+            canvas.paste(qrcode_img)
+            fname = f'qr_code-{self.username}'+'.png'
+            buffer = BytesIO()
+            canvas.save(buffer,'PNG')
+            self.qr_code.save(fname, File(buffer), save=False)
+            canvas.close()
+            super().save(*args, **kwargs)
+
+    @property
+    def group(self):
+        groups = self.groups.all()
+        return groups[0].name if groups else None
 
 
 class UserPermissions(models.Model):
@@ -105,30 +128,51 @@ class Payment(models.Model):
 
 class Order(models.Model):
 
-    CHOICES = (
-        ('o', 'ordered'),
-        ('p', 'processing'),
-        ('s', 'served'),
-        ('c', 'completed')
-
+    REQUESTED = 'REQUESTED'
+    STARTED = 'STARTED'
+    IN_PROGRESS = 'IN_PROGRESS'
+    COMPLETED = 'COMPLETED'
+    STATUSES = (
+        (REQUESTED, REQUESTED),
+        (STARTED, STARTED),
+        (IN_PROGRESS, IN_PROGRESS),
+        (COMPLETED, COMPLETED),
     )
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_date = models.DateTimeField(auto_now_add=True)
-    # table_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    updated = models.DateTimeField(auto_now=True)
     total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    status = models.CharField(max_length=1, choices=CHOICES)
+    status = models.CharField(max_length=20, choices=STATUSES, default=REQUESTED)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders', null=True)
     payment = models.OneToOneField(Payment, blank=True, null=True, on_delete=models.CASCADE)
+    employee = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING,
+        related_name='trips_as_driver'
+    )
+    customer = models.ForeignKey( # new
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING,
+        related_name='trips_as_rider'
+    )
 
     def __str__(self):
-        return "%s%s" % (self.restaurant, self.order_date)
+        return f'{self.id}'
+
+    def get_absolute_url(self):
+        return reverse('trip:trip_detail', kwargs={'trip_id': self.id})
 
 
 class OrderDetail(models.Model):
     amount = models.PositiveSmallIntegerField()
     menu_item = models.OneToOneField(MenuItem, on_delete=models.CASCADE, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, related_name='order_details')
-    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True) 
+    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return "%s%s" % (self.menu_item, self.amount)
@@ -155,3 +199,7 @@ class CustomerData(models.Model):
 
     def __str__(self):
         return "%s%s" % (self.first_name, self.last_name)
+
+
+class Auth(models.Model):
+    token = None

@@ -5,29 +5,24 @@ import { AppComponent } from './app.component';
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatTableModule} from '@angular/material/table';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSortModule} from '@angular/material/sort';
 import { RestaurantFormComponent } from './restaurant-form/restaurant-form.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSelectCountryModule} from '@angular-material-extensions/select-country';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { LogInComponent } from './log-in/log-in.component';
+import {MaterialModule} from './material/material.module';
+import {MatTableModule} from '@angular/material/table';
+import { LandingComponent } from './landing/landing.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     RestaurantListComponent,
-    RestaurantFormComponent
+    RestaurantFormComponent,
+    SignUpComponent,
+    LogInComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
@@ -35,22 +30,11 @@ import {MatSelectCountryModule} from '@angular-material-extensions/select-countr
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MaterialModule,
     MatTableModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatSelectCountryModule.forRoot('en')
+    FormsModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
