@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MenuItem, MenuService} from '../services/menu.service';
 import {ActivatedRoute, Router} from "@angular/router";
+import {RestaurantService} from "../services/restaurant.service";
 
 
 @Component({
@@ -13,7 +14,8 @@ export class MenuFormComponent implements OnInit {
   menuFormGroup: FormGroup;
 
   constructor(private menuService: MenuService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              public restaurantService: RestaurantService) { }
 
   ngOnInit(): void {
     this.menuFormGroup = new FormGroup({
@@ -23,7 +25,8 @@ export class MenuFormComponent implements OnInit {
       category: new FormControl('', Validators.required),
       price: new FormControl('', Validators.maxLength(6)),
       status_available: new FormControl(''),
-      restaurant: new FormControl('', Validators.required)
+      restaurant: new FormControl('', Validators.required),
+      alcoholic: new FormControl('')
     });
     const pkFromUrl = this.route.snapshot.paramMap.get('pk');
     if (pkFromUrl) {
