@@ -9,7 +9,7 @@ import {Restaurant, RestaurantService} from '../services/restaurant.service';
 export class RestaurantListComponent implements OnInit {
 
   restaurants: Restaurant[];
-  displayedColumns = ['name'];
+  displayedColumns = ['name', 'edit', 'delete'];
 
   constructor(private restaurantService: RestaurantService) { }
 
@@ -21,6 +21,14 @@ export class RestaurantListComponent implements OnInit {
     this.restaurantService.getRestaurants()
       .subscribe((restaurants) => {
         this.restaurants = restaurants;
+      });
+  }
+
+  deleteRestaurant(restaurant: Restaurant): void {
+    this.restaurantService.deleteRestaurant(restaurant)
+      .subscribe(() => {
+        this.retrieveRestaurants();
+        alert('deleted successfully!');
       });
   }
 

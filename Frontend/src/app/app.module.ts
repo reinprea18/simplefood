@@ -16,6 +16,7 @@ import { LandingComponent } from './landing/landing.component';
 import { AuthService } from './services/auth.service';
 import {MenuListComponent} from "./menu-list/menu-list.component";
 import {MenuFormComponent} from "./menu-form/menu-form.component";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {MenuFormComponent} from "./menu-form/menu-form.component";
     MaterialModule,
     MatTableModule,
     FormsModule,
+    MatIconModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

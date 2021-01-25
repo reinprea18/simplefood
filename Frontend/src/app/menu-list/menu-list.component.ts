@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem, MenuService} from '../services/menu.service';
+import {OrderDetail, OrderService} from '../services/order.service';
 import {ActivatedRoute} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
 
@@ -11,9 +12,10 @@ import {Restaurant, RestaurantService} from '../services/restaurant.service';
 export class MenuListComponent implements OnInit {
 
   menuItems: MenuItem[];
-  displayedColumns = ['name', 'description', 'price'];
+  displayedColumns = ['name', 'description', 'price', 'add', 'edit', 'delete'];
 
   constructor(private menuService: MenuService,
+              private orderService: OrderService,
               private restaurantService: RestaurantService,
               private route: ActivatedRoute) { }
 
@@ -36,4 +38,19 @@ export class MenuListComponent implements OnInit {
         this.menuItems = menuItems;
       });
   }
+
+  private addToOrder(menuItem: MenuItem): void {
+    alert(menuItem.name + ' is added to the order');
+    this.orderService.addToOrder(menuItem)
+  }
+
+  deleteMenuItem(menuItem: MenuItem): void {
+    this.menuService.deleteMenuItem(menuItem)
+      .subscribe(() => {
+        this.retrieveMenuItems();
+        alert('deleted successfully!');
+      });
+  }
+
+
 }
