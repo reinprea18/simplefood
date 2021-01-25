@@ -10,7 +10,7 @@ export interface Restaurant {
   street_address: string;
   postcode: number;
   town: string;
-  // country: Country;
+  country: string;
 }
 
 @Injectable({
