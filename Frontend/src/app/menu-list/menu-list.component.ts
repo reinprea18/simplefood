@@ -3,6 +3,7 @@ import {MenuItem, MenuService} from '../services/menu.service';
 import {OrderDetail, OrderService} from '../services/order.service';
 import {ActivatedRoute} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-menu-list',
@@ -16,6 +17,7 @@ export class MenuListComponent implements OnInit {
 
   constructor(private menuService: MenuService,
               private orderService: OrderService,
+              private authService: AuthService,
               private restaurantService: RestaurantService,
               private route: ActivatedRoute) { }
 
