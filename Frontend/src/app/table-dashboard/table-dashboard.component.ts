@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Order} from "../services/order.service";
-import {ActivatedRoute} from "@angular/router";
+import {Order} from '../services/order.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-table-dashboard',
@@ -18,6 +18,11 @@ export class TableDashboardComponent implements OnInit {
     });
   }
 
+  get currenntOrders(): Order[] {
+    console.log(this.orders);
+    return this.orders;
+  }
+
   get completedOrders(): Order[] {
     return this.orders.filter(order => {
       return order.status === 'COMPLETED';
@@ -27,5 +32,6 @@ export class TableDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.data
       .subscribe((data: { orders: Order[] }) => this.orders = data.orders);
+    console.log(this.orders);
   }
 }

@@ -23,8 +23,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { TableComponent } from './table/table.component';
 import {IsTable} from './services/is-table.service';
 import { TableDashboardComponent } from './table-dashboard/table-dashboard.component';
-import {OrderListResolver} from './services/trip-list.resolver';
+import {OrderListResolver} from './services/order-list.resolver';
 import { OrderService } from './services/order.service';
+import { TableRequestComponent } from './table-request/table-request.component';
 
 // tslint:disable-next-line:typedef
 export function tokenGetter() {
@@ -46,6 +47,7 @@ export function tokenGetter() {
     SignUpComponent,
     TableComponent,
     TableDashboardComponent,
+    TableRequestComponent,
   ],
   imports: [
     BrowserModule,

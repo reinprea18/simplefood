@@ -11,11 +11,12 @@ import {SignUpComponent} from './sign-up/sign-up.component';
 import {TableComponent} from './table/table.component';
 import {IsTable} from './services/is-table.service';
 import {TableDashboardComponent} from './table-dashboard/table-dashboard.component';
-import {OrderListResolver} from './services/trip-list.resolver';
+import {OrderListResolver} from './services/order-list.resolver';
+import {TableRequestComponent} from "./table-request/table-request.component";
 
 
 const routes: Routes = [
-  {path: '', redirectTo: 'landing', pathMatch: 'full'},
+  {path: '', redirectTo: 'restaurant-list', pathMatch: 'full'},
   {path: 'restaurant-list', component: RestaurantListComponent},
   {path: 'restaurant-form', component: RestaurantFormComponent},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent},
@@ -35,9 +36,14 @@ const routes: Routes = [
       IsTable
     ],
     children: [
-      { path: '', component: TableDashboardComponent,
-      resolve: { orders: OrderListResolver }
-      }
+      {
+        path: '',
+        component: TableDashboardComponent,
+        resolve: { orders: OrderListResolver }
+      },
+      { path: 'request',
+        component: TableRequestComponent
+      },
     ]
   },
   { path: '', component: LandingComponent }

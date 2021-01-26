@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem, MenuService} from '../services/menu.service';
-import {OrderDetail, OrderService} from '../services/order.service';
+import {OrderService} from '../services/order.service';
 import {ActivatedRoute} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
-import {AuthService} from "../services/auth.service";
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-menu-list',
@@ -39,11 +39,6 @@ export class MenuListComponent implements OnInit {
       .subscribe((menuItems) => {
         this.menuItems = menuItems;
       });
-  }
-
-  private addToOrder(menuItem: MenuItem): void {
-    alert(menuItem.name + ' is added to the order');
-    this.orderService.addToOrder(menuItem)
   }
 
   deleteMenuItem(menuItem: MenuItem): void {

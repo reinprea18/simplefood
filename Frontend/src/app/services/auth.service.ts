@@ -3,24 +3,19 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {userError} from "@angular/compiler-cli/src/transformers/util";
 
 export interface User {
-  id: number;
+  user_id: string;
   username: string;
-  first_name: string;
-  last_name: string;
-  restaurant: string;
-  group: string;
+  permissions: string;
 }
 
 export const createUser = (data: any): User => {
   return {
-    id: data.id,
+    user_id: data.user_id,
     username: data.username,
-    first_name: data.first_name,
-    last_name: data.last_name,
-    restaurant: data.photo,
-    group: data.group,
+    permissions: data.permission,
   };
 };
 
@@ -64,7 +59,7 @@ export class AuthService {
     lastName: string,
     password: string,
     group: string,
-    photo: any
+    restaurant: string,
   ): Observable<User> {
     const url = '/api/sign_up/';
     const formData = new FormData();
@@ -74,7 +69,7 @@ export class AuthService {
     formData.append('password1', password);
     formData.append('password2', password);
     formData.append('group', group);
-    formData.append('photo', photo);
+    formData.append('restaurant', restaurant);
     return this.http.request<User>('POST', url, { body: formData });
   }
 
@@ -93,7 +88,17 @@ export class AuthService {
     const token = localStorage.getItem(this.accessTokenLocalStorageKey);
     const decodedToken = this.jwtHelperService.decodeToken(token);
     if (token) {
+      console.log(this.getUserData());
       return decodedToken;
+    }
+    return undefined;
+  }
+
+  getUserData(): User {
+    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
+    const decodedToken = this.jwtHelperService.decodeToken(token);
+    if (token) {
+      return this.jwtHelperService.decodeToken(token);
     }
     return undefined;
   }

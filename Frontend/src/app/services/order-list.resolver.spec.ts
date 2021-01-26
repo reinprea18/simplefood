@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { TripListResolver } from './trip-list.service';
+import {TripListResolver} from './trip-list.service';
 
 describe('TripListService', () => {
   let service: TripListResolver;
