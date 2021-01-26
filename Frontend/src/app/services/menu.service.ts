@@ -25,7 +25,7 @@ export class MenuService {
 
   getSingleMenu(restaurant: string): Observable<MenuItem[]> {
     // let restaurantPk;
-    // this.restaurantService.getRestaurantByName(restaurantpk).subscribe((restaurant) => {
+    // this.restaurantService.getRestaurantByName(restaurantPk).subscribe((restaurant) => {
     //  return this.http.get<MenuItem[]>('/api/menuitems/?restaurant=' + restaurant.pk);
     //  });
     return this.http.get<MenuItem[]>('/api/menuitems/?restaurant=' + restaurant);

@@ -1,16 +1,12 @@
 <div class="menu-list__form">
-  <table mat-table [dataSource]="menuItems" >
+
+  <table mat-table [dataSource]="menuItems">
+
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-
-    <!-- Description Column -->
-    <ng-container matColumnDef="description" >
-      <th mat-header-cell *matHeaderCellDef> Description </th>
-      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
 
     <!-- Price Column -->
@@ -21,11 +17,13 @@
 
 
     <!-- Add Column -->
+    <!--
     <ng-container matColumnDef="add">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
         <button mat-button color="primary" (click)="addToOrder(element)">+</button>
     </ng-container>
+    -->
 
     <!-- Edit Column -->
     <ng-container matColumnDef="edit">
@@ -42,6 +40,11 @@
         <button mat-button color="warn" (click)="deleteMenuItem(element)">Delete</button>
     </ng-container>
 
+    <!-- Description Column -->
+    <ng-container matColumnDef="description" >
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
