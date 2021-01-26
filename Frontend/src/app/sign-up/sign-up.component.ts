@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
+import {FormGroup} from "@angular/forms";
 
 class UserData{
   constructor(
@@ -26,7 +27,7 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
+    public authService: AuthService,
     private restaurantService: RestaurantService,
   ) {}
 
@@ -42,7 +43,7 @@ export class SignUpComponent implements OnInit {
       this.user.lastName,
       this.user.password,
       this.user.group,
-      this.user.restaurant ,
+      this.user.restaurant,
     ).subscribe(() => {
       this.router.navigateByUrl('/log-in');
     }, (error) => {
