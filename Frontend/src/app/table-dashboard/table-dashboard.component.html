@@ -1,0 +1,44 @@
+<div class="card mb-3">
+  <h4 class="card-header">Current Order</h4>
+  <div *ngIf="currentOrders.length > 0; then thenBlock; else elseBlock;"></div>
+  <ng-template #thenBlock>
+    <div class="card-body">
+      <ul class="list-unstyled">
+        <li class="media mb-3" *ngFor="let order of currentOrders">
+          <div class="media-body">
+            <h5 class="mt-0 mb-1">{{ order.employee.username }}</h5>
+            {{ order.order_date }} to {{ order.updated }}<br>
+            {{ order.status }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template #elseBlock>
+    <div class="card-body text-center">
+      No orders.
+    </div>
+  </ng-template>
+</div>
+<div class="card mb-3">
+  <h4 class="card-header">Recent Orders</h4>
+  <div *ngIf="completedOrders.length > 0; then thenBlock; else elseBlock;"></div>
+  <ng-template #thenBlock>
+    <div class="card-body">
+      <ul class="list-unstyled">
+        <li class="media mb-3" *ngFor="let order of completedOrders">
+          <div class="media-body">
+            <h5 class="mt-0 mb-1">{{ order.employee.username }}</h5>
+            {{ order.order_date }} to {{ order.updated }}<br>
+            {{ order.status }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template #elseBlock>
+    <div class="card-body text-center">
+      No orders.
+    </div>
+  </ng-template>
+</div>
