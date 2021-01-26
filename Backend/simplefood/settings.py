@@ -145,6 +145,9 @@ def custom_jwt_payload_handler(user):
     from rest_framework_jwt.utils import jwt_payload_handler
     jwt_paylout = jwt_payload_handler(user)
     jwt_paylout['permissions'] = dict.fromkeys(user.get_all_permissions())
+    jwt_paylout['restaurant'] = user.get_restaurant()
+    jwt_paylout['group'] = user.get_group()
+
     return jwt_paylout
 
 JWT_AUTH = {

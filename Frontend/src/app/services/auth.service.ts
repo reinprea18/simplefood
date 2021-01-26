@@ -9,6 +9,8 @@ export interface User {
   user_id: string;
   username: string;
   permissions: string;
+  restaurant: string;
+  group: string;
 }
 
 export const createUser = (data: any): User => {
@@ -16,6 +18,8 @@ export const createUser = (data: any): User => {
     user_id: data.user_id,
     username: data.username,
     permissions: data.permission,
+    restaurant: data.restaurant,
+    group: data.group,
   };
 };
 

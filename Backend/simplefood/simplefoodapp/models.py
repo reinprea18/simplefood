@@ -41,6 +41,11 @@ class CustomUser(AbstractUser):
     country = models.TextField(null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
     qr_code = models.ImageField(upload_to='qr_codes', blank=True)
+    def get_restaurant(self):
+        return self.restaurant.id
+
+    def get_group(self):
+        return self.group
 
 
 class MenuItem(models.Model):
