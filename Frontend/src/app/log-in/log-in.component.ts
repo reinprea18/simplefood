@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import {FormBuilder, Validators} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
 
-class UserData {
-  constructor(
-    public username?: string,
-    public password?: string
-  ) {}
-}
 
 @Component({
   selector: 'app-log-in',
@@ -16,21 +12,23 @@ class UserData {
   styleUrls: ['./log-in.component.scss']
 })
 export class LogInComponent implements OnInit {
-  user: UserData = new UserData();
+
+  loginFormGroup;
+
   constructor(
-    private router: Router,
+    private fb: FormBuilder, private http: HttpClient, private router: Router,
     private authService: AuthService
   ) {}
-  onSubmit(): void {
-    this.authService.logIn(
-      this.user.username, this.user.password
-    ).subscribe(user => {
-      this.router.navigateByUrl('');
-    }, (error) => {
-      console.error(error);
+
+
+  ngOnInit(): void {
+    this.loginFormGroup = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
-  ngOnInit(): void {
-  }
 
+  login(): void {
+    this.authService.login(this.loginFormGroup.value);
+  }
 }

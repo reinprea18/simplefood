@@ -25,6 +25,10 @@ class Restaurant(models.Model):
 
 
 class CustomUser(AbstractUser):
+    @property
+    def group(self):
+        groups = self.groups.all()
+        return groups[0].name if groups else None
 
     CHOICES_GENDER = (
         ('m', 'male'),
@@ -32,49 +36,11 @@ class CustomUser(AbstractUser):
         ('*', 'other')
     )
 
-    CHOICES_ROLES = (
-        ('m', 'masteradmin'),
-        ('r', 'restaurantadmin'),
-        ('e', 'employee'),
-        ('t', 'table')
-    )
     postcode = models.CharField(max_length=4, null=True, blank=True)
     town = models.TextField(null=True, blank=True)
     country = models.TextField(null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
-    role = models.CharField(max_length=1, choices=CHOICES_ROLES)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        token = Token.objects.get_or_create(user=self)
-        if self.role == 't':
-            qrcode_img = qrcode.make('http://127.0.0.1:8000/auth_user/user_auth/?token=' + token[0].key)
-            canvas = Image.new('RGB', (500, 500), 'white')
-            canvas.paste(qrcode_img)
-            fname = f'qr_code-{self.username}'+'.png'
-            buffer = BytesIO()
-            canvas.save(buffer,'PNG')
-            self.qr_code.save(fname, File(buffer), save=False)
-            canvas.close()
-            super().save(*args, **kwargs)
-
-    @property
-    def group(self):
-        groups = self.groups.all()
-        return groups[0].name if groups else None
-
-
-class UserPermissions(models.Model):
-
-    CHOICES_ROLES = (
-        ('r', 'restaurantadmin'),
-        ('e', 'employee'),
-        ('t', 'table')
-    )
-
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    permission = models.CharField(max_length=1, choices=CHOICES_ROLES)
+    qr_code = models.ImageField(upload_to='qr_codes', blank=True)
 
 
 class MenuItem(models.Model):
@@ -149,21 +115,21 @@ class Order(models.Model):
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,
-        related_name='trips_as_driver'
+        related_name='order_as_employee'
     )
     customer = models.ForeignKey( # new
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,
-        related_name='trips_as_rider'
+        related_name='order_as_customer'
     )
 
     def __str__(self):
         return f'{self.id}'
 
     def get_absolute_url(self):
-        return reverse('trip:trip_detail', kwargs={'trip_id': self.id})
+        return reverse('order:order_detail', kwargs={'order_id': self.id})
 
 
 class OrderDetail(models.Model):

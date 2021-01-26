@@ -1,30 +1,25 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-import { Observable } from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 export interface User {
+  id: number;
   username: string;
   first_name: string;
   last_name: string;
   restaurant: string;
-  role: string;
   group: string;
-}
-
-export interface Token {
-  access: string;
-  refresh: string;
 }
 
 export const createUser = (data: any): User => {
   return {
+    id: data.id,
     username: data.username,
     first_name: data.first_name,
     last_name: data.last_name,
-    restaurant: data.restaurant,
-    role: data.role,
+    restaurant: data.photo,
     group: data.group,
   };
 };
@@ -34,28 +29,33 @@ export const createUser = (data: any): User => {
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  readonly accessTokenLocalStorageKey = 'access_token';
+  isLoggedIn = new BehaviorSubject(false);
 
-  private static parseUserFromAccessToken(accessToken: string): User {
-    const [, payload, ] = accessToken.split('.');
-    const decoded = window.atob(payload);
-    return JSON.parse(decoded);
-  }
-
-  static getUser(): User {
-    const accessToken = this.getAccessToken();
-    if (accessToken) {
-      return this.parseUserFromAccessToken(accessToken);
-    }
-    return undefined;
-  }
-
-  static getAccessToken(): string {
-    const token = JSON.parse(window.localStorage.getItem('simplefood.auth'));
+  constructor(private http: HttpClient, private router: Router, private jwtHelperService: JwtHelperService) {
+    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
     if (token) {
-      return token.access;
+      console.log('Token expiration date: ' + this.jwtHelperService.getTokenExpirationDate(token));
+      const tokenValid = !this.jwtHelperService.isTokenExpired(token);
+      this.isLoggedIn.next(tokenValid);
     }
-    return undefined;
+  }
+
+  login(userData: { username: string, password: string }): void {
+    this.http.post('/api/api-token-auth/', userData)
+      .subscribe((res: any) => {
+        this.isLoggedIn.next(true);
+        localStorage.setItem('access_token', res.token);
+        this.router.navigate(['landing']);
+      }, () => {
+        alert('wrong username or password');
+      });
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.accessTokenLocalStorageKey);
+    this.isLoggedIn.next(false);
+    this.router.navigate(['/log-in']);
   }
 
   signUp(
@@ -64,8 +64,7 @@ export class AuthService {
     lastName: string,
     password: string,
     group: string,
-    restaurant: string,
-    role: string,
+    photo: any
   ): Observable<User> {
     const url = '/api/sign_up/';
     const formData = new FormData();
@@ -74,16 +73,32 @@ export class AuthService {
     formData.append('last_name', lastName);
     formData.append('password1', password);
     formData.append('password2', password);
-    formData.append('restaurant', restaurant);
-    formData.append('role', role);
     formData.append('group', group);
+    formData.append('photo', photo);
     return this.http.request<User>('POST', url, { body: formData });
   }
 
-  logIn(username: string, password: string): Observable<Token> {
-    const url = '/api/log_in/';
-    return this.http.post<Token>(url, { username, password }).pipe(
-      tap(token => localStorage.setItem('simplefood.auth', JSON.stringify(token)))
-    );
+  hasPermission(permission: string): boolean {
+    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
+    if (token) {
+      const decodedToken = this.jwtHelperService.decodeToken(token);
+      const permissions = decodedToken.permissions;
+      return permission in permissions;
+    }
+    return false;
+  }
+
+
+  getUser(): string {
+    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
+    const decodedToken = this.jwtHelperService.decodeToken(token);
+    if (token) {
+      return decodedToken;
+    }
+    return undefined;
+  }
+
+  getAccessToken(): any {
+    return localStorage.getItem(this.accessTokenLocalStorageKey);
   }
 }

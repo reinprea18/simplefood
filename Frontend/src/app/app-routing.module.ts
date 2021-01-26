@@ -5,12 +5,17 @@ import {RestaurantListComponent} from './restaurant-list/restaurant-list.compone
 import {RestaurantFormComponent} from './restaurant-form/restaurant-form.component';
 import {LandingComponent} from './landing/landing.component';
 import {LogInComponent} from './log-in/log-in.component';
-import {SignUpComponent} from './sign-up/sign-up.component';
 import {MenuListComponent} from './menu-list/menu-list.component';
-import {MenuFormComponent} from "./menu-form/menu-form.component";
+import {MenuFormComponent} from './menu-form/menu-form.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
+import {TableComponent} from './table/table.component';
+import {IsTable} from './services/is-table.service';
+import {TableDashboardComponent} from './table-dashboard/table-dashboard.component';
+import {OrderListResolver} from './services/trip-list.resolver';
+
 
 const routes: Routes = [
-  {path: '', redirectTo: 'restaurant-list', pathMatch: 'full'},
+  {path: '', redirectTo: 'landing', pathMatch: 'full'},
   {path: 'restaurant-list', component: RestaurantListComponent},
   {path: 'restaurant-form', component: RestaurantFormComponent},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent},
@@ -20,13 +25,30 @@ const routes: Routes = [
   {path: 'menu-list/:restaurant', component: MenuListComponent},
   {path: 'restaurantfood/:name', component: MenuListComponent},
   {path: 'log-in', component: LogInComponent},
-  {path: 'sign-up', component: SignUpComponent},
-  {path: 'landing', component: LandingComponent},
-  {path: 'restaurant-form/:pk', component: RestaurantFormComponent}
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'landing', component: LandingComponent },
+  {path: 'restaurant-form/:pk', component: RestaurantFormComponent},
+  {
+    path: 'table',
+    component: TableComponent,
+    canActivate: [
+      IsTable
+    ],
+    children: [
+      { path: '', component: TableDashboardComponent,
+      resolve: { orders: OrderListResolver }
+      }
+    ]
+  },
+  { path: '', component: LandingComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' })
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

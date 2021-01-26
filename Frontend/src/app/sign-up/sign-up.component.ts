@@ -11,7 +11,6 @@ class UserData{
     public password?: string,
     public group?: string,
     public restaurant?: string,
-    public role?: string,
   ) {
   }
 }
@@ -33,7 +32,6 @@ export class SignUpComponent implements OnInit {
 
   onChange(event): void {
     if (event.target.files && event.target.files.length > 0) {
-
     }
   }
 
@@ -44,8 +42,7 @@ export class SignUpComponent implements OnInit {
       this.user.lastName,
       this.user.password,
       this.user.group,
-      this.user.restaurant,
-      this.user.role,
+      this.user.restaurant ,
     ).subscribe(() => {
       this.router.navigateByUrl('/log-in');
     }, (error) => {

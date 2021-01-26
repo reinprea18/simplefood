@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import datetime
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -27,7 +28,7 @@ SECRET_KEY = '&p3=#9#ze(_0q7iaf-h=xp=g!u+oonl8sb-f=5i8dxbakg=n1b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'simplefood.simplefoodapp',
     'rest_framework',
-    'rest_framework.authtoken',
     'django_countries',
     'channels',
 ]
@@ -78,6 +78,8 @@ AUTH_USER_MODEL = 'simplefoodapp.CustomUser'
 
 WSGI_APPLICATION = 'simplefood.wsgi.application'
 
+ASGI_APPLICATION = 'simplefood.routing.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -111,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -124,32 +127,33 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'login'
-
-LOGOUT_URL = 'logout'
-
 STATIC_URL = '/static/'
 
+STATIC_ROOT = Path.joinpath(BASE_DIR, '../static')
+
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
-    'USER_ID_CLAIM': 'id',
+def custom_jwt_payload_handler(user):
+    from rest_framework_jwt.utils import jwt_payload_handler
+    jwt_paylout = jwt_payload_handler(user)
+    jwt_paylout['permissions'] = dict.fromkeys(user.get_all_permissions())
+    return jwt_paylout
+
+JWT_AUTH = {
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3),
+    'JWT_PAYLOAD_HANDLER': custom_jwt_payload_handler,
 }
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
-
-ASGI_APPLICATION = 'simplefood.routing.application'
 
 #JWT_AUTH = {
 #    'JWT_AUTH_HEADER_PREFIX': 'Bearer',

@@ -1,5 +1,7 @@
 from django.contrib import admin
 from . import models
+from .models import CustomUser
+from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 
 '''
 TODO: Implement movie, person and country model admins
@@ -15,7 +17,7 @@ Use list_display, search_fields and filters to accomplish following things:
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username',)
+    list_display = ('username', 'password', 'group')
     search_fields = ('username',)
 
 
@@ -35,7 +37,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'order_date', 'updated', 'customer', 'employee', 'total_price', 'status', 'restaurant', 'payment')
     fields = ('id', 'order_date', 'updated', 'customer', 'employee', 'total_price', 'status', 'restaurant', 'payment')
     search_fields = ('restaurant',)
-    list_filter = ('status', 'customer', 'employee', 'restaurant', 'status',)
+    list_filter = ('status',)
     readonly_fields = ('id', 'order_date', 'updated')
 
 

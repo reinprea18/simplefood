@@ -4,16 +4,21 @@ from django.shortcuts import redirect
 from rest_framework import viewsets, status, generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from . import serializers
 from . import models
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, DjangoModelPermissions
 
 from .models import Order
-from .serializers import CustomUserSerializer, LogInSerializer
+from .serializers import CustomUserSerializer
 
+
+class SignUpView(generics.CreateAPIView):
+
+    queryset = models.CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = (permissions.AllowAny,)
 
 class RestaurantViewSet(viewsets.ModelViewSet):
 
@@ -66,21 +71,20 @@ class MenuItemViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class OrderViewSet(viewsets.ModelViewSet):
-
+class OrderViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'id'
     lookup_url_kwarg = 'order_id'
     permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = serializers.NestedOrderSerializer
+    serializer_class = serializers.OrderSerializer
 
     def get_queryset(self):
         user = self.request.user
-        if user.group == 'employee':
-            return Order.objects.filter(
-                Q(status=Order.REQUESTED) | Q(employee=user)
-            )
         if user.group == 'customer':
-            return Order.objects.filter(customer=user)
+            return Order.objects.filter(
+                Q(status=Order.REQUESTED) | Q(table=user)
+            )
+        if user.group == 'employee':
+            return Order.objects.filter(employee=user)
         return Order.objects.none()
 
 
@@ -96,39 +100,32 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PaymentSerializer
 
 
-@api_view(['GET', 'POST'])
-def auth_user(request, *args, **kwargs):
-    try:
-        token = request.GET.get('token')
-    except models.CustomUser.DoesNotExist:
-        token = None
-    try:
-        user = models.CustomUser.objects.get(auth_token=token)
-    except models.CustomUser.DoesNotExist:
-        user = None
-    if token is not None:
-        if user is not None:
-            if user.role == 't':
-                user.backend = 'django.contrib.auth.backends.ModelBackend'
-                login(request, user)
-                return redirect('http://127.0.0.1:8000/')
-            else:
-                response = {'message': 'Your token is not a table token'}
-                return Response(response, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            response = {'message': 'No user with this token found'}
-            return Response(response, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        response = {'message': 'You need to provide a token'}
-        return Response(response, status=status.HTTP_400_BAD_REQUEST)
+#@api_view(['GET', 'POST'])
+#def auth_user(request, *args, **kwargs):
+ #   try:
+  #      token = request.GET.get('token')
+ #   except models.CustomUser.DoesNotExist:
+  #      token = None
+ #   try:
+ #       user = models.CustomUser.objects.get(auth_token=token)
+ #   except models.CustomUser.DoesNotExist:
+ #       user = None
+ #   if token is not None:
+ #       if user is not None:
+  #          if user.role == 't':
+  #              user.backend = 'django.contrib.auth.backends.ModelBackend'
+  #              login(request, user)
+  #              return redirect('http://127.0.0.1:8000/')
+  #          else:
+  #              response = {'message': 'Your token is not a table token'}
+   #             return Response(response, status=status.HTTP_400_BAD_REQUEST)
+   #     else:
+  #          response = {'message': 'No user with this token found'}
+  #          return Response(response, status=status.HTTP_400_BAD_REQUEST)
+ #   else:
+ #       response = {'message': 'You need to provide a token'}
+  #      return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
-
-class SignUpView(generics.CreateAPIView):
-    queryset = models.CustomUser
-    serializer_class = CustomUserSerializer
-
-class LogInView(TokenObtainPairView):
-    serializers_class = LogInSerializer
 
 #class MovieViewSet(viewsets.ModelViewSet):
 #

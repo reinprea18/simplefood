@@ -1,3 +1,12 @@
-<div class="mat-headline">Landing</div>
-<button mat-button routerLink="/log-in">Log In</button>
-<button mat-button routerLink="/sign_up">Sign Up</button>
+<div class="middle-center">
+  <h1 class="landing logo">SimpleFood</h1>
+  <div *ngIf="getUser(); then thenBlock; else elseBlock;"></div>
+  <ng-template #thenBlock>
+    <a class="btn btn-primary" [routerLink]="isTable() ? '/table' : '/employee'">Dashboard</a>
+    <button class="btn btn-primary" (click)="logOut()">Log out</button>
+  </ng-template>
+  <ng-template #elseBlock>
+    <a class="btn btn-primary" [routerLink]="['/log-in']">Log in</a>
+    <a class="btn btn-primary" [routerLink]="['/sign-up']">Sign up</a>
+  </ng-template>
+</div>
