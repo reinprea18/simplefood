@@ -73,7 +73,11 @@ export class AuthService {
     formData.append('password1', password);
     formData.append('password2', password);
     formData.append('group', group);
-    formData.append('restaurant', restaurant);
+    if(restaurant){
+      formData.append('restaurant', restaurant);
+    } else {
+      formData.append('restaurant', this.getUserData().restaurant);
+    }
     return this.http.request<User>('POST', url, { body: formData });
   }
 
@@ -102,6 +106,7 @@ export class AuthService {
     const token = localStorage.getItem(this.accessTokenLocalStorageKey);
     const decodedToken = this.jwtHelperService.decodeToken(token);
     if (token) {
+      console.log(this.jwtHelperService.decodeToken(token));
       return this.jwtHelperService.decodeToken(token);
     }
     return undefined;

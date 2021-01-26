@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {Restaurant, RestaurantService} from './restaurant.service';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {User} from "./auth.service";
+
 
 export interface MenuItem {
   pk: number;
@@ -45,6 +47,28 @@ export class MenuService {
 
   getMenuItemByName(name: string): Observable<MenuItem> {
     return this.http.get<MenuItem>('/api/menuitems/?name=' + name);
+  }
+
+  createOrUpdateMenu2(
+    name: string,
+    description: string,
+    category: string,
+    price: string,
+    status_available: string,
+    restaurant: string,
+    alcoholic: string,
+  ): Observable<User> {
+    const url = '/api/sign_up/';
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('price', price);
+    formData.append('status_available', status_available);
+    formData.append('restaurant', restaurant);
+    formData.append('alcoholic', alcoholic);
+
+    return this.http.request<User>('POST', url, { body: formData });
   }
 
 }

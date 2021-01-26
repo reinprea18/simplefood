@@ -15,7 +15,7 @@ export class LandingComponent {
   }
 
   isTable(): boolean {
-    return this.authService.hasPermission('simplefoodapp.add_order');
+    return this.authService.getUserData().group === 'table';
   }
 
   logOut(): void {

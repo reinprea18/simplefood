@@ -29,7 +29,7 @@
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button color="primary" [routerLink]="'/menu-form/'">Edit</button>
+        <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button color="primary" [routerLink]="'/menu-form/'">Edit</button>
       </td>
     </ng-container>
 
@@ -37,7 +37,7 @@
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button color="warn" (click)="deleteMenuItem(element)">Delete</button>
+        <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button color="warn" (click)="deleteMenuItem(element)">Delete</button>
     </ng-container>
 
     <!-- Description Column -->
