@@ -4,13 +4,13 @@ import {Observable} from 'rxjs';
 import {Country} from '@angular-material-extensions/select-country';
 
 export interface Restaurant {
-  pk: number;
+  pk?: number;
   name: string;
   description: string;
   street_address: string;
   postcode: number;
   town: string;
-  // country: Country;
+  country: string;
 }
 
 @Injectable({

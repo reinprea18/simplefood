@@ -158,7 +158,7 @@ class CustomerData(models.Model):
     street_address = models.CharField(max_length=64)
     postcode = models.CharField(max_length=4)
     town = models.CharField(max_length=64)
-    country = CountryField()
+    country = models.CharField(null=False, blank=False, max_length=64, default="Austria")
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='customer_datas', null=True)
 
     def __str__(self):

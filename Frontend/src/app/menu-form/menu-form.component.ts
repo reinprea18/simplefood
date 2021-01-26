@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MenuItem, MenuService} from '../services/menu.service';
 import {ActivatedRoute, Router} from "@angular/router";
-import {RestaurantService} from "../services/restaurant.service";
+import {Restaurant, RestaurantService} from "../services/restaurant.service";
 
 
 @Component({
@@ -12,12 +12,14 @@ import {RestaurantService} from "../services/restaurant.service";
 })
 export class MenuFormComponent implements OnInit {
   menuFormGroup: FormGroup;
+  restaurants: Restaurant[];
 
   constructor(private menuService: MenuService,
               private route: ActivatedRoute,
               public restaurantService: RestaurantService) { }
 
   ngOnInit(): void {
+    this.retrieveRestaurants();
     this.menuFormGroup = new FormGroup({
       pk: new FormControl(null),
       name: new FormControl('', Validators.required),
@@ -49,5 +51,12 @@ export class MenuFormComponent implements OnInit {
           alert('created successfully!');
         });
     }
+  }
+
+  private retrieveRestaurants(): void {
+    this.restaurantService.getRestaurants()
+      .subscribe((restaurants) => {
+        this.restaurants = restaurants;
+      });
   }
 }

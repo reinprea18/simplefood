@@ -46,4 +46,5 @@ export class MenuService {
   getMenuItemByName(name: string): Observable<MenuItem> {
     return this.http.get<MenuItem>('/api/menuitems/?name=' + name);
   }
+
 }
