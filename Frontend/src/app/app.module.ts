@@ -26,6 +26,7 @@ import { TableDashboardComponent } from './table-dashboard/table-dashboard.compo
 import {OrderListResolver} from './services/order-list.resolver';
 import { OrderService } from './services/order.service';
 import { TableRequestComponent } from './table-request/table-request.component';
+import {MatIconModule} from '@angular/material/icon';
 
 // tslint:disable-next-line:typedef
 export function tokenGetter() {
@@ -46,6 +47,7 @@ export function tokenGetter() {
     LogOutComponent,
     SignUpComponent,
     TableComponent,
+    LandingComponent,
     TableDashboardComponent,
     TableRequestComponent,
   ],
@@ -66,6 +68,7 @@ export function tokenGetter() {
         allowedDomains: ['localhost:4200']
       }
     }),
+    MatIconModule,
   ],
   providers: [AuthService, IsTable, OrderListResolver, OrderService],
   bootstrap: [AppComponent]

@@ -1,19 +1,16 @@
-<form [formGroup]="loginFormGroup" (ngSubmit)="login()">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
+<div class="signin-content">
+  <mat-card>
     <mat-card-content>
-      <mat-form-field>
-        <input matInput placeholder="Username" formControlName="username" name="username" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Password" formControlName="password" type="password" name="password"
-               required>
-      </mat-form-field>
+      <form [formGroup]="loginFormGroup" (ngSubmit)="login()">
+        <p>Please login to continue</p>
+        <mat-form-field class="full-width-input">
+          <input matInput placeholder="UserName" formControlName="username" name="username" required>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <input matInput placeholder="Password" formControlName="password" type="password" name="password" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary">Login</button>
+      </form>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button type="submit" color="primary">Login</button>
-    </mat-card-actions>
   </mat-card>
-</form>
+</div>

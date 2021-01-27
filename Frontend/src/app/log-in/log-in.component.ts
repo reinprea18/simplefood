@@ -14,6 +14,7 @@ import {HttpClient} from '@angular/common/http';
 export class LogInComponent implements OnInit {
 
   loginFormGroup;
+  private formSubmitAttempt: boolean;
 
   constructor(
     private fb: FormBuilder, private http: HttpClient, private router: Router,

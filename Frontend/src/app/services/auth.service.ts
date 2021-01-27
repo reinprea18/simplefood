@@ -98,7 +98,6 @@ export class AuthService {
     const token = localStorage.getItem(this.accessTokenLocalStorageKey);
     const decodedToken = this.jwtHelperService.decodeToken(token);
     if (token) {
-      console.log(this.getUserData());
       return decodedToken;
     }
     return undefined;

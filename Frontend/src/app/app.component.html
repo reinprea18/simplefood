@@ -1,29 +1,43 @@
-<mat-toolbar>
+<mat-sidenav-container fullscreen>
 
-  <div *ngIf="authService.getUser()">
-    {{authService.getUserData().username}}
-  </div>
+  <mat-sidenav mode="side" #sidenav closed position="start">
+    Order Items
+  </mat-sidenav>
+  <mat-sidenav-content>
 
-  <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
-  <mat-menu #restaurantMenu="matMenu">
-    <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
-    <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
-  </mat-menu>
-  <button *ngIf="authService.hasPermission('auth.view_group')" mat-button [matMenuTriggerFor]="foodMenu">Food</button>
-  <mat-menu #foodMenu="matMenu">
-    <button mat-menu-item routerLink="menu-list">List food</button>
-    <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-menu-item routerLink="menu-form">Create food</button>
-  </mat-menu>
-  <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button [matMenuTriggerFor]="userMenu">Users</button>
-  <mat-menu #userMenu="matMenu">
-    <button mat-menu-item routerLink="employee">List users</button>
-    <button mat-menu-item routerLink="sign-up">Create user</button>
-  </mat-menu>
+    <mat-toolbar color="primary">
+      <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-icon-button (click)="sidenav.toggle()" style="margin-left:10px">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button mat-button [disabled]="true" color="warn">
+        SimpleFood
+      </button>
+      <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
+      <mat-menu #restaurantMenu="matMenu">
+        <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
+        <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
+      </mat-menu>
+      <button *ngIf="authService.hasPermission('auth.view_group')" mat-button [matMenuTriggerFor]="foodMenu">Food</button>
+      <mat-menu #foodMenu="matMenu">
+        <button mat-menu-item routerLink="menu-list">List food</button>
+        <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-menu-item routerLink="menu-form">Create food</button>
+      </mat-menu>
+      <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button [matMenuTriggerFor]="userMenu">Users</button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="restaurant-list">List users</button>
+        <button mat-menu-item routerLink="sign-up">Create user</button>
+      </mat-menu>
+      <app-logout></app-logout>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-  <app-logout></app-logout>
-</mat-toolbar>
-
-
-<router-outlet></router-outlet>
+<span class="example-spacer"></span>
+<span flex></span>
+<div style="font-size: 15px">
+  <mat-icon style="font-size: 25px">person</mat-icon>
+  QA4\qa4user4
+</div>
 
 

@@ -1,3 +1,5 @@
-<button mat-menu-item (click)="logout()" *ngIf="isLoggedIn">
-  Logout
+
+<button mat-icon-button (click)="logout()" *ngIf="isLoggedIn" style="margin-right:80px">
+  <mat-icon>logout</mat-icon>
+  {{userService.getUserData().username}}
 </button>
