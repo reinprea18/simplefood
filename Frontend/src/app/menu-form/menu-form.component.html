@@ -1,4 +1,4 @@
-<form [formGroup]="menuFormGroup" (ngSubmit)="createOrUpdateMenu2()" class="menu-form__form">
+<form [formGroup]="menuFormGroup" (ngSubmit)="createOrUpdateMenu()" class="menu-form__form">
 
   <!-- MenuItem Name Field -->
   <mat-form-field>
@@ -14,7 +14,16 @@
 
   <!-- Category Field -->
   <mat-form-field>
-    <input [(ngModel)]="menuItem.category" matInput type="text" placeholder="Category" formControlName="category">
+    <!-- <input [(ngModel)]="menuItem.category" matInput type="text" placeholder="Category" formControlName="category"> -->
+    <mat-select>
+      <mat-option value="a"> Appetizer</mat-option>
+      <mat-option value="m"> Main Courses</mat-option>
+      <mat-option value="d"> Desserts</mat-option>
+      <mat-option value="b"> Beer</mat-option>
+      <mat-option value="w"> Wine</mat-option>
+      <mat-option value="s"> Soft Drinks</mat-option>
+      <mat-option value="c"> Cocktails</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <!-- Price Field -->

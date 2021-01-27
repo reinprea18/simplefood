@@ -1,4 +1,9 @@
 <mat-toolbar>
+
+  <div *ngIf="authService.getUser()">
+    {{authService.getUserData().username}}
+  </div>
+
   <button mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
   <mat-menu #restaurantMenu="matMenu">
     <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
@@ -14,7 +19,11 @@
     <button mat-menu-item routerLink="restaurant-list">List users</button>
     <button mat-menu-item routerLink="sign-up">Create user</button>
   </mat-menu>
+
   <app-logout></app-logout>
 </mat-toolbar>
 
+
 <router-outlet></router-outlet>
+
+
