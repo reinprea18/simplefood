@@ -9,6 +9,12 @@
     <button mat-menu-item routerLink="menu-list">List food</button>
     <button mat-menu-item routerLink="menu-form">Create food</button>
   </mat-menu>
+  <button mat-button [matMenuTriggerFor]="userMenu">Users</button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item routerLink="restaurant-list">List users</button>
+    <button mat-menu-item routerLink="sign-up">Create user</button>
+  </mat-menu>
+  <app-logout></app-logout>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
