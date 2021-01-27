@@ -9,11 +9,18 @@ import {AuthService, User} from "../services/auth.service";
 export class EmployeeComponent implements OnInit {
 
   users: User[];
-  displayedColumns = ['username', 'first_name', 'last_name'];
+  displayedColumns = ['username', 'first_name', 'last_name', 'group'];
   constructor( public authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getUsers();
+    this.fetchUsers();
+  }
+
+  fetchUsers(){
+    this.authService.getUsers()
+      .subscribe((users) => {
+        this.users = users;
+      });
   }
 
 }
