@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {userError} from "@angular/compiler-cli/src/transformers/util";
 
 export interface User {
   user_id: string;
@@ -27,6 +26,8 @@ export const createUser = (data: any): User => {
   providedIn: 'root'
 })
 export class AuthService {
+
+  permissionGroups: string[] = ['restaurantadmin', 'employee', 'table'];
 
   readonly accessTokenLocalStorageKey = 'access_token';
   isLoggedIn = new BehaviorSubject(false);
@@ -68,25 +69,12 @@ export class AuthService {
     const url = '/api/sign_up/';
     const formData = new FormData();
     formData.append('username', username);
-    if(firstName) {
-      formData.append('first_name', firstName);
-    } else {
-      formData.append('first_name', this.getUserData().restaurant);
-    }
-    if(lastName) {
-      formData.append('last_name', lastName);
-      if(group == 'restaurantadmin'){
-        formData.append('group', 'restaurantadmin');
-      } else{
-        formData.append('group', 'employee');
-      }
-    } else {
-      formData.append('last_name', 'table');
-      formData.append('group', 'table');
-    }
+    formData.append('first_name', firstName);
+    formData.append('last_name', lastName);
+    formData.append('group', group);
     formData.append('password1', password);
     formData.append('password2', password);
-    if(restaurant){
+    if (restaurant) {
       formData.append('restaurant', restaurant);
     } else {
       formData.append('restaurant', this.getUserData().restaurant);
