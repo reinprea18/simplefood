@@ -36,7 +36,7 @@ export class MenuFormComponent implements OnInit {
     });
     const pkFromUrl = this.route.snapshot.paramMap.get('pk');
     if (pkFromUrl) {
-      this.menuService.getMenuItemByName(pkFromUrl)
+      this.menuService.getMenuItemById(parseInt(pkFromUrl, 10))
         .subscribe((menuItem) => {
           this.menuFormGroup.patchValue(menuItem);
         });

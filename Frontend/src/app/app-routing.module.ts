@@ -24,6 +24,7 @@ const routes: Routes = [
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
   {path: 'menu-list', component: MenuListComponent, canActivate: [AuthGuard]},
   {path: 'menu-form', component: MenuFormComponent, canActivate: [AuthGuard]},
+  {path: 'menu-form/:pk', component: MenuFormComponent, canActivate: [AuthGuard]},
   {path: 'menu-list/:restaurant', component: MenuListComponent, canActivate: [AuthGuard]},
   {path: 'restaurantfood/:name', component: MenuListComponent, canActivate: [AuthGuard]},
   {path: 'log-in', component: LogInComponent},
