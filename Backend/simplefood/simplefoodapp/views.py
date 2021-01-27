@@ -51,6 +51,15 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.CustomUserSerializer
 
+    def list(self, request):
+        restaurant = request.GET.get("restaurant")
+        queryset = self.filter_queryset(self.get_queryset())
+        if restaurant is None:
+            serializer = self.serializer_class(queryset, many=True)
+        else:
+            serializer = self.serializer_class(queryset.filter(restaurant__pk=restaurant), many=True)
+        return Response(serializer.data)
+
 
 class CustomTableViewSet(viewsets.ModelViewSet):
 

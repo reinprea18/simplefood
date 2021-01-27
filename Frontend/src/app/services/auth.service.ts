@@ -120,4 +120,8 @@ export class AuthService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>('/api/users/');
   }
+
+  getUsersFromRestaurant(pk: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/?restaurant=' + pk);
+  }
 }

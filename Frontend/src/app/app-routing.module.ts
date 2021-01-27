@@ -31,6 +31,7 @@ const routes: Routes = [
   {path: 'landing', component: LandingComponent, canActivate: [AuthGuard]},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
   {path: 'employee', component: EmployeeComponent, canActivate: [AuthGuard]},
+  {path: 'employee/:pk', component: EmployeeComponent, canActivate: [AuthGuard]},
   {
     path: 'table',
     component: TableComponent,
