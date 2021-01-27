@@ -32,13 +32,14 @@
   </mat-form-field>
 
   <!-- Status Field -->
-  <mat-checkbox class="example-margin"  formControlName="available">Available</mat-checkbox>
+  <mat-checkbox class="example-margin" checked="checked" formControlName="available">Available</mat-checkbox>
 
   <!-- Restaurant Field -->
   <!-- <mat-form-field>
     <input matInput type="text" [value]="restaurant.name" formControlName="restaurant">
   </mat-form-field>
   -->
+
 
   <!-- Alcoholic Field -->
   <mat-checkbox class="example-margin" formControlName="alcoholic">Alcoholic</mat-checkbox>
@@ -50,6 +51,7 @@
       <span *ngIf="menuFormGroup.controls.pk.value">Update</span>
     </button>
   </mat-card-actions>
+
 
 
 </form>

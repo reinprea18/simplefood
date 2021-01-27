@@ -27,7 +27,7 @@ import {OrderListResolver} from './services/order-list.resolver';
 import { OrderService } from './services/order.service';
 import { TableRequestComponent } from './table-request/table-request.component';
 import {MatIconModule} from '@angular/material/icon';
-import {AuthGuard} from "./guards/auth.guard";
+import {AuthGuard} from './guards/auth.guard';
 
 // tslint:disable-next-line:typedef
 export function tokenGetter() {

@@ -10,7 +10,7 @@ import {AuthService} from "../services/auth.service";
 export class RestaurantListComponent implements OnInit {
 
   restaurants: Restaurant[];
-  displayedColumns = ['name', 'edit', 'delete'];
+  displayedColumns = ['name', 'menu', 'edit', 'delete'];
 
   constructor(private restaurantService: RestaurantService,
               private authService: AuthService,) { }

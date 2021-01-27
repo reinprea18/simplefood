@@ -24,6 +24,8 @@ class RestaurantViewSet(viewsets.ModelViewSet):
 
     queryset = models.Restaurant.objects.all()
     serializer_class = serializers.RestaurantSerializer
+    ordering_fields = '__all__'
+    ordering = ['name']
 
     def list(self, request):
         name = request.GET.get("name")
@@ -67,7 +69,7 @@ class MenuItemViewSet(viewsets.ModelViewSet):
         if restaurant is None:
             serializer = self.serializer_class(queryset, many=True)
         else:
-            serializer = self.serializer_class(queryset.filter(restaurant__name=restaurant), many=True)
+            serializer = self.serializer_class(queryset.filter(restaurant__pk=restaurant), many=True)
         return Response(serializer.data)
 
 
