@@ -12,22 +12,23 @@ import {TableComponent} from './table/table.component';
 import {IsTable} from './services/is-table.service';
 import {TableDashboardComponent} from './table-dashboard/table-dashboard.component';
 import {OrderListResolver} from './services/order-list.resolver';
-import {TableRequestComponent} from "./table-request/table-request.component";
+import {TableRequestComponent} from './table-request/table-request.component';
+import {AuthGuard} from './guards/auth.guard';
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'restaurant-list', pathMatch: 'full'},
-  {path: 'restaurant-list', component: RestaurantListComponent},
-  {path: 'restaurant-form', component: RestaurantFormComponent},
-  {path: 'restaurant-form/:pk', component: RestaurantFormComponent},
-  {path: 'menu-list', component: MenuListComponent},
-  {path: 'menu-form', component: MenuFormComponent},
-  {path: 'menu-list/:restaurant', component: MenuListComponent},
-  {path: 'restaurantfood/:name', component: MenuListComponent},
+  {path: 'restaurant-list', component: RestaurantListComponent, canActivate: [AuthGuard]},
+  {path: 'restaurant-form', component: RestaurantFormComponent, canActivate: [AuthGuard]},
+  {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
+  {path: 'menu-list', component: MenuListComponent, canActivate: [AuthGuard]},
+  {path: 'menu-form', component: MenuFormComponent, canActivate: [AuthGuard]},
+  {path: 'menu-list/:restaurant', component: MenuListComponent, canActivate: [AuthGuard]},
+  {path: 'restaurantfood/:name', component: MenuListComponent, canActivate: [AuthGuard]},
   {path: 'log-in', component: LogInComponent},
-  { path: 'sign-up', component: SignUpComponent },
-  { path: 'landing', component: LandingComponent },
-  {path: 'restaurant-form/:pk', component: RestaurantFormComponent},
+  {path: 'sign-up', component: SignUpComponent, canActivate: [AuthGuard]},
+  {path: 'landing', component: LandingComponent, canActivate: [AuthGuard]},
+  {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
   {
     path: 'table',
     component: TableComponent,

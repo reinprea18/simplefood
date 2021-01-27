@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 class UserData{
   constructor(
@@ -25,6 +25,8 @@ export class SignUpComponent implements OnInit {
   user: UserData = new UserData();
   restaurants: Restaurant[];
   disableSelect = new FormControl(false);
+  permissionGroups: string[];
+  userFormGroup: FormGroup;
 
   constructor(
     private router: Router,
@@ -39,12 +41,12 @@ export class SignUpComponent implements OnInit {
 
   onSubmit(): void {
     this.authService.signUp(
-      this.user.username,
-      this.user.firstName,
-      this.user.lastName,
-      this.user.password,
-      this.user.group,
-      this.user.restaurant,
+      this.userFormGroup.value.username,
+      this.userFormGroup.value.first_name,
+      this.userFormGroup.value.last_name,
+      this.userFormGroup.value.password,
+      this.userFormGroup.value.permissionGroup,
+      this.userFormGroup.value.restaurant,
     ).subscribe(() => {
       this.router.navigateByUrl('/landing');
     }, (error) => {
@@ -54,6 +56,17 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.retrieveRestaurants();
+    this.permissionGroups = this.authService.permissionGroups;
+
+    this.userFormGroup = new FormGroup({
+      pk: new FormControl(null),
+      restaurant: new FormControl(null),
+      permissionGroup: new FormControl(null, Validators.required),
+      username: new FormControl('', Validators.required),
+      first_name: new FormControl(''),
+      last_name: new FormControl(''),
+      password: new FormControl('')
+    });
   }
 
   private retrieveRestaurants(): void {
