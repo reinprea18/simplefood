@@ -14,6 +14,7 @@ import {TableDashboardComponent} from './table-dashboard/table-dashboard.compone
 import {OrderListResolver} from './services/order-list.resolver';
 import {TableRequestComponent} from './table-request/table-request.component';
 import {AuthGuard} from './guards/auth.guard';
+import {EmployeeComponent} from "./employee/employee.component";
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path: 'sign-up', component: SignUpComponent, canActivate: [AuthGuard]},
   {path: 'landing', component: LandingComponent, canActivate: [AuthGuard]},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
+  {path: 'employee', component: EmployeeComponent, canActivate: [AuthGuard]},
   {
     path: 'table',
     component: TableComponent,

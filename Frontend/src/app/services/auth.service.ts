@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {Restaurant} from "./restaurant.service";
 
 export interface User {
   user_id: string;
@@ -115,5 +116,9 @@ export class AuthService {
 
   getAccessToken(): any {
     return localStorage.getItem(this.accessTokenLocalStorageKey);
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/');
   }
 }

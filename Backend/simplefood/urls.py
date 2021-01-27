@@ -38,7 +38,7 @@ from simplefood.simplefoodapp.views import SignUpView
 router = routers.DefaultRouter()
 router.register(r'restaurants', views.RestaurantViewSet)
 router.register(r'menuitems', views.MenuItemViewSet)
-# router.register(r'users', views.CustomUserViewSet)
+router.register(r'users', views.CustomUserViewSet)
 # router.register(r'orders', views.OrderViewSet)
 
 urlpatterns = [
