@@ -24,13 +24,13 @@
       </mat-menu>
       <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button [matMenuTriggerFor]="userMenu">Users</button>
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item routerLink="restaurant-list">List users</button>
+        <button mat-menu-item routerLink="employee">List users</button>
         <button mat-menu-item routerLink="sign-up">Create user</button>
       </mat-menu>
+      <span class="example-spacer"></span>
       <app-logout></app-logout>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
 
