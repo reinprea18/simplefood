@@ -22,7 +22,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
-    restaurant = RestaurantSerializer(many=False)
+    #restaurant = RestaurantSerializer(many=False)
 
     class Meta:
         model = models.MenuItem
