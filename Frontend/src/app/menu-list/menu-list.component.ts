@@ -13,6 +13,7 @@ import {AuthService} from '../services/auth.service';
 export class MenuListComponent implements OnInit {
 
   menuItems: MenuItem[];
+  restaurant: Restaurant;
   displayedColumns = ['name', 'price', 'edit', 'delete', 'description'];
 
   constructor(private menuService: MenuService,
@@ -22,6 +23,7 @@ export class MenuListComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.getRestaurant(parseInt(this.authService.getUserData().restaurant, 10))
     const pkFromUrl = this.route.snapshot.paramMap.get('restaurant');
     if (pkFromUrl) {
       this.menuService.getSingleMenu(pkFromUrl)
@@ -48,6 +50,14 @@ export class MenuListComponent implements OnInit {
         alert('deleted successfully!');
       });
   }
+
+  private getRestaurant(pk: number): void {
+    this.restaurantService.getRestaurant(pk)
+      .subscribe((restaurant) => {
+        this.restaurant = restaurant;
+      });
+  }
+
 
 
 }
