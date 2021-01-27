@@ -4,17 +4,17 @@
     {{authService.getUserData().username}}
   </div>
 
-  <button mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
+  <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
   <mat-menu #restaurantMenu="matMenu">
     <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
     <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
   </mat-menu>
-  <button mat-button [matMenuTriggerFor]="foodMenu">Food</button>
+  <button *ngIf="authService.hasPermission('auth.view_group')" mat-button [matMenuTriggerFor]="foodMenu">Food</button>
   <mat-menu #foodMenu="matMenu">
     <button mat-menu-item routerLink="menu-list">List food</button>
-    <button mat-menu-item routerLink="menu-form">Create food</button>
+    <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-menu-item routerLink="menu-form">Create food</button>
   </mat-menu>
-  <button mat-button [matMenuTriggerFor]="userMenu">Users</button>
+  <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button [matMenuTriggerFor]="userMenu">Users</button>
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item routerLink="restaurant-list">List users</button>
     <button mat-menu-item routerLink="sign-up">Create user</button>
