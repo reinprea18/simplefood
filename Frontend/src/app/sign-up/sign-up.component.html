@@ -9,6 +9,7 @@
 
           <div class="form-group">
             <label for="restaurant" *ngIf="authService.hasPermission('simplefoodapp.add_auth')">Restaurant:</label>
+            <mat-form-field>
             <select *ngIf="authService.hasPermission('simplefoodapp.add_auth')"
               id="restaurant"
               class="form-control"
@@ -21,14 +22,16 @@
               </option>
 
             </select>
+            </mat-form-field>
 
           </div>
 
 
 
           <div class="form-group">
-            <label>Group:</label>
-            <select
+            <label *ngIf="authService.hasPermission('simplefoodapp.add_auth')">Group:</label>
+            <mat-form-field>
+            <select *ngIf="authService.hasPermission('simplefoodapp.add_auth')"
               class="form-control"
               [(ngModel)]="user.group"
               name="group"
@@ -38,6 +41,7 @@
               <option value="employee">Employee</option>
               <option value="table">Table</option>
             </select>
+            </mat-form-field>
           </div>
 
           <div class="form-group">
@@ -51,31 +55,41 @@
               required
             >
           </div>
-          <div class="form-group">
+          <mat-form-field>
+          <input [formControl]="disableSelect" type="checkbox" id="cb1" ng-model="check" ng-change="checkAll(check)" [(ngModel)]="user.group" ng-true-value="table" ng-false-value="employee"/> Is Table
+          </mat-form-field>
+
+          <div class="form-field">
             <label for="firstName">First name:</label>
-            <input
-              id="firstName"
-              class="form-control"
-              type="text"
-              [(ngModel)]="user.firstName"
-              name="firstName"
-              required
-            >
+            <mat-form-field>
+            <input [disabled]="disableSelect.value"
+                   id="firstName"
+                   class="form-control"
+                   type="text"
+                   [(ngModel)]="user.firstName"
+                   name="firstName"
+                   required>
+            </mat-form-field>
           </div>
 
-          <div class="form-group">
+          <div class="form-field">
             <label for="lastName">Last name:</label>
-            <input
-              id="lastName"
-              class="form-control"
-              type="text"
-              [(ngModel)]="user.lastName"
-              name="lastName"
-              required
-            >
+            <mat-form-field>
+            <input [disabled]="disableSelect.value"
+                   id="lastName"
+                   class="form-control"
+                   type="text"
+                   [(ngModel)]="user.lastName"
+                   name="lastName"
+                   required>
+            </mat-form-field>
           </div>
+
+
+
           <div class="form-group">
             <label for="password">Password:</label>
+            <mat-form-field>
             <input
               id="password"
               class="form-control" type="password"
@@ -83,10 +97,11 @@
               name="password"
               required
             >
+            </mat-form-field>
           </div>
           <button
             button mat-raised-button type="submit" class="btn btn-primary" color="primary"
-            [disabled]="false"
+            [disabled]="false" *ngIf="authService.hasPermission('admin.add_logentry')"
           >Sign up
           </button>
         </form>

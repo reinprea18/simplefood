@@ -68,11 +68,21 @@ export class AuthService {
     const url = '/api/sign_up/';
     const formData = new FormData();
     formData.append('username', username);
-    formData.append('first_name', firstName);
-    formData.append('last_name', lastName);
+    if(firstName) {
+      formData.append('first_name', firstName);
+    } else {
+      formData.append('first_name', this.getUserData().restaurant);
+    }
+    if(lastName) {
+      formData.append('last_name', lastName);
+      formData.append('group', 'employee');
+    } else {
+      formData.append('last_name', 'table');
+      formData.append('group', 'table');
+    }
     formData.append('password1', password);
     formData.append('password2', password);
-    formData.append('group', group);
+
     if(restaurant){
       formData.append('restaurant', restaurant);
     } else {

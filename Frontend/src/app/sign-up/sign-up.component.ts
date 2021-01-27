@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
-import {FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 
 class UserData{
   constructor(
@@ -24,6 +24,7 @@ class UserData{
 export class SignUpComponent implements OnInit {
   user: UserData = new UserData();
   restaurants: Restaurant[];
+  disableSelect = new FormControl(false);
 
   constructor(
     private router: Router,
@@ -45,7 +46,7 @@ export class SignUpComponent implements OnInit {
       this.user.group,
       this.user.restaurant,
     ).subscribe(() => {
-      this.router.navigateByUrl('/log-in');
+      this.router.navigateByUrl('/landing');
     }, (error) => {
       console.error(error);
     });
