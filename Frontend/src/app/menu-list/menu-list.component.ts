@@ -14,7 +14,7 @@ export class MenuListComponent implements OnInit {
 
   menuItems: MenuItem[];
   restaurant: Restaurant;
-  displayedColumns = ['name', 'price', 'edit', 'delete', 'description'];
+  displayedColumns = ['name', 'price', 'edit', 'delete', 'add', 'description'];
 
   constructor(private menuService: MenuService,
               private orderService: OrderService,
