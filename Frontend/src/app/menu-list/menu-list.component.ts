@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem, MenuService} from '../services/menu.service';
 import {OrderService} from '../services/order.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
 import {AuthService} from '../services/auth.service';
 
@@ -20,19 +20,30 @@ export class MenuListComponent implements OnInit {
               private orderService: OrderService,
               private authService: AuthService,
               private restaurantService: RestaurantService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.getRestaurant(parseInt(this.authService.getUserData().restaurant, 10))
+    this.getRestaurant(parseInt(this.authService.getUserData().restaurant, 10));
     const pkFromUrl = this.route.snapshot.paramMap.get('restaurant');
-    if (pkFromUrl) {
+    if (pkFromUrl && this.authService.getUserData().group == null) {
       this.menuService.getSingleMenu(pkFromUrl)
         .subscribe((menu) => {
           this.menuItems = menu;
         });
     }
-    else {
+    else if (this.authService.getUserData().group == null) {
       this.retrieveMenuItems();
+    }
+    else if (pkFromUrl) {
+      this.menuService.getSingleMenu(this.authService.getUserData().restaurant)
+        .subscribe((menu) => {
+          this.menuItems = menu;
+        });
+      // this.router.navigate(['/menu-form/']);
+    }
+    else {
+      this.router.navigate(['/menu-list/' + this.authService.getUserData().restaurant]);
     }
   }
 

@@ -3,7 +3,7 @@
 
   <div *ngIf="getUser(); then thenBlock; else elseBlock;"></div>
   <ng-template #thenBlock>
-    <button mat-raised-button type="submit" class="btn btn-primary" color="primary" [routerLink]="isTable() ? '/menu-list' : '/employee'">Head to Dashboard</button>
+    <button mat-raised-button type="submit" class="btn btn-primary" color="primary" [routerLink]="isTable() ? '/menu-list' : '/orders'">Head to Dashboard</button>
     <p></p>
     <button mat-raised-button type="submit" class="btn btn-primary" color="primary" [routerLink]="['/sign-up']" *ngIf="authService.hasPermission('admin.add_logentry')">Register User Or Table</button>
     <p></p>
