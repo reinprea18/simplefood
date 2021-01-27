@@ -35,7 +35,7 @@
             >
               <option value="restaurantadmin">Restaurant Admin</option>
               <option value="employee">Employee</option>
-              <option value="table">Table</option>
+              <option *ngIf="!authService.hasPermission('simplefoodapp.add_auth')"> value="table">Table</option>
             </select>
           </div>
 
@@ -50,9 +50,9 @@
               required
             >
           </div>
-
-          <input [formControl]="disableSelect" type="checkbox" id="cb1" ng-model="check" ng-change="checkAll(check)" [(ngModel)]="user.group" ng-true-value="table" ng-false-value="employee"/> Is Table
-
+<field *ngIf="!authService.hasPermission('simplefoodapp.add_auth')">
+          <input  [formControl]="disableSelect" type="checkbox" id="cb1" ng-model="check" ng-change="checkAll(check)" [(ngModel)]="user.group" ng-true-value="table" ng-false-value="employee"/> Is Table
+</field>
           <div class="form-field">
             <label for="firstName">First name:</label>
             <input [disabled]="disableSelect.value"

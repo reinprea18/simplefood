@@ -75,14 +75,17 @@ export class AuthService {
     }
     if(lastName) {
       formData.append('last_name', lastName);
-      formData.append('group', 'employee');
+      if(group == 'restaurantadmin'){
+        formData.append('group', 'restaurantadmin');
+      } else{
+        formData.append('group', 'employee');
+      }
     } else {
       formData.append('last_name', 'table');
       formData.append('group', 'table');
     }
     formData.append('password1', password);
     formData.append('password2', password);
-
     if(restaurant){
       formData.append('restaurant', restaurant);
     } else {
