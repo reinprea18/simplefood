@@ -20,7 +20,6 @@ const routes: Routes = [
   {path: 'restaurant-list', component: RestaurantListComponent},
   {path: 'restaurant-form', component: RestaurantFormComponent},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent},
-  {path: 'restaurant-form/:name', component: RestaurantFormComponent},
   {path: 'menu-list', component: MenuListComponent},
   {path: 'menu-form', component: MenuFormComponent},
   {path: 'menu-list/:restaurant', component: MenuListComponent},
@@ -57,4 +56,5 @@ const routes: Routes = [
     RouterModule
   ]
 })
+
 export class AppRoutingModule { }

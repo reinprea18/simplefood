@@ -28,17 +28,13 @@
   </mat-form-field>
 
   <!-- Country Field -->
-
   <mat-form-field>
-    <input matInput type="text" placeholder="Country" formControlName="country">
+    <mat-select placeholder="Country" formControlName="country">
+      <mat-option [value]="countryOption.name"
+                  *ngFor="let countryOption of countryOptions">{{countryOption.name}}</mat-option>
+    </mat-select>
+    <mat-hint align="end">The country of the restaurant</mat-hint>
   </mat-form-field>
-
-  <!--
-  <mat-select-country label="Country"
-                      formControlName="country"
-                      [countries]="countryService.predefinedCountries">
-  </mat-select-country>
--->
 
   <br/>
   <mat-card-actions align="center">

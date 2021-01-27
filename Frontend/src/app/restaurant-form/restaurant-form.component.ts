@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CountryService} from '../services/country.service';
+import {Country, CountryService} from '../services/country.service';
 
 @Component({
   selector: 'app-restaurant-form',
@@ -12,6 +12,7 @@ import {CountryService} from '../services/country.service';
 export class RestaurantFormComponent implements OnInit {
 
   restaurantFormGroup: FormGroup;
+  countryOptions: Country[];
 
   constructor(private restaurantService: RestaurantService,
               private route: ActivatedRoute,
@@ -20,6 +21,8 @@ export class RestaurantFormComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.countryOptions = this.countryService.predefinedCountries;
+
     this.restaurantFormGroup = new FormGroup({
       pk: new FormControl(null),
       name: new FormControl('', Validators.required),
@@ -27,20 +30,15 @@ export class RestaurantFormComponent implements OnInit {
       street_address: new FormControl(''),
       postcode: new FormControl('', Validators.maxLength(4)),
       town: new FormControl(''),
-      country: new FormControl(null)
+      country: new FormControl(this.countryOptions[0].name)
     });
 
     const pkFromUrl = this.route.snapshot.paramMap.get('pk');
     if (pkFromUrl) {
-      this.restaurantService.getRestaurantByName(pkFromUrl)
+      this.restaurantService.getRestaurant(parseInt(pkFromUrl, 10))
         .subscribe((restaurant) => {
           this.restaurantFormGroup.patchValue(restaurant);
         });
-
-      // this.restaurantService.getRestaurant(parseInt(pkFromUrl, 10))
-      //  .subscribe((restaurant) => {
-      //    this.restaurantFormGroup.patchValue(restaurant);
-      //  });
     }
   }
 
@@ -55,7 +53,7 @@ export class RestaurantFormComponent implements OnInit {
       this.restaurantService.createRestaurant(this.restaurantFormGroup.value)
         .subscribe((restaurant) => {
           alert('created successfully!');
-          // this.router.navigate(['/restaurant-form/' + restaurant.pk]);
+          this.router.navigate(['/restaurant-list/']);
         });
     }
   }

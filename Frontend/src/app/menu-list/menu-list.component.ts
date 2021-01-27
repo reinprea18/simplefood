@@ -13,7 +13,7 @@ import {AuthService} from '../services/auth.service';
 export class MenuListComponent implements OnInit {
 
   menuItems: MenuItem[];
-  displayedColumns = ['name', 'description', 'price', 'add', 'edit', 'delete'];
+  displayedColumns = ['name', 'price', 'edit', 'delete', 'description'];
 
   constructor(private menuService: MenuService,
               private orderService: OrderService,
