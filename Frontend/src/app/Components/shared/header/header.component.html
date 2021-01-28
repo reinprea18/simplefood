@@ -11,11 +11,18 @@
         <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
         <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
       </mat-menu>
+
+      <button *ngIf="authService.hasPermission('auth.change_group')" mat-button [matMenuTriggerFor]="orderMenu">Orders</button>
+      <mat-menu #orderMenu="matMenu">
+        <button mat-menu-item routerLink="orders">List orders</button>
+      </mat-menu>
+
       <button *ngIf="authService.hasPermission('auth.view_group')" mat-button [matMenuTriggerFor]="foodMenu">Food</button>
       <mat-menu #foodMenu="matMenu">
         <button mat-menu-item routerLink="menu-list">List food</button>
         <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-menu-item routerLink="menu-form">Create food</button>
       </mat-menu>
+
       <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button [matMenuTriggerFor]="userMenu">Users</button>
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="employee">List users</button>

@@ -43,7 +43,7 @@ export class SignUpComponent implements OnInit {
   onSubmit(): void {
     const pkFromUrli = this.route.snapshot.paramMap.get('pk');
     if (pkFromUrli) {
-      this.authService.deleteUser(parseInt(pkFromUrli, 10))
+      this.authService.deleteUser((parseInt(pkFromUrli, 10)))
       this.authService.signUp(
         this.userFormGroup.value.username,
         this.userFormGroup.value.first_name,

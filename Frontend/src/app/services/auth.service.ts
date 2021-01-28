@@ -47,7 +47,14 @@ export class AuthService {
       .subscribe((res: any) => {
         this.isLoggedIn.next(true);
         localStorage.setItem('access_token', res.token);
-        this.router.navigate(['landing']);
+        if(this.getUserData().group === 'table'){
+          this.router.navigate(['menu-list']);
+        } else if (this.getUserData().group === 'employee' || this.getUserData().group === 'restaurantadmin'){
+          this.router.navigate(['orders']);
+        } else{
+          this.router.navigate(['landing']);
+        }
+
       }, () => {
         alert('wrong username or password');
       });
@@ -80,31 +87,7 @@ export class AuthService {
     } else {
       formData.append('restaurant', this.getUserData().restaurant);
     }
-    return this.http.request<User>('POST', url, { body: formData });
-  }
-
-  updateUser(id: number,
-             username: string,
-             firstName: string,
-             lastName: string,
-             password: string,
-             group: string,
-             restaurant: string,): Observable<any> {
-    const url = '/api/users/' + id + '/';
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('first_name', firstName);
-    formData.append('last_name', lastName);
-    formData.append('group', group);
-    formData.append('password1', password);
-    formData.append('password2', password);
-    if (restaurant) {
-      formData.append('restaurant', restaurant);
-    } else {
-      formData.append('restaurant', this.getUserData().restaurant);
-    }
-    //return this.http.patch('/api/sign_up/' + id + '/', formData);
-    return this.http.request<User>('POST', url, { body: formData });
+    return this.http.request<User>('POST', url, {body: formData});
   }
 
 
@@ -114,6 +97,16 @@ export class AuthService {
       const decodedToken = this.jwtHelperService.decodeToken(token);
       const permissions = decodedToken.permissions;
       return permission in permissions;
+    }
+    return false;
+  }
+
+  hasGroup(group: string): boolean {
+    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
+    if (token) {
+      const decodedToken = this.jwtHelperService.decodeToken(token);
+      const groups = decodedToken.groups;
+      return group in groups;
     }
     return false;
   }
@@ -154,7 +147,10 @@ export class AuthService {
   }
 
   deleteUser(pk: number): Observable<any> {
+    console.log('localhost:8000/users/' + pk + '/')
     return this.http.delete('/api/users/' + pk + '/');
   }
 }
+
+
 
