@@ -12,6 +12,7 @@ export interface MenuItem {
   category: string;
   price: number;
   restaurant: Restaurant;
+  image: string;
 }
 
 @Injectable({
@@ -26,10 +27,6 @@ export class MenuService {
   }
 
   getSingleMenu(restaurant: string): Observable<MenuItem[]> {
-    // let restaurantPk;
-    // this.restaurantService.getRestaurantByName(restaurantPk).subscribe((restaurant) => {
-    //  return this.http.get<MenuItem[]>('/api/menuitems/?restaurant=' + restaurant.pk);
-    //  });
     return this.http.get<MenuItem[]>('/api/menuitems/?restaurant=' + restaurant);
   }
 

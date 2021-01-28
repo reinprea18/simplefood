@@ -1,16 +1,16 @@
 <mat-card class="mat-elevation-z4" >
   <mat-card-header>
-    <mat-card-title>{{productItem.name}}</mat-card-title>
+    <mat-card-title>{{menuItem.name}}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image src='{{productItem.imageUrl}}' alt="Photo of a Shiba Inu">
+  <img mat-card-image src="{{menuItem.image || 'https://www.delonghi.com/Global/recipes/multifry/pizza_fresca.jpg'}}">
   <mat-card-content>
     <p>
-      {{productItem.description}}
+      {{menuItem.description}}
     </p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-button  fxLayoutGap="5px grid" color="primary">EDIT</button>
     <button mat-button  fxLayoutGap="5px grid" color="warn">DELETE</button>
-    <button mat-button  fxLayoutGap="5px grid" color="primary" (click)="handleAddToCart()">ADD</button>
+    <button mat-button  fxLayoutGap="5px grid" color="primary" (click)="handleAddToCart(menuItem)">ADD</button>
   </mat-card-actions>
 </mat-card>
