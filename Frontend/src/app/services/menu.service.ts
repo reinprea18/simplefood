@@ -31,6 +31,7 @@ export class MenuService {
   }
 
   createMenuItem(menuItem: MenuItem): Observable<any> {
+    console.log(menuItem);
     return this.http.post('/api/menuitems/', menuItem);
   }
   updateMenuItem(menuItem: MenuItem): Observable<any> {

@@ -1,5 +1,5 @@
 <div class="cart-item">
-  <span>{{cartItem.name}}</span> x
+  <span>{{cartItem.menuItem.name}}</span> x
   <span>{{cartItem.qty}}</span>:
   <strong>{{(cartItem.qty * cartItem.price | currency: 'EUR')}}</strong>
   <button mat-icon-button (click)="handleRemoveFromCart()">

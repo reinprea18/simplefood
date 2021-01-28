@@ -21,6 +21,12 @@ class RestaurantSerializer(serializers.ModelSerializer):
         fields = ['pk', 'name', 'description', 'street_address', 'postcode', 'town', 'country']
 
 
+class BestellungSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Bestellung
+        fields = ['pk', 'name']
+
+
 class MenuItemSerializer(serializers.ModelSerializer):
     #restaurant = RestaurantSerializer(many=False)
 
@@ -37,11 +43,11 @@ class CustomerDataSerializer(serializers.ModelSerializer):
                   'country', 'order']
 
 
-class OrderDetailSerializer(PrimaryKeyRelatedField, serializers.ModelSerializer):
+class OrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.OrderDetail
-        fields = ['amount', 'total_price', 'menu_item', 'order']
+        fields = ['pk', 'amount', 'totalprice', 'menuitem', 'order']
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -51,24 +57,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Order
-        fields = '__all__'
-        read_only_fields = ('id', 'order_date', 'updated')
-
-
-class NestedOrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Order
-        fields = '__all__'
-        depth = 1
-
-
-class PaymentSerializer(serializers.ModelSerializer):
-
-    # order = OrderSerializer(many=False, queryset=models.Order.objects.all())
-
-    class Meta:
-        model = models.Payment
-        fields = ['paymentDate', 'paymentMethod', 'order']
+        fields = ['pk', 'order_date', 'updated', 'total_price', 'status', 'restaurant', 'payment', 'employee', 'table']
 
 
 class AuthSerializer(serializers.ModelSerializer):

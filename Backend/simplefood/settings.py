@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'simplefood.simplefoodapp',
     'rest_framework',
     'django_countries',
-    'channels',
 ]
 
 MIDDLEWARE = [

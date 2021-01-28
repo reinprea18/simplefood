@@ -18,7 +18,6 @@ export class MenuItemComponent implements OnInit {
 
   constructor(public msg: MsngrService,
               public menuService: MenuService,
-              public orderService: OrderService,
               public authService: AuthService,
               private router: Router) { }
 

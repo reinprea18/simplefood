@@ -1,13 +1,15 @@
+import {MenuItem} from "../services/menu.service";
+
 export class CartItem {
   id: number;
-  name: string;
+  menuItem: MenuItem;
   qty: number;
   price: number;
 
-  constructor(id = 0, name = '', qty = 0, price = 0) {
-    this.id = id
-    this.name = name
-    this.qty = qty
-    this.price = price
+  constructor(id = 0, menuItem = null, qty = 0, price = 0) {
+    this.id = id;
+    this.menuItem = menuItem;
+    this.qty = qty;
+    this.price = price;
   }
 }

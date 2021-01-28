@@ -9,15 +9,15 @@ import {MsngrService} from "../../../services/msngr.service";
 })
 export class CartItemComponent implements OnInit {
 
-  @Input() cartItem: CartItem = new CartItem()
+  @Input() cartItem: CartItem = new CartItem();
 
   constructor(private msg: MsngrService) { }
 
   ngOnInit(): void {
   }
 
-  handleRemoveFromCart() {
-    this.msg.sendRemoveMsg(this.cartItem)
+  handleRemoveFromCart(): void {
+    this.msg.sendRemoveMsg(this.cartItem);
   }
 
 }

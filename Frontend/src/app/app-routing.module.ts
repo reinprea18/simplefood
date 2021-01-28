@@ -11,8 +11,6 @@ import {SignUpComponent} from './sign-up/sign-up.component';
 import {TableComponent} from './table/table.component';
 import {IsTable} from './services/is-table.service';
 import {TableDashboardComponent} from './table-dashboard/table-dashboard.component';
-import {OrderListResolver} from './services/order-list.resolver';
-import {TableRequestComponent} from './table-request/table-request.component';
 import {AuthGuard} from './guards/auth.guard';
 import {EmployeeComponent} from './employee/employee.component';
 import {MenuComponent} from './Components/order-cart/menu/menu.component';
@@ -38,23 +36,6 @@ const routes: Routes = [
   {path: 'employee/:pk', component: EmployeeComponent, canActivate: [AuthGuard]},
   {path: 'orders', component: OrderPageComponent, canActivate: [AuthGuard]},
   {path: 'orders/:pk', component: OrderPageComponent, canActivate: [AuthGuard]},
-  {
-    path: 'table',
-    component: TableComponent,
-    canActivate: [
-      IsTable
-    ],
-    children: [
-      {
-        path: '',
-        component: TableDashboardComponent,
-        resolve: { orders: OrderListResolver }
-      },
-      { path: 'request',
-        component: TableRequestComponent
-      },
-    ]
-  },
   { path: '', component: LandingComponent }
 ];
 

@@ -64,23 +64,7 @@ class MenuItem(models.Model):
     # image = models.ImageField(upload_to='menu_images_/' + str(restaurant.name), blank=True, null=True)
 
     def __str__(self):
-        return "%s%s%s" % (self.name, self.category, self.price)
-
-
-class Payment(models.Model):
-
-    CHOICES = (
-        ('m', 'Cash'),
-        ('c', 'Card'),
-        ('k', 'Klarna'),
-        ('o', 'Online Credit Card')
-    )
-
-    payment_date = models.DateTimeField()
-    paymentMethod = models.CharField(max_length=2, choices=CHOICES)
-
-    def __str__(self):
-        return "%s%s" % (self.order, self.paymentMethod)
+        return "%s" % self.name
 
 
 class Order(models.Model):
@@ -96,12 +80,19 @@ class Order(models.Model):
         (COMPLETED, COMPLETED),
     )
 
-    order_date = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    CHOICES = (
+        ('m', 'Cash'),
+        ('c', 'Card'),
+        ('k', 'Klarna'),
+        ('o', 'Online Credit Card')
+    )
+
+    order_date = models.CharField(max_length=1, null=True)
+    updated = models.CharField(max_length=1, null=True)
     total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUSES, default=REQUESTED)
+    status = models.CharField(max_length=20, choices=STATUSES, default=REQUESTED, null=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders', null=True)
-    payment = models.OneToOneField(Payment, blank=True, null=True, on_delete=models.CASCADE)
+    payment = models.CharField(max_length=2, choices=CHOICES, default='m', null=True)
     employee = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
@@ -118,20 +109,20 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return f'{self.id}'
-
-    def get_absolute_url(self):
-        return reverse('order:order_detail', kwargs={'order_id': self.id})
+        return "%s" % {self.pk}
 
 
 class OrderDetail(models.Model):
     amount = models.PositiveSmallIntegerField()
-    menu_item = models.OneToOneField(MenuItem, on_delete=models.CASCADE, null=True)
+    menuitem = models.ForeignKey(MenuItem, on_delete=models.CASCADE, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, related_name='order_details')
-    total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    totalprice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return "%s%s" % (self.menu_item, self.amount)
+
+class Bestellung(models.Model):
+    name = models.CharField(max_length=10)
 
 
 class CustomerData(models.Model):

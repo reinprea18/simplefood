@@ -39,12 +39,13 @@ router = routers.DefaultRouter()
 router.register(r'restaurants', views.RestaurantViewSet)
 router.register(r'menuitems', views.MenuItemViewSet)
 router.register(r'users', views.CustomUserViewSet)
-# router.register(r'orders', views.OrderViewSet)
+router.register(r'orders', views.OrderViewSet)
+router.register(r'orderdetails', views.OrderDetailViewSet)
+router.register(r'bestellungen', views.BestellungViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sign_up/', SignUpView.as_view(), name='sign_up'),
     path('', include(router.urls)),
     url(r'^api-token-auth/', obtain_jwt_token),
-    path('order/', include('simplefood.simplefoodapp.urls', 'order',)),
 ] + static(settings.MEDIA_URL, document_root=Path.joinpath(settings.MEDIA_ROOT, 'qr_codes'))

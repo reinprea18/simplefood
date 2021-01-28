@@ -18,7 +18,6 @@ export class MenuListComponent implements OnInit {
   addedToOrder: MenuItem[];
 
   constructor(private menuService: MenuService,
-              private orderService: OrderService,
               private authService: AuthService,
               private restaurantService: RestaurantService,
               private route: ActivatedRoute,

@@ -23,9 +23,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { TableComponent } from './table/table.component';
 import {IsTable} from './services/is-table.service';
 import { TableDashboardComponent } from './table-dashboard/table-dashboard.component';
-import {OrderListResolver} from './services/order-list.resolver';
 import { OrderService } from './services/order.service';
-import { TableRequestComponent } from './table-request/table-request.component';
 import {MatIconModule} from '@angular/material/icon';
 import {AuthGuard} from './guards/auth.guard';
 import { OrderListComponent } from './order-list/order-list.component';
@@ -61,7 +59,6 @@ export function tokenGetter() {
     TableComponent,
     LandingComponent,
     TableDashboardComponent,
-    TableRequestComponent,
     OrderListComponent,
     FooterComponent,
     HeaderComponent,
@@ -94,7 +91,7 @@ export function tokenGetter() {
     }),
     MatIconModule,
   ],
-  providers: [AuthService, IsTable, OrderListResolver, OrderService, AuthGuard],
+  providers: [AuthService, IsTable, OrderService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

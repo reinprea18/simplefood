@@ -34,12 +34,15 @@ class MenuItemAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order_date', 'updated', 'table', 'employee', 'total_price', 'status', 'restaurant', 'payment')
-    fields = ('id', 'order_date', 'updated', 'table', 'employee', 'total_price', 'status', 'restaurant', 'payment')
+    list_display = ('order_date', 'updated', 'table', 'employee', 'total_price', 'status', 'restaurant', 'payment')
+    fields = ('order_date', 'updated', 'table', 'employee', 'total_price', 'status', 'restaurant', 'payment')
     search_fields = ('restaurant',)
     list_filter = ('status',)
-    readonly_fields = ('id', 'order_date', 'updated')
 
+
+class BestellungAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
 
 class CustomerDataAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name')
@@ -51,3 +54,4 @@ admin.site.register(models.MenuItem, MenuItemAdmin)
 admin.site.register(models.CustomUser, CustomUserAdmin)
 admin.site.register(models.CustomerData, CustomerDataAdmin)
 admin.site.register(models.Order, OrderAdmin)
+admin.site.register(models.Bestellung, BestellungAdmin)

@@ -45,6 +45,11 @@ class CustomerDataViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CustomerDataSerializer
 
 
+class BestellungViewSet(viewsets.ModelViewSet):
+    queryset = models.Bestellung.objects.all()
+    serializer_class = serializers.BestellungSerializer
+
+
 class CustomUserViewSet(viewsets.ModelViewSet):
 
     queryset = models.CustomUser.objects.all()
@@ -81,33 +86,16 @@ class MenuItemViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class OrderViewSet(viewsets.ReadOnlyModelViewSet):
-    lookup_field = 'id'
-    lookup_url_kwarg = 'order_id'
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = serializers.OrderSerializer
+class OrderViewSet(viewsets.ModelViewSet):
 
-    def get_queryset(self):
-        user = self.request.user
-        if user.group == 'customer':
-            return Order.objects.filter(
-                Q(status=Order.REQUESTED) | Q(table=user)
-            )
-        if user.group == 'employee':
-            return Order.objects.filter(employee=user)
-        return Order.objects.none()
+    queryset = models.Order.objects.all()
+    serializer_class = serializers.OrderSerializer
 
 
 class OrderDetailViewSet(viewsets.ModelViewSet):
 
     queryset = models.OrderDetail.objects.all()
     serializer_class = serializers.OrderDetailSerializer
-
-
-class PaymentViewSet(viewsets.ModelViewSet):
-
-    queryset = models.Payment.objects.all()
-    serializer_class = serializers.PaymentSerializer
 
 
 #@api_view(['GET', 'POST'])
