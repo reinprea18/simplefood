@@ -50,30 +50,18 @@ class CustomUser(AbstractUser):
 
 class MenuItem(models.Model):
 
-    CHOICES = [
-        ('Food', (
-            ('a', 'Appetizers'),
-            ('m', 'Main Courses'),
-            ('d', 'Desserts')
-        )
-         ),
-        ('Drinks', (
-            ('b', 'Beer'),
-            ('w', 'Wine'),
-            ('s', 'Soft Drinks'),
-            ('c', 'Cocktails'),
-        )
-         ),
-    ]
+    CHOICES = (
+        ('f', 'food'),
+        ('d', 'drink')
+    )
 
     name = models.CharField(max_length=128)
     description = models.TextField()
     category = models.CharField(max_length=1, choices=CHOICES)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    status_available = models.BooleanField(default=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant', null=True)
-    alcoholic = models.BooleanField(default=False)
-    # menu_item_image = models.ImageField(upload_to='menu_images_/' + str(restaurant.name), blank=True, null=True)
+    image = models.CharField(max_length=200, null=True, blank=True)
+    # image = models.ImageField(upload_to='menu_images_/' + str(restaurant.name), blank=True, null=True)
 
     def __str__(self):
         return "%s%s%s" % (self.name, self.category, self.price)

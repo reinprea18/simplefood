@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CartItem} from "../../../models/cart-item";
 import {MsngrService} from "../../../services/msngr.service";
 import {Product} from "../../../models/product";
+import {MenuItem} from "../../../services/menu.service";
 
 @Component({
   selector: 'app-cart-list',
@@ -43,12 +44,14 @@ export class CartListComponent implements OnInit {
 
   }
 
-  addProductToCart(product: Product){
+  addProductToCart(product: MenuItem){
 
     let productExists = false
 
+    console.log(product)
+
     for(let i in this.cartItems) {
-      if (this.cartItems[i].id === product.id) {
+      if (this.cartItems[i].id === product.pk) {
         this.cartItems[i].qty++
         productExists=true
         break;
@@ -57,7 +60,7 @@ export class CartListComponent implements OnInit {
 
     if(!productExists) {
       this.cartItems.push({
-        id: product.id,
+        id: product.pk,
         name: product.name,
         qty: 1,
         price: product.price

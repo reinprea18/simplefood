@@ -16,13 +16,8 @@
   <mat-form-field>
     <!-- <input [(ngModel)]="menuItem.category" matInput type="text" placeholder="Category" formControlName="category"> -->
     <mat-select placeholder="Category" formControlName="category">
-      <mat-option value="a"> Appetizer</mat-option>
-      <mat-option value="m"> Main Courses</mat-option>
-      <mat-option value="d"> Desserts</mat-option>
-      <mat-option value="b"> Beer</mat-option>
-      <mat-option value="w"> Wine</mat-option>
-      <mat-option value="s"> Soft Drinks</mat-option>
-      <mat-option value="c"> Cocktails</mat-option>
+      <mat-option value="f"> Food</mat-option>
+      <mat-option value="d"> Drink</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -31,18 +26,11 @@
     <input matInput type="number" placeholder="Price" formControlName="price">
   </mat-form-field>
 
-  <!-- Status Field -->
-  <mat-checkbox class="example-margin" checked="checked" formControlName="available">Available</mat-checkbox>
-
-  <!-- Restaurant Field -->
-  <!-- <mat-form-field>
-    <input matInput type="text" [value]="restaurant.name" formControlName="restaurant">
+  <!-- ImageUrl Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="ImageUrl" formControlName="image">
   </mat-form-field>
-  -->
 
-
-  <!-- Alcoholic Field -->
-  <mat-checkbox class="example-margin" formControlName="alcoholic">Alcoholic</mat-checkbox>
 
   <br/>
   <mat-card-actions align="center">
