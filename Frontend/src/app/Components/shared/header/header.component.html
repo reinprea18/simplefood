@@ -24,6 +24,7 @@
         <button mat-menu-item routerLink="employee">List users</button>
         <button mat-menu-item routerLink="sign-up">Create user</button>
       </mat-menu>
+      <app-logout></app-logout>
     </div>
 
     <span class="example-spacer"></span>
@@ -74,9 +75,9 @@
     </mat-sidenav>
     <mat-sidenav-content>
       <div style="height: 88vh;" align="center center">
-        <router-outlet></router-outlet>
+        <app-menu></app-menu>
       </div>
-    </mat-sidenav-content>SS
+    </mat-sidenav-content>
 
   </mat-sidenav-container>
 </div>

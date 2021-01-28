@@ -18,7 +18,7 @@ import {EmployeeComponent} from "./employee/employee.component";
 
 
 const routes: Routes = [
-  {path: '', redirectTo: 'restaurant-list', pathMatch: 'full'},
+  {path: '', redirectTo: '', pathMatch: 'full'},
   {path: 'restaurant-list', component: RestaurantListComponent, canActivate: [AuthGuard]},
   {path: 'restaurant-form', component: RestaurantFormComponent, canActivate: [AuthGuard]},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
