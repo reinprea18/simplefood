@@ -9,17 +9,17 @@
 
     <div fxShow="true" fxHide.lt-md="true" fxFlex="" fxLayoutAlign="center center">
       <!-- The following menu items will be hidden on both SM and XS screen sizes -->
-      <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" href="#" mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
+      <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
       <mat-menu #restaurantMenu="matMenu">
         <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
         <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
       </mat-menu>
-      <button *ngIf="authService.hasPermission('auth.view_group')" href="#" mat-button [matMenuTriggerFor]="foodMenu">Food</button>
+      <button *ngIf="authService.hasPermission('auth.view_group')" mat-button [matMenuTriggerFor]="foodMenu">Food</button>
       <mat-menu #foodMenu="matMenu">
         <button mat-menu-item routerLink="menu-list">List food</button>
         <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-menu-item routerLink="menu-form">Create food</button>
       </mat-menu>
-      <button *ngIf="authService.hasPermission('admin.add_logentry')" href="#" mat-button [matMenuTriggerFor]="userMenu">Users</button>
+      <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-button [matMenuTriggerFor]="userMenu">Users</button>
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="employee">List users</button>
         <button mat-menu-item routerLink="sign-up">Create user</button>
@@ -40,14 +40,14 @@
 
     <mat-sidenav #sidenav2 fxLayout="column" position="end">
       <div fxLayout="column">
-        <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" href="#" mat-icon-button [matMenuTriggerFor]="restaurantMenu">
+        <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-icon-button [matMenuTriggerFor]="restaurantMenu">
           <mat-icon>restaurant</mat-icon>
           Restaurants</button>
         <mat-menu #restaurantMenu="matMenu">
           <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
           <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
         </mat-menu>
-        <button *ngIf="authService.hasPermission('auth.view_group')" href="#" mat-icon-button [matMenuTriggerFor]="foodMenu">
+        <button *ngIf="authService.hasPermission('auth.view_group')" mat-icon-button [matMenuTriggerFor]="foodMenu">
           <mat-icon>fastfood</mat-icon>
           Food
         </button>
@@ -55,7 +55,7 @@
           <button mat-menu-item routerLink="menu-list">List food</button>
           <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-menu-item routerLink="menu-form">Create food</button>
         </mat-menu>
-        <button *ngIf="authService.hasPermission('admin.add_logentry')" href="#" mat-icon-button [matMenuTriggerFor]="userMenu">
+        <button *ngIf="authService.hasPermission('admin.add_logentry')" mat-icon-button [matMenuTriggerFor]="userMenu">
           <mat-icon>face</mat-icon>
           User
         </button>
@@ -65,7 +65,7 @@
         </mat-menu>
         <mat-divider></mat-divider>
         <div>
-          <a (click)="sidenav2.toggle()" href="#" mat-button>Close Sidebar</a>
+          <a (click)="sidenav2.toggle()" mat-button>Close Sidebar</a>
         </div>
       </div>
     </mat-sidenav>
