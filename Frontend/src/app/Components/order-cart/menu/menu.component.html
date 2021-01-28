@@ -1,0 +1,14 @@
+<mat-divider></mat-divider>
+<mat-toolbar class="toolbarNav" color="primary">
+  <button mat-button>Food</button>
+  <button mat-button>Drinks</button>
+</mat-toolbar>
+<div class="content">
+  <div class="fromBottom">
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+      <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let product of products">
+        <app-product-item [productItem]="product"></app-product-item>
+      </div>
+    </div>
+  </div>
+</div>

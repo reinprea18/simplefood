@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {Restaurant} from "./restaurant.service";
 
 export interface User {
   user_id: string;
@@ -107,7 +106,6 @@ export class AuthService {
     const token = localStorage.getItem(this.accessTokenLocalStorageKey);
     const decodedToken = this.jwtHelperService.decodeToken(token);
     if (token) {
-      console.log(this.jwtHelperService.decodeToken(token));
       return this.jwtHelperService.decodeToken(token);
     }
     return undefined;

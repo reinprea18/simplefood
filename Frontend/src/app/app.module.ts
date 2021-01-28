@@ -28,6 +28,15 @@ import { OrderService } from './services/order.service';
 import { TableRequestComponent } from './table-request/table-request.component';
 import {MatIconModule} from '@angular/material/icon';
 import {AuthGuard} from './guards/auth.guard';
+import { OrderListComponent } from './order-list/order-list.component';
+import { FooterComponent } from './Components/shared/footer/footer.component';
+import { HeaderComponent } from './Components/shared/header/header.component';
+import { NavComponent } from './Components/shared/nav/nav.component';
+import {CartListComponent} from './Components/order-cart/cart-list/cart-list.component';
+import {CartItemComponent} from './Components/order-cart/cart-item/cart-item.component';
+import {OrderCartComponent} from './Components/order-cart/order-cart.component';
+import {MenuItemComponent} from './Components/order-cart/menu-list/menu-item/menu-item.component';
+import {MenuComponent} from './Components/order-cart/menu/menu.component';
 
 // tslint:disable-next-line:typedef
 export function tokenGetter() {
@@ -51,6 +60,15 @@ export function tokenGetter() {
     LandingComponent,
     TableDashboardComponent,
     TableRequestComponent,
+    OrderListComponent,
+    FooterComponent,
+    HeaderComponent,
+    NavComponent,
+    MenuComponent,
+    MenuItemComponent,
+    CartItemComponent,
+    CartListComponent,
+    OrderCartComponent,
   ],
   imports: [
     BrowserModule,

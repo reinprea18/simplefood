@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
-import {AuthService} from "../services/auth.service";
-import {MenuItem} from "../services/menu.service";
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -12,10 +11,9 @@ export class RestaurantListComponent implements OnInit {
 
   restaurants: Restaurant[];
   displayedColumns = ['name', 'menu', 'edit', 'delete'];
-  menuItems: MenuItem[];
 
   constructor(private restaurantService: RestaurantService,
-              private authService: AuthService,) { }
+              private authService: AuthService, ) { }
 
   ngOnInit(): void {
     this.retrieveRestaurants();
@@ -35,5 +33,4 @@ export class RestaurantListComponent implements OnInit {
         alert('deleted successfully!');
       });
   }
-
 }

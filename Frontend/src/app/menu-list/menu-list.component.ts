@@ -15,6 +15,7 @@ export class MenuListComponent implements OnInit {
   menuItems: MenuItem[];
   restaurant: Restaurant;
   displayedColumns = ['name', 'price', 'edit', 'delete', 'add', 'description'];
+  addedToOrder: MenuItem[];
 
   constructor(private menuService: MenuService,
               private orderService: OrderService,
@@ -45,6 +46,7 @@ export class MenuListComponent implements OnInit {
     else {
       this.router.navigate(['/menu-list/' + this.authService.getUserData().restaurant]);
     }
+    this.addedToOrder = new Array();
   }
 
   private retrieveMenuItems(): void {
@@ -69,6 +71,8 @@ export class MenuListComponent implements OnInit {
       });
   }
 
-
-
+  addToMenuItems(menuItem: MenuItem): void{
+    this.addedToOrder.push(menuItem);
+    console.log(this.addedToOrder);
+  }
 }

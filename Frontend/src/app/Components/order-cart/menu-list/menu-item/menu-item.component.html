@@ -1,0 +1,16 @@
+<mat-card class="mat-elevation-z4" >
+  <mat-card-header>
+    <mat-card-title>{{productItem.name}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src='{{productItem.imageUrl}}' alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    <p>
+      {{productItem.description}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button  fxLayoutGap="5px grid" color="primary">EDIT</button>
+    <button mat-button  fxLayoutGap="5px grid" color="warn">DELETE</button>
+    <button mat-button  fxLayoutGap="5px grid" color="primary" (click)="handleAddToCart()">ADD</button>
+  </mat-card-actions>
+</mat-card>

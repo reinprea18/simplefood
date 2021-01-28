@@ -1,0 +1,27 @@
+.content {
+  padding: 16px;
+}
+
+.content > mat-card {
+  width: 10px;
+}
+
+.toolbarNav{
+  justify-content: center;
+  padding: 1px;
+}
+
+.cardPos{
+  justify-content: center;
+}
+
+.fromBottom {
+  margin-bottom: 40px;
+}
+
+.layout-row{
+
+  display: flex;
+  align-items: stretch;
+
+}
