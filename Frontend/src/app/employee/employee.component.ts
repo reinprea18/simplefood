@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService, User} from "../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MenuItem} from "../services/menu.service";
 
 @Component({
   selector: 'app-employee',
@@ -10,14 +11,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class EmployeeComponent implements OnInit {
 
   users: User[];
-  displayedColumns = ['username', 'first_name', 'last_name', 'group'];
+  displayedColumns = ['username', 'first_name', 'last_name', 'group', 'edit'];
 
   constructor(public authService: AuthService,
               private router: Router,
               private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-
     const pkFromUrl = this.route.snapshot.paramMap.get('pk');
     if (pkFromUrl && this.authService.getUserData().group == null) {
       this.authService.getUsersFromRestaurant(pkFromUrl)
