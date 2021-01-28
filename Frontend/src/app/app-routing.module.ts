@@ -15,6 +15,7 @@ import {OrderListResolver} from './services/order-list.resolver';
 import {TableRequestComponent} from './table-request/table-request.component';
 import {AuthGuard} from './guards/auth.guard';
 import {EmployeeComponent} from "./employee/employee.component";
+import {MenuComponent} from "./Components/order-cart/menu/menu.component";
 
 
 const routes: Routes = [
@@ -22,7 +23,7 @@ const routes: Routes = [
   {path: 'restaurant-list', component: RestaurantListComponent, canActivate: [AuthGuard]},
   {path: 'restaurant-form', component: RestaurantFormComponent, canActivate: [AuthGuard]},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
-  {path: 'menu-list', component: MenuListComponent, canActivate: [AuthGuard]},
+  {path: 'menu-list', component: MenuComponent, canActivate: [AuthGuard]},
   {path: 'menu-form', component: MenuFormComponent, canActivate: [AuthGuard]},
   {path: 'menu-form/:pk', component: MenuFormComponent, canActivate: [AuthGuard]},
   {path: 'menu-list/:restaurant', component: MenuListComponent, canActivate: [AuthGuard]},
