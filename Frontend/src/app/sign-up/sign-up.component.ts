@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../services/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Restaurant, RestaurantService} from '../services/restaurant.service';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 class UserData{
   constructor(
+    public id?: number,
     public username?: string,
     public firstName?: string,
     public lastName?: string,
@@ -30,6 +31,7 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     public authService: AuthService,
     private restaurantService: RestaurantService,
   ) {}
@@ -38,21 +40,38 @@ export class SignUpComponent implements OnInit {
     if (event.target.files && event.target.files.length > 0) {
     }
   }
-
   onSubmit(): void {
-    this.authService.signUp(
-      this.userFormGroup.value.username,
-      this.userFormGroup.value.first_name,
-      this.userFormGroup.value.last_name,
-      this.userFormGroup.value.password,
-      this.userFormGroup.value.permissionGroup,
-      this.userFormGroup.value.restaurant,
-    ).subscribe(() => {
-      this.router.navigateByUrl('/landing');
-    }, (error) => {
-      console.error(error);
-    });
+    const pkFromUrli = this.route.snapshot.paramMap.get('pk');
+    if (pkFromUrli) {
+      this.authService.deleteUser(parseInt(pkFromUrli, 10))
+      this.authService.signUp(
+        this.userFormGroup.value.username,
+        this.userFormGroup.value.first_name,
+        this.userFormGroup.value.last_name,
+        this.userFormGroup.value.password,
+        this.userFormGroup.value.permissionGroup,
+        this.userFormGroup.value.restaurant,
+      ).subscribe(() => {
+        this.router.navigateByUrl('/landing');
+      }, (error) => {
+        console.error(error);
+      });
+    } else {
+      this.authService.signUp(
+        this.userFormGroup.value.username,
+        this.userFormGroup.value.first_name,
+        this.userFormGroup.value.last_name,
+        this.userFormGroup.value.password,
+        this.userFormGroup.value.permissionGroup,
+        this.userFormGroup.value.restaurant,
+      ).subscribe(() => {
+        this.router.navigateByUrl('/landing');
+      }, (error) => {
+        console.error(error);
+      });
+    }
   }
+
 
   ngOnInit(): void {
     this.retrieveRestaurants();
@@ -67,6 +86,16 @@ export class SignUpComponent implements OnInit {
       last_name: new FormControl(''),
       password: new FormControl('')
     });
+
+    const pkFromUrl = this.route.snapshot.paramMap.get('pk');
+    if (pkFromUrl) {
+      this.authService.getUserById(parseInt(pkFromUrl, 10))
+        .subscribe((user) => {
+          this.userFormGroup.patchValue(user);
+        });
+    }
+
+
   }
 
   private retrieveRestaurants(): void {

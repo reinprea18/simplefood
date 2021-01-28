@@ -36,7 +36,6 @@ export class MenuService {
   createMenuItem(menuItem: MenuItem): Observable<any> {
     return this.http.post('/api/menuitems/', menuItem);
   }
-
   updateMenuItem(menuItem: MenuItem): Observable<any> {
     return this.http.patch('/api/menuitems/' + menuItem.pk + '/', menuItem);
   }
@@ -52,26 +51,6 @@ export class MenuService {
     return this.http.get<MenuItem>('/api/menuitems/' + pk + '/');
   }
 
-  createOrUpdateMenu2(
-    name: string,
-    description: string,
-    category: string,
-    price: string,
-    status_available: string,
-    restaurant: string,
-    alcoholic: string,
-  ): Observable<User> {
-    const url = '/api/sign_up/';
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('category', category);
-    formData.append('price', price);
-    formData.append('status_available', status_available);
-    formData.append('restaurant', restaurant);
-    formData.append('alcoholic', alcoholic);
 
-    return this.http.request<User>('POST', url, { body: formData });
-  }
 
 }

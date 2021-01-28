@@ -14,7 +14,7 @@
                   *ngFor="let permission of permissionGroups">{{permission}}</mat-option>
     </mat-select>
     <mat-hint align="end">Group</mat-hint>
-    <mat-error *ngIf="userFormGroup.controls.permissionGroup.hasError('required')">Username is required</mat-error>
+    <mat-error *ngIf="userFormGroup.controls.permissionGroup.hasError('required')">Group is required</mat-error>
   </mat-form-field>
 
   <!-- Username Field -->

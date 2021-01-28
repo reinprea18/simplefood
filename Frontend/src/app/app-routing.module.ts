@@ -16,6 +16,7 @@ import {TableRequestComponent} from './table-request/table-request.component';
 import {AuthGuard} from './guards/auth.guard';
 import {EmployeeComponent} from "./employee/employee.component";
 import {MenuComponent} from "./Components/order-cart/menu/menu.component";
+import {OrderPageComponent} from "./order-page/order-page.component";
 
 
 const routes: Routes = [
@@ -30,10 +31,13 @@ const routes: Routes = [
   {path: 'restaurantfood/:name', component: MenuListComponent, canActivate: [AuthGuard]},
   {path: 'log-in', component: LogInComponent},
   {path: 'sign-up', component: SignUpComponent, canActivate: [AuthGuard]},
+  {path: 'sign-up/:pk', component: SignUpComponent, canActivate: [AuthGuard]},
   {path: 'landing', component: LandingComponent, canActivate: [AuthGuard]},
   {path: 'restaurant-form/:pk', component: RestaurantFormComponent, canActivate: [AuthGuard]},
   {path: 'employee', component: EmployeeComponent, canActivate: [AuthGuard]},
   {path: 'employee/:pk', component: EmployeeComponent, canActivate: [AuthGuard]},
+  {path: 'orders', component: OrderPageComponent, canActivate: [AuthGuard]},
+  {path: 'orders/:pk', component: OrderPageComponent, canActivate: [AuthGuard]},
   {
     path: 'table',
     component: TableComponent,

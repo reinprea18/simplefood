@@ -18,7 +18,6 @@ class SignUpView(generics.CreateAPIView):
 
     queryset = models.CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = (permissions.AllowAny,)
 
 class RestaurantViewSet(viewsets.ModelViewSet):
 
