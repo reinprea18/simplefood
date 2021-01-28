@@ -3,6 +3,7 @@ Step 1: create superuser
 Step 2: go to backend localhost:8000/admin and create a new Reataurant there called SimpleFood!
 Step 3: go to your superuser (in backend) and give him the Restaurant SimpleFood!
 *The previous steps are important because if your superuser isn't part of a restaurant, log in won't work, so please follow the previous steps 1 to 3.
+*Note: The SimpleFood restaurant is just an imaginary restaurant for the employees of the SimpleFood employees.
 
 The following steps are not mandadory, but they are the common steps in case a customer wants to buy this product:
 *Note: Step 4 to Step 6 are done in frontend
