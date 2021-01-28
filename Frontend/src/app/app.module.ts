@@ -37,6 +37,7 @@ import {MenuItemComponent} from './Components/order-cart/menu-list/menu-item/men
 import {MenuComponent} from './Components/order-cart/menu/menu.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {OrderPageComponent} from "./order-page/order-page.component";
+import { QRLoginComponent } from './qrlogin/qrlogin.component';
 
 // tslint:disable-next-line:typedef
 export function tokenGetter() {
@@ -70,6 +71,7 @@ export function tokenGetter() {
     OrderCartComponent,
     OrderPageComponent,
     MenuListComponent,
+    QRLoginComponent,
   ],
   imports: [
     BrowserModule,
