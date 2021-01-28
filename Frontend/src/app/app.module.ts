@@ -72,6 +72,7 @@ export function tokenGetter() {
     CartListComponent,
     OrderCartComponent,
     OrderPageComponent,
+    MenuListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductService} from "../../../services/product.service";
-import {Product} from "../../../models/product";
+import {ProductService} from '../../../services/product.service';
+import {Product} from '../../../models/product';
 
 @Component({
   selector: 'app-menu-list',
@@ -9,11 +9,11 @@ import {Product} from "../../../models/product";
 })
 export class MenuListComponent implements OnInit {
 
-  products: Product[] = []
+  products: Product[] = [];
 
   constructor(private  productService: ProductService) { }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts()
+    this.products = this.productService.getProducts();
   }
 }

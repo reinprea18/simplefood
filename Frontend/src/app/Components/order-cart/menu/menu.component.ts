@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MenuItem, MenuService} from "../../../services/menu.service";
-import {ProductService} from "../../../services/product.service";
-import {Restaurant, RestaurantService} from "../../../services/restaurant.service";
-import {AuthService} from "../../../services/auth.service";
-import {ActivatedRoute} from "@angular/router";
+import {MenuItem, MenuService} from '../../../services/menu.service';
+import {ProductService} from '../../../services/product.service';
+import {Restaurant, RestaurantService} from '../../../services/restaurant.service';
+import {AuthService} from '../../../services/auth.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -14,6 +14,7 @@ export class MenuComponent implements OnInit {
 
   @Input() products: any = [];
   menuItems: MenuItem[];
+  menuItemsUnfiltered: MenuItem[];
   restaurant: Restaurant;
 
   constructor(public  productService: ProductService,
@@ -31,6 +32,8 @@ export class MenuComponent implements OnInit {
       this.menuService.getSingleMenu(pkFromUrl)
         .subscribe((menu) => {
           this.menuItems = menu;
+          this.menuItemsUnfiltered = menu;
+
         });
     }
     else if (this.authService.getUserData().group == null) {
@@ -40,6 +43,8 @@ export class MenuComponent implements OnInit {
       this.menuService.getSingleMenu(this.authService.getUserData().restaurant)
         .subscribe((menu) => {
           this.menuItems = menu;
+          this.menuItemsUnfiltered = menu;
+
         });
     }
 
@@ -57,6 +62,7 @@ export class MenuComponent implements OnInit {
     this.menuService.getAllMenuItems()
       .subscribe((menuItems) => {
         this.menuItems = menuItems;
+        this.menuItemsUnfiltered = menuItems;
       });
   }
 
@@ -69,7 +75,12 @@ export class MenuComponent implements OnInit {
   }
 
   onValChange(value): void{
-    console.log(value);
+    if (value === 'a') {
+      this.menuItems = this.menuItemsUnfiltered;
+      return;
+    }
+    this.menuItems = this.menuItemsUnfiltered.filter(
+      item => item.category === value);
   }
 
 }

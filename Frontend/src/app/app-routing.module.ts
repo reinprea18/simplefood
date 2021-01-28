@@ -14,9 +14,9 @@ import {TableDashboardComponent} from './table-dashboard/table-dashboard.compone
 import {OrderListResolver} from './services/order-list.resolver';
 import {TableRequestComponent} from './table-request/table-request.component';
 import {AuthGuard} from './guards/auth.guard';
-import {EmployeeComponent} from "./employee/employee.component";
-import {MenuComponent} from "./Components/order-cart/menu/menu.component";
-import {OrderPageComponent} from "./order-page/order-page.component";
+import {EmployeeComponent} from './employee/employee.component';
+import {MenuComponent} from './Components/order-cart/menu/menu.component';
+import {OrderPageComponent} from './order-page/order-page.component';
 
 
 const routes: Routes = [
