@@ -16,11 +16,11 @@ export class MenuComponent implements OnInit {
   menuItems: MenuItem[];
   restaurant: Restaurant;
 
-  constructor(private  productService: ProductService,
-              private menuService: MenuService,
-              private restaurantService: RestaurantService,
-              private authService: AuthService,
-              private route: ActivatedRoute) { }
+  constructor(public  productService: ProductService,
+              public menuService: MenuService,
+              public restaurantService: RestaurantService,
+              public authService: AuthService,
+              public route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getRestaurant(parseInt(this.authService.getUserData().restaurant, 10));
@@ -66,6 +66,10 @@ export class MenuComponent implements OnInit {
         this.retrieveMenuItems();
         alert('deleted successfully!');
       });
+  }
+
+  onValChange(value): void{
+    console.log(value);
   }
 
 }

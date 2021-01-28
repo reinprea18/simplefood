@@ -34,8 +34,8 @@ class MenuItemAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order_date', 'updated', 'customer', 'employee', 'total_price', 'status', 'restaurant', 'payment')
-    fields = ('id', 'order_date', 'updated', 'customer', 'employee', 'total_price', 'status', 'restaurant', 'payment')
+    list_display = ('id', 'order_date', 'updated', 'table', 'employee', 'total_price', 'status', 'restaurant', 'payment')
+    fields = ('id', 'order_date', 'updated', 'table', 'employee', 'total_price', 'status', 'restaurant', 'payment')
     search_fields = ('restaurant',)
     list_filter = ('status',)
     readonly_fields = ('id', 'order_date', 'updated')

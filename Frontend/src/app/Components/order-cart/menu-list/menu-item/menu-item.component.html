@@ -9,8 +9,8 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button  fxLayoutGap="5px grid" color="primary">EDIT</button>
-    <button mat-button  fxLayoutGap="5px grid" color="warn">DELETE</button>
+    <button mat-button *ngIf="authService.hasPermission('admin.add_logentry')" fxLayoutGap="5px grid" color="primary" [routerLink]="'/menu-form/' + menuItem.pk">EDIT</button>
+    <button mat-button *ngIf="authService.hasPermission('admin.add_logentry')" fxLayoutGap="5px grid" color="warn" (click)="deleteMenuItem(menuItem)"  fxLayoutGap="5px grid" color="warn">DELETE</button>
     <button mat-button  fxLayoutGap="5px grid" color="primary" (click)="handleAddToCart(menuItem)">ADD</button>
   </mat-card-actions>
 </mat-card>

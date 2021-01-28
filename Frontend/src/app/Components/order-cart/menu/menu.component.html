@@ -1,7 +1,12 @@
 <mat-divider></mat-divider>
-<mat-toolbar class="toolbarNav" color="primary">
-  <button mat-button>Food</button>
-  <button mat-button>Drinks</button>
+<mat-toolbar class="toolbarNav">
+  <p>
+    <mat-button-toggle-group appearance="default" name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle value="all" (change)="onValChange($event.value)">All</mat-button-toggle>
+      <mat-button-toggle value="food" (change)="onValChange($event.value)" value="italic">Food</mat-button-toggle>
+      <mat-button-toggle value="drink" (change)="onValChange($event.value)" value="underline">Drink</mat-button-toggle>
+    </mat-button-toggle-group>
+  </p>
 </mat-toolbar>
 <div class="content">
   <div class="fromBottom">

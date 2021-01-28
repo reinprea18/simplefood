@@ -15,6 +15,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 const MaterialComponents = [
   MatButtonModule,
@@ -33,6 +34,7 @@ const MaterialComponents = [
   MatSidenavModule,
   MatToolbarModule,
   MatListModule,
+  MatButtonToggleModule
 
 ];
 

@@ -87,16 +87,15 @@ class Order(models.Model):
 
     REQUESTED = 'REQUESTED'
     STARTED = 'STARTED'
-    IN_PROGRESS = 'IN_PROGRESS'
+    DELIVERED = 'DELIVERED'
     COMPLETED = 'COMPLETED'
     STATUSES = (
         (REQUESTED, REQUESTED),
         (STARTED, STARTED),
-        (IN_PROGRESS, IN_PROGRESS),
+        (DELIVERED, DELIVERED),
         (COMPLETED, COMPLETED),
     )
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_date = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
@@ -110,12 +109,12 @@ class Order(models.Model):
         on_delete=models.DO_NOTHING,
         related_name='order_as_employee'
     )
-    customer = models.ForeignKey( # new
+    table = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,
-        related_name='order_as_customer'
+        related_name='order_as_table'
     )
 
     def __str__(self):
