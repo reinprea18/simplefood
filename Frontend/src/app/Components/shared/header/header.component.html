@@ -1,13 +1,10 @@
 <div>
   <mat-toolbar class="toolbarNav" color="primary">
-    <span>
+    <div fxShow="true" fxHide.lt-md="true" fxLayoutAlign="center center">
       <button *ngIf="authService.hasPermission('auth.view_group')" mat-icon-button (click)="sidenav.toggle()" style="margin-left:10px">
         <mat-icon>shopping_basket</mat-icon>
-        SimpleFood
       </button>
-    </span>
-
-    <div fxShow="true" fxHide.lt-md="true" fxFlex="" fxLayoutAlign="center center">
+      <h1 class="md-display-3">SimpleFood</h1>
       <!-- The following menu items will be hidden on both SM and XS screen sizes -->
       <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-button [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
       <mat-menu #restaurantMenu="matMenu">
@@ -24,11 +21,9 @@
         <button mat-menu-item routerLink="employee">List users</button>
         <button mat-menu-item routerLink="sign-up">Create user</button>
       </mat-menu>
-      <app-logout></app-logout>
     </div>
-
     <span class="example-spacer"></span>
-
+    <app-logout></app-logout>
     <div fxShow="true" fxHide.gt-sm="true">
       <button href="#" mat-icon-button (click)="sidenav2.toggle()">
         <mat-icon>menu</mat-icon>
@@ -38,7 +33,7 @@
 
   <mat-sidenav-container fxFlexFill class="example-container">
 
-    <mat-sidenav #sidenav2 fxLayout="column" position="end">
+    <mat-sidenav #sidenav2 fxLayout="column" position="end" opened="false">
       <div fxLayout="column">
         <button *ngIf="authService.hasPermission('simplefoodapp.add_auth')" mat-icon-button [matMenuTriggerFor]="restaurantMenu">
           <mat-icon>restaurant</mat-icon>
