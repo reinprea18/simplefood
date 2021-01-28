@@ -30,9 +30,8 @@ export class MenuFormComponent implements OnInit {
       description: new FormControl('', Validators.maxLength(500)),
       category: new FormControl(''),
       price: new FormControl('', Validators.maxLength(6)),
-      status_available: new FormControl(true),
       restaurant: new FormControl(null),
-      alcoholic: new FormControl(false)
+      image: new FormControl('')
     });
     const pkFromUrl = this.route.snapshot.paramMap.get('pk');
     if (pkFromUrl) {

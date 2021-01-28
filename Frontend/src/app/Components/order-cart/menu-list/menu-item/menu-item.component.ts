@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MsngrService} from "../../../../services/msngr.service";
 import {Product} from "../../../../models/product";
+import {MenuItem} from "../../../../services/menu.service";
 
 @Component({
   selector: 'app-menu-item',
@@ -9,14 +10,14 @@ import {Product} from "../../../../models/product";
 })
 export class MenuItemComponent implements OnInit {
 
-  @Input() productItem: Product
+  @Input() menuItem: MenuItem;
 
-  constructor(private msg: MsngrService ) { this.productItem = new Product()}
+  constructor(private msg: MsngrService ) { }
 
   ngOnInit(): void {
   }
 
-  handleAddToCart() {
-    this.msg.sendMsg(this.productItem)
+  handleAddToCart(menuItem: MenuItem): void {
+    this.msg.sendMsg(menuItem);
   }
 }

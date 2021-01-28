@@ -6,8 +6,8 @@
 <div class="content">
   <div class="fromBottom">
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
-      <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let product of products">
-        <app-menu-item [productItem]="product"></app-menu-item>
+      <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let menuItem of menuItems">
+        <app-menu-item [menuItem]="menuItem"></app-menu-item>
       </div>
     </div>
   </div>
