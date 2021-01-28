@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {MenuItem} from "./menu.service";
 
 export interface User {
   user_id: string;
@@ -82,6 +83,31 @@ export class AuthService {
     return this.http.request<User>('POST', url, { body: formData });
   }
 
+  updateUser(id: number,
+             username: string,
+             firstName: string,
+             lastName: string,
+             password: string,
+             group: string,
+             restaurant: string,): Observable<any> {
+    const url = '/api/users/' + id + '/';
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('first_name', firstName);
+    formData.append('last_name', lastName);
+    formData.append('group', group);
+    formData.append('password1', password);
+    formData.append('password2', password);
+    if (restaurant) {
+      formData.append('restaurant', restaurant);
+    } else {
+      formData.append('restaurant', this.getUserData().restaurant);
+    }
+    //return this.http.patch('/api/sign_up/' + id + '/', formData);
+    return this.http.request<User>('POST', url, { body: formData });
+  }
+
+
   hasPermission(permission: string): boolean {
     const token = localStorage.getItem(this.accessTokenLocalStorageKey);
     if (token) {
@@ -122,4 +148,13 @@ export class AuthService {
   getUsersFromRestaurant(pk: string): Observable<User[]> {
     return this.http.get<User[]>('/api/users/?restaurant=' + pk);
   }
+
+  getUserById(pk: number): Observable<User> {
+    return this.http.get<User>('/api/users/' + pk + '/');
+  }
+
+  deleteUser(pk: number): Observable<any> {
+    return this.http.delete('/api/users/' + pk + '/');
+  }
 }
+
