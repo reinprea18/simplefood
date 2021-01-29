@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService, User} from '../services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MenuItem} from '../services/menu.service';
+import {MenuItem, MenuService} from '../services/menu.service';
 import {Order, OrderDetail, OrderService} from '../services/order.service';
+import {strict} from "assert";
 
 @Component({
   selector: 'app-order-page',
@@ -15,11 +16,13 @@ export class OrderPageComponent implements OnInit {
   displayedColumns = ['table', 'status', 'price', 'detail'];
   displayedColumns2 = ['amount', 'menuitem'];
   orderDetails: OrderDetail[];
+  menuItems: MenuItem[];
 
   constructor(public authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
-              private orderService: OrderService) {}
+              private orderService: OrderService,
+              private menuService: MenuService) {}
 
   ngOnInit(): void {
     const pkFromUrl = this.route.snapshot.paramMap.get('pk');
@@ -40,11 +43,26 @@ export class OrderPageComponent implements OnInit {
           this.router.navigate(['/orders/' + orders[0].pk]);
         });
     }
+
+    this.menuService.getAllMenuItems()
+      .subscribe((menuItems) => {
+        this.menuItems = menuItems;
+      });
   }
 
   reloadPage(pk): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/orders/' + pk]);
     });
+  }
+
+  getMenuItemNameByPk(pk: number): string {
+    let name = '';
+    this.menuItems.forEach(item => {
+      if (item.pk === pk) {
+        name = item.name;
+      }
+    });
+    return name;
   }
 }

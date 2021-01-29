@@ -46,7 +46,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="menuitem">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
-      <td mat-cell *matCellDef="let element"> {{element.menuitem}} </td>
+      <td mat-cell *matCellDef="let element"> {{getMenuItemNameByPk(element.menuitem)}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>

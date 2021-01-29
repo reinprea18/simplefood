@@ -35,8 +35,8 @@ import {CartItemComponent} from './Components/order-cart/cart-item/cart-item.com
 import {OrderCartComponent} from './Components/order-cart/order-cart.component';
 import {MenuItemComponent} from './Components/order-cart/menu-list/menu-item/menu-item.component';
 import {MenuComponent} from './Components/order-cart/menu/menu.component';
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {OrderPageComponent} from "./order-page/order-page.component";
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {OrderPageComponent} from './order-page/order-page.component';
 import { QRLoginComponent } from './qrlogin/qrlogin.component';
 
 // tslint:disable-next-line:typedef
