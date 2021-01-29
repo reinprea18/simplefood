@@ -130,7 +130,7 @@ class OrderDetail(models.Model):
     totalprice = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return "%s%s" % (self.menu_item, self.amount)
+        return "%s%s" % (self.menuitem, self.amount)
 
 class Bestellung(models.Model):
     name = models.CharField(max_length=10)
