@@ -80,8 +80,13 @@ export class AuthService {
     formData.append('first_name', firstName);
     formData.append('last_name', lastName);
     formData.append('group', group);
-    formData.append('password1', password);
-    formData.append('password2', password);
+    if(group === 'table'){
+      formData.append('password1', username);
+      formData.append('password2', username);
+    } else {
+      formData.append('password1', password);
+      formData.append('password2', password);
+    }
     if (restaurant) {
       formData.append('restaurant', restaurant);
     } else {

@@ -15,6 +15,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {EmployeeComponent} from './employee/employee.component';
 import {MenuComponent} from './Components/order-cart/menu/menu.component';
 import {OrderPageComponent} from './order-page/order-page.component';
+import {QRLoginComponent} from "./qrlogin/qrlogin.component";
 
 
 const routes: Routes = [
@@ -36,7 +37,8 @@ const routes: Routes = [
   {path: 'employee/:pk', component: EmployeeComponent, canActivate: [AuthGuard]},
   {path: 'orders', component: OrderPageComponent, canActivate: [AuthGuard]},
   {path: 'orders/:pk', component: OrderPageComponent, canActivate: [AuthGuard]},
-  {path: '', component: LandingComponent }
+  {path: 'qrlogin/:username/:password', component: QRLoginComponent},
+  { path: '', component: LandingComponent }
 ];
 
 @NgModule({

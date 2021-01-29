@@ -41,6 +41,21 @@ class CustomUser(AbstractUser):
     country = models.TextField(null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
     qr_code = models.ImageField(upload_to='qr_codes', blank=True)
+
+    def save(self, *args, **kwargs):
+        password = self.password
+        super().save(*args, **kwargs)
+        if self.group == 'table':
+            qrcode_img = qrcode.make(self.username + password)
+            canvas = Image.new('RGB', (500, 500), 'white')
+            canvas.paste(qrcode_img)
+            fname = f'qr_code-{self.username}' + '.png'
+            buffer = BytesIO()
+            canvas.save(buffer, 'PNG')
+            self.qr_code.save(fname, File(buffer), save=False)
+            canvas.close()
+            super().save(*args, **kwargs)
+
     def get_restaurant(self):
         return self.restaurant.id
 
