@@ -41,7 +41,14 @@ export class OrderService {
   }
 
   postOrderDetail(orderDetail: OrderDetail): Observable<OrderDetail>{
-    console.log(orderDetail);
     return this.http.post<OrderDetail>('/api/orderdetails/', orderDetail);
+  }
+
+  getOrdersForRestaurant(restaurant: string): Observable<Order[]> {
+    return this.http.get<Order[]>('/api/orders/?restaurant=' + restaurant + '&status=r');
+  }
+
+  getOrderDetails(order: number): Observable<OrderDetail[]> {
+    return this.http.get<OrderDetail[]>('/api/orderdetails/?order=' + order);
   }
 }

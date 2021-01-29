@@ -91,11 +91,32 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = models.Order.objects.all()
     serializer_class = serializers.OrderSerializer
 
+    def list(self, request):
+        restaurant = request.GET.get("restaurant")
+        status = request.GET.get("status")
+        queryset = self.filter_queryset(self.get_queryset())
+        if restaurant is None:
+            serializer = self.serializer_class(queryset, many=True)
+        elif status is None:
+            serializer = self.serializer_class(queryset.filter(restaurant__pk=restaurant), many=True)
+        else:
+            serializer = self.serializer_class(queryset.filter(restaurant__pk=restaurant, status=status), many=True)
+        return Response(serializer.data)
+
 
 class OrderDetailViewSet(viewsets.ModelViewSet):
 
     queryset = models.OrderDetail.objects.all()
     serializer_class = serializers.OrderDetailSerializer
+
+    def list(self, request):
+        order = request.GET.get("order")
+        queryset = self.filter_queryset(self.get_queryset())
+        if order is None:
+            serializer = self.serializer_class(queryset, many=True)
+        else:
+            serializer = self.serializer_class(queryset.filter(order__pk=order), many=True)
+        return Response(serializer.data)
 
 
 #@api_view(['GET', 'POST'])

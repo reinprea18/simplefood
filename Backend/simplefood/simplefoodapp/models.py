@@ -69,15 +69,11 @@ class MenuItem(models.Model):
 
 class Order(models.Model):
 
-    REQUESTED = 'REQUESTED'
-    STARTED = 'STARTED'
-    DELIVERED = 'DELIVERED'
-    COMPLETED = 'COMPLETED'
     STATUSES = (
-        (REQUESTED, REQUESTED),
-        (STARTED, STARTED),
-        (DELIVERED, DELIVERED),
-        (COMPLETED, COMPLETED),
+        ('r', 'REQUESTED'),
+        ('s', 'STARTED'),
+        ('d', 'DELIVERED'),
+        ('c', 'COMPLETED')
     )
 
     CHOICES = (
@@ -90,7 +86,7 @@ class Order(models.Model):
     order_date = models.CharField(max_length=1, null=True)
     updated = models.CharField(max_length=1, null=True)
     total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUSES, default=REQUESTED, null=True)
+    status = models.CharField(max_length=20, choices=STATUSES, default='r', null=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders', null=True)
     payment = models.CharField(max_length=2, choices=CHOICES, default='m', null=True)
     employee = models.ForeignKey(

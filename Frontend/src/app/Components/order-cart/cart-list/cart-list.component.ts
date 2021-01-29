@@ -54,7 +54,7 @@ export class CartListComponent implements OnInit {
       order_date: new FormControl(null),
       updated: new FormControl(null),
       total_price: new FormControl(null),
-      status: new FormControl(null),
+      status: new FormControl('r'),
       restaurant: new FormControl(null),
       payment: new FormControl(null),
       employee: new FormControl(null),
@@ -108,7 +108,7 @@ export class CartListComponent implements OnInit {
 
   createOrder(): void {
     this.orderFormGroup.value.total_price = this.cartTotal;
-    this.orderFormGroup.value.restaurant = this.restaurant.pk;
+    this.orderFormGroup.value.restaurant = parseInt(this.authService.getUserData().restaurant, 10);
     this.orderFormGroup.value.table = this.authService.getUserData().user_id;
     console.log(this.orderFormGroup.value);
     this.orderService.createOrder(this.orderFormGroup.value)

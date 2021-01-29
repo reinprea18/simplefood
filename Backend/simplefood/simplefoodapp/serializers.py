@@ -9,6 +9,7 @@ from django.http import HttpResponse
 logger = logging.getLogger(__name__)
 
 from . import models
+from .models import MenuItem
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
