@@ -129,5 +129,7 @@ export class CartListComponent implements OnInit {
             });
         });
       });
+    this.cartItems = [];
+    alert('Order sent!');
   }
 }
