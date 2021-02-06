@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs";
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MsngrService {
 
-  subject = new Subject()
-  subject2 = new Subject()
+  subject = new Subject();
+  subject2 = new Subject();
 
   constructor() { }
 
-  sendMsg(product: any) {
-    this.subject.next(product)
+  sendMsg(menuItem: any): any {
+    this.subject.next(menuItem);
   }
 
-  getMsg() {
-    return this.subject.asObservable()
+  getMsg(): Observable<any> {
+    return this.subject.asObservable();
   }
 
-  sendRemoveMsg(product: any) {
-    this.subject2.next(product)
+  sendRemoveMsg(menuItem: any): any {
+    this.subject2.next(menuItem);
   }
 
-  getRemoveMsg() {
-    return this.subject2.asObservable()
+  getRemoveMsg(): Observable<any> {
+    return this.subject2.asObservable();
   }
 }

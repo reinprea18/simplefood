@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Restaurant, RestaurantService} from './restaurant.service';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {User} from "./auth.service";
+import {Restaurant, RestaurantService} from './restaurant.service';
 
 
 export interface MenuItem {
@@ -26,12 +25,12 @@ export class MenuService {
     return this.http.get<MenuItem[]>('/api/menuitems/');
   }
 
-  getSingleMenu(restaurant: string): Observable<MenuItem[]> {
+  getSingleMenu(restaurant: number): Observable<MenuItem[]> {
     return this.http.get<MenuItem[]>('/api/menuitems/?restaurant=' + restaurant);
   }
 
   createMenuItem(menuItem: MenuItem): Observable<any> {
-    console.log(menuItem);
+    console.log(menuItem.image);
     return this.http.post('/api/menuitems/', menuItem);
   }
   updateMenuItem(menuItem: MenuItem): Observable<any> {
@@ -48,7 +47,4 @@ export class MenuService {
   getMenuItemById(pk: number): Observable<MenuItem> {
     return this.http.get<MenuItem>('/api/menuitems/' + pk + '/');
   }
-
-
-
 }

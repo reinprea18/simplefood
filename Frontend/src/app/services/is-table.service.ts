@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import {CanActivate, Router} from '@angular/router';
 
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IsTable implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(private router: Router) {}
 
   canActivate(): boolean {
-    return this.authService.hasPermission('simplefoodapp.add_order');
+    if (AuthService.isTable()){
+      return true;
+    }
+    else {
+      this.router.navigate(['']);
+      return false;
+    }
   }
 }

@@ -1,0 +1,50 @@
+<form [formGroup]="userFormGroup" (ngSubmit)="onSubmit()" class="user-form__form">
+
+  <mat-form-field *ngIf="isAdmin">
+    <mat-select placeholder="Restaurant" formControlName="restaurant">
+      <mat-option [value]="restaurant.pk"
+                  *ngFor="let restaurant of restaurants">{{restaurant.name}}</mat-option>
+    </mat-select>
+    <mat-hint align="end">The restaurant</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Group" formControlName="permissionGroup">
+      <mat-option [value]="permission"
+                  *ngFor="let permission of permissionGroups">{{permission}}</mat-option>
+    </mat-select>
+    <mat-hint align="end">Group</mat-hint>
+    <mat-error *ngIf="userFormGroup.controls.permissionGroup.hasError('required')">Group is required</mat-error>
+  </mat-form-field>
+
+  <!-- Username Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Username" formControlName="username">
+    <mat-error *ngIf="userFormGroup.controls.username.hasError('required')">Username is required</mat-error>
+  </mat-form-field>
+
+  <!-- First Name Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="First Name" formControlName="first_name">
+  </mat-form-field>
+
+  <!-- Last Name Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Last Name" formControlName="last_name">
+  </mat-form-field>
+
+  <!-- Password Field -->
+  <mat-form-field>
+    <input matInput placeholder="Password" formControlName="password" type="password">
+  </mat-form-field>
+
+  <br/>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!userFormGroup.valid">
+      <span *ngIf="!userFormGroup.controls.pk.value">Create</span>
+      <span *ngIf="userFormGroup.controls.pk.value">Update</span>
+    </button>
+  </mat-card-actions>
+
+</form>
+

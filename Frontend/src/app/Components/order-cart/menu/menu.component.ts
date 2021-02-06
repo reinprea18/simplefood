@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MenuItem, MenuService} from '../../../services/menu.service';
-import {ProductService} from '../../../services/product.service';
 import {Restaurant, RestaurantService} from '../../../services/restaurant.service';
 import {AuthService} from '../../../services/auth.service';
 import {ActivatedRoute} from '@angular/router';
@@ -17,38 +16,35 @@ export class MenuComponent implements OnInit {
   menuItemsUnfiltered: MenuItem[];
   restaurant: Restaurant;
 
-  constructor(public  productService: ProductService,
-              public menuService: MenuService,
+  constructor(public menuService: MenuService,
               public restaurantService: RestaurantService,
               public authService: AuthService,
               public route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getRestaurant(parseInt(this.authService.getUserData().restaurant, 10));
+    this.getRestaurant(AuthService.getUser().restaurant);
 
     const pkFromUrl = this.route.snapshot.paramMap.get('restaurant');
 
-    if (pkFromUrl && this.authService.getUserData().group == null) {
-      this.menuService.getSingleMenu(pkFromUrl)
+    if (pkFromUrl && AuthService.getUser().group == null) {
+      this.menuService.getSingleMenu(parseInt(pkFromUrl, 10))
         .subscribe((menu) => {
           this.menuItems = menu;
           this.menuItemsUnfiltered = menu;
 
         });
     }
-    else if (this.authService.getUserData().group == null) {
+    else if (AuthService.getUser().group == null) {
       this.retrieveMenuItems();
     }
     else {
-      this.menuService.getSingleMenu(this.authService.getUserData().restaurant)
+      this.menuService.getSingleMenu(AuthService.getUser().restaurant)
         .subscribe((menu) => {
           this.menuItems = menu;
           this.menuItemsUnfiltered = menu;
 
         });
     }
-
-    this.products = this.productService.getProducts();
   }
 
   private getRestaurant(pk: number): void {
@@ -61,7 +57,7 @@ export class MenuComponent implements OnInit {
   private retrieveMenuItems(): void {
     this.menuService.getAllMenuItems()
       .subscribe((menuItems) => {
-        this.menuItems = menuItems;
+        this.menuItems = menuItems.filter(item => item.restaurant.pk === AuthService.getUser().restaurant);
         this.menuItemsUnfiltered = menuItems;
       });
   }

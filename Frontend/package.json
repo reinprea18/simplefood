@@ -11,12 +11,14 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/file-input": "^5.0.1",
     "@angular-material-extensions/select-country": "^4.0.1",
-    "@angular/animations": "~11.0.0",
+    "@angular/animations": "^11.0.3",
     "@angular/cdk": "^11.0.0",
     "@angular/common": "~11.0.0",
     "@angular/compiler": "~11.0.0",
     "@angular/core": "~11.0.0",
+    "@angular/flex-layout": "^11.0.0-beta.33",
     "@angular/forms": "~11.0.0",
     "@angular/material": "^11.0.0",
     "@angular/platform-browser": "~11.0.0",
@@ -25,11 +27,13 @@
     "@auth0/angular-jwt": "^5.0.2",
     "jwt-decode": "^3.1.2",
     "ng2-file-upload": "^1.4.0",
-    "rxjs": "~6.6.0",
+    "ngx": "^2.4.0",
+    "ngx-material-file-input": "^2.1.1",
+    "ngx-toastr": "^13.2.0",
+    "rxjs": "^6.6.3",
     "svg-country-flags": "^1.2.9",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.2",
-    "@angular/flex-layout": "11.0.0-beta.33"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.2",

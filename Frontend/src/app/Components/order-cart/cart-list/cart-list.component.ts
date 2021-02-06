@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {CartItem} from '../../../models/cart-item';
 import {MsngrService} from '../../../services/msngr.service';
-import {Product} from '../../../models/product';
 import {MenuItem} from '../../../services/menu.service';
-import {Order, OrderDetail, OrderService} from '../../../services/order.service';
+import {createOrder, Order, OrderDetail, OrderService} from '../../../services/order.service';
 import {AuthService, User} from '../../../services/auth.service';
-import {Restaurant, RestaurantService} from '../../../services/restaurant.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {element} from 'protractor';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-cart-list',
@@ -18,16 +16,13 @@ export class CartListComponent implements OnInit {
 
   cartTotal = 0;
   cartItems: CartItem[] = new Array();
-  order: Order;
-  restaurant: Restaurant;
-  table: User;
-  orderFormGroup: FormGroup;
+  order: Order = createOrder({});
   orderDetail: OrderDetail;
+  messages: Subscription;
 
   constructor(private msg: MsngrService,
               private orderService: OrderService,
-              private authService: AuthService,
-              private restaurantService: RestaurantService) { }
+              private router: Router,) { }
 
   ngOnInit(): void {
 
@@ -38,29 +33,28 @@ export class CartListComponent implements OnInit {
     this.msg.getRemoveMsg().subscribe((product: any) => {
       this.removeProductFromCart(product);
     });
+  }
 
-    this.restaurantService.getRestaurant(parseInt(this.authService.getUserData().restaurant, 10))
-      .subscribe((restaurant) => {
-        this.restaurant = restaurant;
+  createOrder(): void {
+    this.order.table = AuthService.getUser();
+    this.order.total_price = this.cartTotal;
+    this.order.restaurant = AuthService.getUser().restaurant;
+    this.orderService.createOrder(this.order);
+    this.messages = this.orderService.messages.subscribe((message: any) => {
+      const order: Order = createOrder(message.data);
+      this.cartItems.forEach(item => {
+        this.orderDetail = new OrderDetail();
+        this.orderDetail.amount = item.qty;
+        this.orderDetail.totalprice = item.price * item.qty;
+        this.orderDetail.menuitem = item.menuItem.pk;
+        this.orderDetail.order = order.id;
+        this.orderService.postOrderDetail(this.orderDetail)
+          .subscribe((orderdetail) => {
+          });
       });
-
-    this.authService.getUserById(parseInt(this.authService.getUserData().user_id, 10))
-      .subscribe((user) => {
-        this.table = user;
-      });
-
-    this.orderFormGroup = new FormGroup({
-      pk: new FormControl(null),
-      order_date: new FormControl(null),
-      updated: new FormControl(null),
-      total_price: new FormControl(null),
-      status: new FormControl('r'),
-      restaurant: new FormControl(null),
-      payment: new FormControl(null),
-      employee: new FormControl(null),
-      table: new FormControl(null)
+      this.cartItems = new Array();
+      this.router.navigateByUrl('/table');
     });
-
   }
 
   removeProductFromCart(cartItem: CartItem): void{
@@ -76,7 +70,10 @@ export class CartListComponent implements OnInit {
         }
       }
     }
-
+    this.cartTotal = 0;
+    this.cartItems.forEach(item => {
+      this.cartTotal += (item.qty * item.price);
+    });
   }
 
   addProductToCart(product: MenuItem): void{
@@ -104,30 +101,5 @@ export class CartListComponent implements OnInit {
     this.cartItems.forEach(item => {
       this.cartTotal += (item.qty * item.price);
     });
-  }
-
-  createOrder(): void {
-    this.orderFormGroup.value.total_price = this.cartTotal;
-    this.orderFormGroup.value.restaurant = parseInt(this.authService.getUserData().restaurant, 10);
-    this.orderFormGroup.value.table = this.authService.getUserData().user_id;
-    console.log(this.orderFormGroup.value);
-    this.orderService.createOrder(this.orderFormGroup.value)
-      .subscribe((order) => {
-
-        this.cartItems.forEach(item => {
-
-          this.orderDetail = new OrderDetail();
-
-          this.orderDetail.amount = item.qty;
-          this.orderDetail.totalprice = item.price * item.qty;
-          this.orderDetail.menuitem = item.menuItem.pk;
-          this.orderDetail.order = order.pk;
-
-          this.orderService.postOrderDetail(this.orderDetail)
-            .subscribe((orderdetail) => {
-
-            });
-        });
-      });
   }
 }

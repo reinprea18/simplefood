@@ -1,69 +1,113 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import {BehaviorSubject, Observable} from 'rxjs';
+import { tap } from 'rxjs/operators';
+import {Router} from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {MenuItem} from "./menu.service";
 
 export interface User {
-  user_id: string;
+  id: number;
   username: string;
-  permissions: string;
-  restaurant: string;
+  first_name: string;
+  last_name: string;
   group: string;
+  restaurant: number;
+  photo: string;
+  qr_code: string;
 }
 
 export const createUser = (data: any): User => {
   return {
-    user_id: data.user_id,
+    id: data.id,
     username: data.username,
-    permissions: data.permission,
-    restaurant: data.restaurant,
+    first_name: data.first_name,
+    last_name: data.last_name,
     group: data.group,
+    restaurant: data.restaurant,
+    photo: data.photo,
+    qr_code: data.qr_code,
   };
 };
+
+export interface Token {
+  access: string;
+  refresh: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  permissionGroups: string[] = ['restaurantadmin', 'employee', 'table'];
-
-  readonly accessTokenLocalStorageKey = 'access_token';
+  readonly accessTokenLocalStorageKey = 'access_token_simplefood';
   isLoggedIn = new BehaviorSubject(false);
+  permissionGroups: string[] = ['restaurantadmin', 'employee', 'table'];
+  private routerS: Router;
 
   constructor(private http: HttpClient, private router: Router, private jwtHelperService: JwtHelperService) {
-    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
+    this.routerS = router;
+    const token = JSON.parse(window.localStorage.getItem('access_token_simplefood'));
     if (token) {
-      console.log('Token expiration date: ' + this.jwtHelperService.getTokenExpirationDate(token));
-      const tokenValid = !this.jwtHelperService.isTokenExpired(token);
+      console.log('Token expiration date: ' + this.jwtHelperService.getTokenExpirationDate(token.access));
+      const tokenValid = !this.jwtHelperService.isTokenExpired(token.access);
       this.isLoggedIn.next(tokenValid);
     }
   }
 
-  login(userData: { username: string, password: string }): void {
-    this.http.post('/api/api-token-auth/', userData)
-      .subscribe((res: any) => {
-        this.isLoggedIn.next(true);
-        localStorage.setItem('access_token', res.token);
-        if(this.getUserData().group === 'table'){
-          this.router.navigate(['menu-list']);
-        } else if (this.getUserData().group === 'employee' || this.getUserData().group === 'restaurantadmin'){
-          this.router.navigate(['orders']);
-        } else{
-          this.router.navigate(['landing']);
-        }
-
-      }, () => {
-        alert('wrong username or password');
-      });
+  static getUser(): User {
+    const accessToken = this.getAccessToken();
+    if (accessToken) {
+      return this.parseUserFromAccessToken(accessToken);
+    }
+    return undefined;
   }
 
-  logout(): void {
-    localStorage.removeItem(this.accessTokenLocalStorageKey);
-    this.isLoggedIn.next(false);
-    this.router.navigate(['/log-in']);
+  static getAccessToken(): string {
+    const token = JSON.parse(window.localStorage.getItem('access_token_simplefood'));
+    if (token) {
+      return token.access;
+    }
+    return undefined;
+  }
+
+  static isTable(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.group === 'table';
+    }
+    return false;
+  }
+
+  static isEmployee(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.group === 'employee';
+    }
+    return false;
+  }
+
+  static isAdmin(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.group === 'admin';
+    }
+    return false;
+  }
+
+  static isRestaurantAdmin(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.group === 'restaurantadmin';
+    }
+    return false;
+  }
+
+  private static parseUserFromAccessToken(accessToken: string): User {
+    const [, payload, ] = accessToken.split('.');
+    const decoded = window.atob(payload);
+    return JSON.parse(decoded);
   }
 
   signUp(
@@ -79,83 +123,56 @@ export class AuthService {
     formData.append('username', username);
     formData.append('first_name', firstName);
     formData.append('last_name', lastName);
-    formData.append('group', group);
-    if(group === 'table'){
+    if (group === 'table'){
       formData.append('password1', username);
       formData.append('password2', username);
     } else {
       formData.append('password1', password);
       formData.append('password2', password);
     }
+    formData.append('group', group);
     if (restaurant) {
       formData.append('restaurant', restaurant);
     } else {
-      formData.append('restaurant', this.getUserData().restaurant);
+      formData.append('restaurant', AuthService.getUser().restaurant.toString());
     }
-    return this.http.request<User>('POST', url, {body: formData});
+    return this.http.request<User>('POST', url, { body: formData });
   }
 
-
-  hasPermission(permission: string): boolean {
-    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
-    if (token) {
-      const decodedToken = this.jwtHelperService.decodeToken(token);
-      const permissions = decodedToken.permissions;
-      return permission in permissions;
-    }
-    return false;
+  logIn(username: string, password: string): Observable<Token> {
+    const url = '/api/log_in/';
+    return this.http.post<Token>(url, { username, password }).pipe(
+      tap(token => {
+        localStorage.setItem(this.accessTokenLocalStorageKey, JSON.stringify(token));
+        this.isLoggedIn.next(true);
+        }
+      )
+    );
   }
 
-  hasGroup(group: string): boolean {
-    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
-    if (token) {
-      const decodedToken = this.jwtHelperService.decodeToken(token);
-      const groups = decodedToken.groups;
-      return group in groups;
-    }
-    return false;
+  logOut(): void {
+    localStorage.removeItem(this.accessTokenLocalStorageKey);
+    this.isLoggedIn.next(false);
+    this.router.navigate(['/log-in']);
   }
 
-
-  getUser(): string {
-    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
-    const decodedToken = this.jwtHelperService.decodeToken(token);
-    if (token) {
-      return decodedToken;
-    }
-    return undefined;
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete('/api/users/' + id + '/');
   }
 
-  getUserData(): User {
-    const token = localStorage.getItem(this.accessTokenLocalStorageKey);
-    const decodedToken = this.jwtHelperService.decodeToken(token);
-    if (token) {
-      return this.jwtHelperService.decodeToken(token);
-    }
-    return undefined;
-  }
-
-  getAccessToken(): any {
-    return localStorage.getItem(this.accessTokenLocalStorageKey);
-  }
-
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('/api/users/');
-  }
-
-  getUsersFromRestaurant(pk: string): Observable<User[]> {
-    return this.http.get<User[]>('/api/users/?restaurant=' + pk);
+  updateUser(user: User): Observable<any> {
+    return this.http.patch('/api/users/' + user.id + '/', user);
   }
 
   getUserById(pk: number): Observable<User> {
     return this.http.get<User>('/api/users/' + pk + '/');
   }
 
-  deleteUser(pk: number): Observable<any> {
-    console.log('localhost:8000/users/' + pk + '/')
-    return this.http.delete('/api/users/' + pk + '/');
+  getUsersFromRestaurant(pk: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/?restaurant=' + pk);
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/');
   }
 }
-
-
-

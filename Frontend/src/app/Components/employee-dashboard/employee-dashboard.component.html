@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col">
+    <app-order-card
+      class="card mb-3"
+      [title]="'Requested Orders'"
+      [orders]="requestedOrders"
+    ></app-order-card>
+    <app-order-card
+      class="card mb-3"
+      [title]="'Orders in progress'"
+      [orders]="inProgressOrders"
+    ></app-order-card>
+    <app-order-card
+      class="card mb-3"
+      [title]="'Unpaid Orders'"
+      [orders]="currentOrders"
+    ></app-order-card>
+    <app-order-card
+      class="card mb-3"
+      [title]="'Payment Request'"
+      [orders]="paymentRequest"
+    ></app-order-card>
+  </div>
+</div>

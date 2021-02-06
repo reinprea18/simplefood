@@ -1,0 +1,24 @@
+<h2 class="headline" align="center"> {{ title }}</h2>
+<div *ngIf="orders?.length > 0; then thenBlock; else elseBlock;"></div>
+<ng-template #thenBlock>
+  <div>
+
+    <div *ngFor="let order of orders; let i = index">
+      <mat-card [routerLink]="['.', order.id]" class="card">
+        <h4 class="subheading-2" align="center">Order {{ i + 1 }}</h4>
+        <div *ngIf="order.status == 'REQUESTED' && isEmployee" class="media-body">
+          <h5 *ngIf="isEmployee" class="mt-0 mb-1" align="center">Table: {{ order.table.username }}</h5>
+        </div>
+        <div *ngIf="order.status != 'REQUESTED'" class="media-body">
+          <h5 *ngIf="isEmployee" class="mt-0 mb-1" align="center">Table: {{ order.otherUser.username }}</h5>
+          <h5 *ngIf="isTable" class="mt-0 mb-1" align="center">Employee: {{ order.otherUser.username }}</h5>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</ng-template>
+<ng-template #elseBlock>
+  <div class="card-body text-center" align="center">
+    No orders
+  </div>
+</ng-template>

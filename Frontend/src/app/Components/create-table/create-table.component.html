@@ -1,0 +1,19 @@
+<form [formGroup]="userFormGroup" (ngSubmit)="onSubmit()" class="user-form__form">
+
+
+  <!-- Username Field -->
+  <mat-form-field>
+    <input matInput type="text" placeholder="Name of Table" formControlName="username">
+    <mat-error *ngIf="userFormGroup.controls.username.hasError('required')">Username is required</mat-error>
+  </mat-form-field>
+
+  <br/>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!userFormGroup.valid">
+      <span *ngIf="!userFormGroup.controls.pk.value">Create</span>
+      <span *ngIf="userFormGroup.controls.pk.value">Update</span>
+    </button>
+  </mat-card-actions>
+
+</form>
+

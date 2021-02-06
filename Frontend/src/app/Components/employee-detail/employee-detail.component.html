@@ -1,0 +1,57 @@
+<div class="employee_list__form">
+
+  <h2 align="center">{{order.otherUser.username}}</h2>
+
+  <table mat-table [dataSource]="orderDetails">
+
+    <ng-container matColumnDef="menuitem">
+      <th mat-header-cell *matHeaderCellDef> Menu Item </th>
+      <td mat-cell *matCellDef="let element"> {{getMenuItemNameByPk(element.menuitem).name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef> Amount </th>
+      <td mat-cell *matCellDef="let element"> {{element.amount}} x </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let element"> {{getMenuItemNameByPk(element.menuitem).price | currency: 'EUR'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalprice">
+      <th mat-header-cell *matHeaderCellDef> Total Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.totalprice | currency: 'EUR'}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <h4 align="center">Total Price: {{totalPrice | currency: 'EUR'}}</h4>
+
+  <div class="buttonmargin" fxLayoutAlign="center center" [ngSwitch]="order.status">
+    <button mat-raised-button
+            fxLayoutGap="5px grid"
+            color="primary"
+            *ngSwitchCase="'REQUESTED'"
+            (click)="updateOrderStatus('STARTED')">
+      ACCEPT
+    </button>
+    <button mat-raised-button
+            fxLayoutGap="5px grid"
+            color="primary"
+            *ngSwitchCase="'STARTED'"
+            (click)="updateOrderStatus('IN_PROGRESS')"
+            routerLink="/employee">
+      ORDER FINISHED
+    </button>
+    <button mat-raised-button
+            fxLayoutGap="5px grid"
+            color="primary"
+            *ngSwitchCase="'PAY'"
+            (click)="updateOrderStatus('COMPLETED')"
+            routerLink="/employee">
+      PAYED
+    </button>
+  </div>
+</div>

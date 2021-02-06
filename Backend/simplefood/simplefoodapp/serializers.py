@@ -1,39 +1,25 @@
+from django.contrib.auth import get_user_model
+from django.forms import ImageField
 from rest_framework import serializers
-from rest_framework.relations import PrimaryKeyRelatedField
 from django.contrib.auth.models import Group
-import logging
-
-from django.http import HttpResponse
-
-# This retrieves a Python logging instance (or creates it)
-logger = logging.getLogger(__name__)
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from . import models
-from .models import MenuItem
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
-
-    # orders = OrderSerializer(many=True, queryset=models.Order.objects.all())
-    # menu_items = MenuItemSerializer(many=True, queryset=models.MenuItem.objects.all())
 
     class Meta:
         model = models.Restaurant
         fields = ['pk', 'name', 'description', 'street_address', 'postcode', 'town', 'country']
 
 
-class BestellungSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Bestellung
-        fields = ['pk', 'name']
-
-
 class MenuItemSerializer(serializers.ModelSerializer):
-    #restaurant = RestaurantSerializer(many=False)
+
 
     class Meta:
         model = models.MenuItem
         fields = ['pk', 'name', 'description', 'category', 'price', 'restaurant', 'image']
+
 
 
 class CustomerDataSerializer(serializers.ModelSerializer):
@@ -51,24 +37,17 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         fields = ['pk', 'amount', 'totalprice', 'menuitem', 'order']
 
 
-class OrderSerializer(serializers.ModelSerializer):
-
-    # order_details = OrderDetailSerializer(many=True, queryset=models.OrderDetail.objects.all())
-    # customer_datas = CustomerDataSerializer(many=True, queryset=models.CustomerData.objects.all())
-
-    class Meta:
-        model = models.Order
-        fields = ['pk', 'order_date', 'updated', 'total_price', 'status', 'restaurant', 'payment', 'employee', 'table']
-
-
-class AuthSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Auth
-        fields = ['token']
-
-
 class CustomUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'username', 'password1', 'password2',
+                  'first_name', 'last_name', 'group', 'restaurant', 'photo', 'qr_code']
+        read_only_fields = ('id',)
+
+    photo = ImageField(allow_empty_file=True, required=False)
+    qr_code = ImageField(allow_empty_file=True, required=False)
+
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
     group = serializers.CharField()
@@ -91,42 +70,32 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
+
+class LogInSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        user_data = CustomUserSerializer(user).data
+        for key, value in user_data.items():
+            if key != 'id':
+                token[key] = value
+        return token
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = models.CustomUser
-        fields = ['id', 'username', 'password1', 'password2',
-                  'first_name', 'last_name', 'restaurant', 'group']
-        read_only_fields = ('id',)
-
-#class CustomTableSerializer(serializers.ModelSerializer):
-#
- #   class Meta:
-  #      model = get_user_model()
-   #     fields = ['id', 'username', 'password', 'password2', 'first_name', 'last_name', 'restaurant', 'group']
-    #    read_only_fields = ('id',)
-#
- #   def create(self, validated_data):
-  #      user = models.CustomUser.objects.create_user(**validated_data)
-   #     return user
+        model = models.Order
+        fields = '__all__'
+        read_only_fields = ('id', 'order_date', 'updated',)
 
 
-
-
-# class CustomUserSerializer(serializers.ModelSerializer):
-#
-#    class Meta:
-#        model = models.CustomUser
-#        fields = ['user_name', 'email', 'first_name', 'last_name', 'date_of_birth', 'gender', 'street_address',
-#                  'postcode', 'town', 'country', 'status', 'role', 'restaurant']
-
-
-
-#def validate_year_of_birth(self,value):
-#       if value <= 1900:
-#          raise serializers.ValidationError("Year of birth must be greater than 1900.")
-#       return value
-# TODO: Following the example of CountrySerializer and PersonSerializer,
-# create your own ModelSerializer class here:
-
+class NestedOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Order
+        fields = '__all__'
+        depth = 1
 
 
 

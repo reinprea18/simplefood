@@ -11,12 +11,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import datetime
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-# Application definition
+import os
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'simplefood.simplefoodapp',
     'rest_framework',
-    'django_countries',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -57,10 +54,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'simplefood.urls'
 
+AUTH_USER_MODEL = 'simplefoodapp.CustomUser'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [Path.joinpath(BASE_DIR, 'templates')],
+        'DIRS': [], # Path.joinpath(BASE_DIR, 'templates')
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,7 +72,6 @@ TEMPLATES = [
     },
 ]
 
-AUTH_USER_MODEL = 'simplefoodapp.CustomUser'
 
 WSGI_APPLICATION = 'simplefood.wsgi.application'
 
@@ -109,9 +107,34 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
+REST_FRAMEWORK = {
 
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'USER_ID_CLAIM': 'id',
+}
+
+JWT_AUTH = {
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3)
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -126,37 +149,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
 STATIC_URL = '/static/'
 
-STATIC_ROOT = Path.joinpath(BASE_DIR, '../static')
+MEDIA_URL = '/media/'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-}
-
-def custom_jwt_payload_handler(user):
-    from rest_framework_jwt.utils import jwt_payload_handler
-    jwt_paylout = jwt_payload_handler(user)
-    jwt_paylout['permissions'] = dict.fromkeys(user.get_all_permissions())
-    jwt_paylout['restaurant'] = user.get_restaurant()
-    jwt_paylout['group'] = user.get_group()
-
-    return jwt_paylout
-
-JWT_AUTH = {
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3),
-    'JWT_PAYLOAD_HANDLER': custom_jwt_payload_handler,
-}
-
-
-#JWT_AUTH = {
-#    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-#    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3)
-#}
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

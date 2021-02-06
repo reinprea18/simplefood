@@ -1,0 +1,28 @@
+<div class="employee_list__form">
+  <table mat-table [dataSource]="users">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Name of Table </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="qr_code">
+      <th mat-header-cell *matHeaderCellDef> QR-Code </th>
+      <td mat-cell *matCellDef="let element">
+        <a mat-raised-button download href="{{'/api/' + element.qr_code}}">Download</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="warn" (click)="deleteUser(element)">Delete</button>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<!--<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->

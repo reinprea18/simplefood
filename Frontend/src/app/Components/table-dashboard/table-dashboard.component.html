@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col">
+    <app-order-card
+      class="card mb-3"
+      [title]="'Orders requested'"
+      [orders]="requestedOrders"
+    ></app-order-card>
+    <app-order-card
+      class="card mb-3"
+      [title]="'Orders in progress'"
+      [orders]="inProgressOrders"
+    ></app-order-card>
+    <app-order-card
+      class="card mb-3"
+      [title]="'Orders received'"
+      [orders]="receivedOrders"
+    ></app-order-card>
+    <div *ngIf="allReceived()" class="buttonmargin" fxLayoutAlign="center center">
+      <button mat-raised-button
+              fxLayoutGap="5px grid"
+              color="primary"
+              (click)="updateOrderStatus('PAY')">
+        CALL EMPLOYEE TO PAY {{getTotalPrice() | currency: 'EUR' }}
+      </button>
+    </div>
+  </div>
+</div>
