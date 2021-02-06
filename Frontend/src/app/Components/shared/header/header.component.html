@@ -1,109 +1,109 @@
-<div>
-  <mat-toolbar class="toolbarNav" color="primary">
-    <button *ngIf="isLoggedIn" mat-icon-button (click)="sidenav.toggle()" style="margin-left:10px">
-      <mat-icon>shopping_basket</mat-icon>
+<mat-toolbar class="toolbarNav" color="primary">
+  <button *ngIf="isLoggedIn" mat-icon-button (click)="sidenav.toggle()" style="margin-left:10px">
+    <mat-icon>shopping_basket</mat-icon>
+  </button>
+  <div *ngIf="isLoggedIn" fxShow="true" fxHide.lt-md="true" fxLayoutAlign="center center">
+    <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+    <button *ngIf="restaurant && isLoggedIn" mat-button routerLink="" style="margin-left:10px">
+      {{restaurant.name}}
     </button>
-    <div *ngIf="isLoggedIn" fxShow="true" fxHide.lt-md="true" fxLayoutAlign="center center">
-      <!-- The following menu items will be hidden on both SM and XS screen sizes -->
-      <button *ngIf="restaurant && isLoggedIn" mat-button routerLink="" style="margin-left:10px">
-        {{restaurant.name}}
-      </button>
-      <button mat-button *ngIf="isAdmin" [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
+    <button mat-button *ngIf="isAdmin" [matMenuTriggerFor]="restaurantMenu">Restaurants</button>
+    <mat-menu #restaurantMenu="matMenu">
+      <button mat-menu-item *ngIf="isAdmin" routerLink="restaurant-list">List restaurants</button>
+      <button mat-menu-item *ngIf="isAdmin" routerLink="restaurant-form">Create restaurant</button>
+    </mat-menu>
+    <button mat-button *ngIf="isTable || isRestaurantAdmin" [matMenuTriggerFor]="foodMenu">Menu</button>
+    <mat-menu #foodMenu="matMenu">
+      <button mat-menu-item routerLink="menu-list">List Menu</button>
+      <button *ngIf="isRestaurantAdmin" mat-menu-item routerLink="menu-form">Add Item</button>
+    </mat-menu>
+
+    <button mat-button *ngIf="isTable || isEmployee" [routerLink]="isTable ? '/table' : '/employee'">Orders</button>
+
+    <button mat-button *ngIf="isRestaurantAdmin || isAdmin" [matMenuTriggerFor]="userMenu">Users</button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item routerLink="user">List users</button>
+      <button mat-menu-item routerLink="sign-up">Create user</button>
+    </mat-menu>
+
+    <button mat-button *ngIf="isRestaurantAdmin" [matMenuTriggerFor]="tableMenu">Tables</button>
+    <mat-menu #tableMenu="matMenu">
+      <button mat-menu-item routerLink="tables">List tables</button>
+      <button mat-menu-item routerLink="table-form">Create table</button>
+    </mat-menu>
+  </div>
+  <span class="example-spacer"></span>
+  <div>
+    <button mat-icon-button *ngIf="isLoggedIn" (click)="logout()" style="margin-right:120px">
+      <mat-icon>logout</mat-icon>
+      {{username}}
+    </button>
+  </div>
+  <div *ngIf="isLoggedIn" fxShow="true" fxHide.gt-sm="true">
+    <button href="#" mat-icon-button (click)="sidenav2.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
+
+</mat-toolbar>
+
+<mat-sidenav-container fxFlexFill class="example-container">
+
+  <mat-sidenav #sidenav2 fxLayout="column" position="end" opened="false">
+    <div *ngIf="isLoggedIn" fxLayout="column">
+      <button mat-icon-button *ngIf="isAdmin" [matMenuTriggerFor]="restaurantMenu">
+        <mat-icon>restaurant</mat-icon>
+        Restaurants</button>
       <mat-menu #restaurantMenu="matMenu">
-        <button mat-menu-item *ngIf="isAdmin" routerLink="restaurant-list">List restaurants</button>
-        <button mat-menu-item *ngIf="isAdmin" routerLink="restaurant-form">Create restaurant</button>
+        <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
+        <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
       </mat-menu>
-      <button mat-button *ngIf="isTable || isRestaurantAdmin" [matMenuTriggerFor]="foodMenu">Menu</button>
+      <button mat-icon-button *ngIf="isRestaurantAdmin || isTable" [matMenuTriggerFor]="foodMenu">
+        <mat-icon>fastfood</mat-icon>
+        Menu
+      </button>
       <mat-menu #foodMenu="matMenu">
         <button mat-menu-item routerLink="menu-list">List Menu</button>
-        <button *ngIf="isRestaurantAdmin" mat-menu-item routerLink="menu-form">Add Item</button>
+        <button mat-menu-item *ngIf="isRestaurantAdmin" routerLink="menu-form">Add Item</button>
       </mat-menu>
-
-      <button mat-button *ngIf="isTable || isEmployee" [routerLink]="isTable ? '/table' : '/employee'">Orders</button>
-
-      <button mat-button *ngIf="isRestaurantAdmin || isAdmin" [matMenuTriggerFor]="userMenu">Users</button>
+      <button mat-icon-button *ngIf="isTable || isEmployee" [routerLink]="isTable ? '/table' : '/employee'">
+        <mat-icon>shopping_bag</mat-icon>
+        Orders
+      </button>
+      <button mat-icon-button *ngIf="isRestaurantAdmin || isAdmin" [matMenuTriggerFor]="userMenu">
+        <mat-icon>face</mat-icon>
+        User
+      </button>
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="user">List users</button>
         <button mat-menu-item routerLink="sign-up">Create user</button>
       </mat-menu>
-
-      <button mat-button *ngIf="isRestaurantAdmin" [matMenuTriggerFor]="tableMenu">Tables</button>
+      <button mat-icon-button *ngIf="isRestaurantAdmin" [matMenuTriggerFor]="tableMenu">
+        <mat-icon>drag_indicator</mat-icon>
+        Tables
+      </button>
       <mat-menu #tableMenu="matMenu">
-        <button mat-menu-item routerLink="tables">List tables</button>
-        <button mat-menu-item routerLink="table-form">Create table</button>
+        <button mat-menu-item routerLink="tables">List Tables</button>
+        <button mat-menu-item routerLink="table-form">Create Table</button>
       </mat-menu>
-    </div>
-    <span class="example-spacer"></span>
-    <div>
-      <button mat-icon-button *ngIf="isLoggedIn" (click)="logout()" style="margin-right:120px">
-        <mat-icon>logout</mat-icon>
-        {{username}}
-      </button>
-    </div>
-    <div *ngIf="isLoggedIn" fxShow="true" fxHide.gt-sm="true">
-      <button href="#" mat-icon-button (click)="sidenav2.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
-
-  <mat-sidenav-container fxFlexFill class="example-container">
-
-    <mat-sidenav #sidenav2 fxLayout="column" position="end" opened="false">
-      <div *ngIf="isLoggedIn" fxLayout="column">
-        <button mat-icon-button *ngIf="isAdmin" [matMenuTriggerFor]="restaurantMenu">
-          <mat-icon>restaurant</mat-icon>
-          Restaurants</button>
-        <mat-menu #restaurantMenu="matMenu">
-          <button mat-menu-item routerLink="restaurant-list">List restaurants</button>
-          <button mat-menu-item routerLink="restaurant-form">Create restaurant</button>
-        </mat-menu>
-        <button mat-icon-button *ngIf="isRestaurantAdmin || isTable" [matMenuTriggerFor]="foodMenu">
-          <mat-icon>fastfood</mat-icon>
-          Menu
-        </button>
-        <mat-menu #foodMenu="matMenu">
-          <button mat-menu-item routerLink="menu-list">List Menu</button>
-          <button mat-menu-item *ngIf="isRestaurantAdmin" routerLink="menu-form">Add Item</button>
-        </mat-menu>
-        <button mat-icon-button *ngIf="isTable || isEmployee" [routerLink]="isTable ? '/table' : '/employee'">
-          <mat-icon>shopping_bag</mat-icon>
-          Orders
-        </button>
-        <button mat-icon-button *ngIf="isRestaurantAdmin || isAdmin" [matMenuTriggerFor]="userMenu">
-          <mat-icon>face</mat-icon>
-          User
-        </button>
-        <mat-menu #userMenu="matMenu">
-          <button mat-menu-item routerLink="user">List users</button>
-          <button mat-menu-item routerLink="sign-up">Create user</button>
-        </mat-menu>
-        <button mat-icon-button *ngIf="isRestaurantAdmin" [matMenuTriggerFor]="tableMenu">
-          <mat-icon>drag_indicator</mat-icon>
-          Tables
-        </button>
-        <mat-menu #tableMenu="matMenu">
-          <button mat-menu-item routerLink="tables">List Tables</button>
-          <button mat-menu-item routerLink="table-form">Create Table</button>
-        </mat-menu>
-        <mat-divider></mat-divider>
-        <div>
-          <a (click)="sidenav2.toggle()" mat-button>Close Sidebar</a>
-        </div>
+      <mat-divider></mat-divider>
+      <div>
+        <a (click)="sidenav2.toggle()" mat-button>Close Sidebar</a>
       </div>
-    </mat-sidenav>
+    </div>
+  </mat-sidenav>
 
-    <mat-sidenav #sidenav mode="side" opened="false">
-      <app-nav *ngIf="isLoggedIn && isTable"></app-nav>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <div style="height: 88vh;" align="center center">
-        <router-outlet></router-outlet>
-      </div>
-    </mat-sidenav-content>
+  <mat-sidenav #sidenav mode="side" opened="false">
+    <app-nav *ngIf="isLoggedIn && isTable"></app-nav>
+  </mat-sidenav>
+  <mat-sidenav-content class="ppp">
+    <div style="height: 88vh;" align="center center">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 
-  </mat-sidenav-container>
-</div>
+</mat-sidenav-container>
 
 <app-footer *ngIf="isLoggedIn"></app-footer>
 
