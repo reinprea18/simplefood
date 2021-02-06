@@ -1,79 +1,62 @@
-How to setup SimpleFood:
+# SimpleFood
 
-Step 1: create superuser
+SimpleFood is a contactless in-house ordering system for restaurants!
 
-Step 2: go to backend localhost:8000/admin and create a new Reataurant there called SimpleFood!
+## Installation
 
-Step 3: go to your superuser (in backend) and give him the Restaurant SimpleFood!
+Set up your your project and install the requirements.txt in the Backend folder.
 
-*The previous steps are important because if your superuser isn't part of a restaurant, log in won't work, so please follow the previous steps 1 to 3.
+If you have problems with installing the requirements:
 
-*Note: The SimpleFood restaurant is just an imaginary restaurant for the employees of the SimpleFood employees.
+- run: python -m pip install --upgrade pip
+- Download Twisted from https://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted for your local installed python version.
+- Next place the file in the Backend folder of the project and activate the virtual environment.
+- run : pip install "file_name"
 
+After that steps everything should work fine.
 
-The following steps are not mandadory, but they are the common steps in case a customer wants to buy this product:
+## User Roles
 
-*Note: Step 4 to Step 6 are done in frontend
+In the database which is included in the project, some users are already created.
+You can also find some menu items in the database.
 
-Step 4: When logged in with the superuser, create the new restaurant your customer wants to register.
+### ADMIN
 
-Step 5: When you have done this, create a new user for this restaurant and give him the RestaurantAdmin group.
+The admin can create and delete restaurants in this application. He can also and delete new users with the role "restaurantadmin" or "employee".
 
-Step 6: Normally your job as SimpleFood employee is done now (everything else is in the hand of the restaurantadmin), BUT you should 
+- username: admin
+- password: admin
 
-  also create (with your superuser) a user with group table and group employee for this restaurant so that the groups are created in backend.
-  
-  *Note: Step 6 must only be done once with the superuser. For all further restaurants the superuser only creates the restaurant and an admin for it.
-  
+### RESTAURANTADMIN
 
-The following steps are again mandadory:
+The restaurantadmin can create and delete new users, with the roles "restaurantadmin", and "employee". He can also add new menu items, edit and delete them. Another function of the restaurant admin is to create and delete tables that are available in the restaurant.
 
-...because otherwise the restaurant admin will can do nothing.
+There are already two restaurantadmins created for two different restaurants.
 
-Step 7: Go to the backend localhost:8000/admin again and head to groups.
+- usernames: mc_döner_radmin, mc_burger_radmin
+- password: 1234
 
-Step 8: In groups you should now find the groups "restaurantadmin", "table" and "employee" (in case you did Step 4 to Step 6)
+### Employee
 
+Employees are able to take orders and process them.
 
-Now it comes to the permission concept, so let's have a look at it before we configure the permissions for the different groups
+There are already two employees created for two different restaurants.
 
-1. In this Web App you can do nothing as unregistered user and only the simplefood admin and the restaurant admin can add users.
+- usernames: mc_döner_employee, mc_burger_employee
+- password: 1234
 
-2. The lowest group we have is the table, the lowest permissions are therefore "auth group can add group" and "auth group can view group"
+### Tables
 
-3. The second lowest group is the employee, the second lowest permissions are therefore "auth group can change group" and "auth group can delete group"
+Tables can log in using QR code, but since we have no connection to the server with the smartphone you can either log in or scan the QR code and enter it in the browser of the PC.
 
-4. The second highest group is the restaurantadmin, the second highest permissions are therefore "admin log entry can add logentry", "admin log entry can change logentry", 
-    "admin log entry can delete logentry" and "admin log entry can view logentry"
-    
-5. The highest permissions are the simplefood permissions, but while the superuser has per default all permissions, he/she also has these permissions
+Tables are able to place new orders, view them and pay for them at the end by pressing the "Call employee to pay" button.
 
+There are already 4 tables created for two different restaurants.
 
-Step 9: Go to group table and add the following permissions:
-    "auth group can add group"
-    "auth group can view group"
-    
-Step 10: Go to group employee and add the following permissions:
-    "auth group can add group"
-    "auth group can view group"
-    "auth group can change group"
-    "auth group can delete group"
-    
-Step 11: Go to group restaurantadmin and add the following permissions:
-    "auth group can add group"
-    "auth group can view group"
-    "auth group can change group"
-    "auth group can delete group"
-    "admin log entry can add logentry"
-    "admin log entry can change logentry" 
-    "admin log entry can delete logentry"
-    "admin log entry can view logentry"
-    
-    
-Now the permissions are granted to the specific groups. Tables will only be able to view the menu list, while employees will also see the current orders. 
+- username: mc_döner_table_1, mc_döner_table_2, mc_burger_table_1, mc_burger_table_2
+- password: same as username
 
-Restaurantadmins will see the same things like tables and employees, but they can also add further menu items, view their users and create new ones.
+## Web Socket
 
-
-The setup for SimpleFood is done with this steps. Enjoy SimpleFood as SimpleFood employee, restaurantadmin, restaurant employee or customer.
+There is a Web Socket connection between the table and the employee order page, so employees and tables get live updates for their orders.
 
