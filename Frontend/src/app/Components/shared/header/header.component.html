@@ -48,9 +48,9 @@
 
 </mat-toolbar>
 
-<mat-sidenav-container fxFlexFill class="example-container">
+<mat-sidenav-container fxFlexFill class="example-container" fullscreen>
 
-  <mat-sidenav #sidenav2 fxLayout="column" position="end" opened="false">
+  <mat-sidenav class="side" #sidenav2 fxLayout="column" position="end" opened="false">
     <div *ngIf="isLoggedIn" fxLayout="column">
       <button mat-icon-button *ngIf="isAdmin" [matMenuTriggerFor]="restaurantMenu">
         <mat-icon>restaurant</mat-icon>
@@ -94,11 +94,13 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav #sidenav mode="side" opened="false">
+  <mat-sidenav class="side" #sidenav mode="side" opened="false">
     <app-nav *ngIf="isLoggedIn && isTable"></app-nav>
   </mat-sidenav>
   <mat-sidenav-content class="ppp">
+    <div class="ppp">
       <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 
 </mat-sidenav-container>
