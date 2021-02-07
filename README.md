@@ -36,7 +36,7 @@ There are already two restaurantadmins created for two different restaurants.
 - usernames: mc_döner_radmin, mc_burger_radmin
 - password: 1234
 
-### Employee
+### EMPLOYEE
 
 Employees are able to take orders and process them.
 
@@ -45,7 +45,7 @@ There are already two employees created for two different restaurants.
 - usernames: mc_döner_employee, mc_burger_employee
 - password: 1234
 
-### Tables
+### TABLES
 
 Tables can log in using QR code, but since we have no connection to the server with the smartphone you can either log in or scan the QR code and enter it in the browser of the PC.
 
